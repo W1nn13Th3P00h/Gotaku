@@ -11,6 +11,11 @@ Un seul utilisateur réel. Aucune fonctionnalité sociale, aucun partage, aucun 
 multi-comptes. L'authentification existe uniquement pour protéger l'accès et rattacher les
 données, pas pour gérer une population d'utilisateurs.
 
+## Méthode de travail
+
+Avant toute implémentation, présenter un plan de développement (étapes, fichiers
+impactés, choix techniques) et attendre validation explicite avant d'écrire du code.
+
 ## Stack imposée
 
 - Next.js (App Router), TypeScript strict, Tailwind
