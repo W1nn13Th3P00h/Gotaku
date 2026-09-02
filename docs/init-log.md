@@ -208,11 +208,48 @@ session, le nombre d'exercices actifs et le nombre de zones, et rien d'autre. Sa
 fonction est de prouver que l'auth tient et que la banque est en base. Il est remplacé
 au lot 2.
 
+## 10. Les migrations sont testées, pas relues
+
+Ni Docker ni Postgres sur la machine, donc aucun moyen de savoir si les six migrations
+s'appliquent avant de les pousser sur ton projet. Relire du SQL à l'œil et espérer
+n'est pas une vérification.
+
+J'ai installé **PGlite**, Postgres 17 compilé en WebAssembly, en dépendance de
+développement. Il tourne dans Node, sans serveur ni conteneur, et donne une vraie base
+jetable par test. `lib/db/test-db.ts` crée le minimum que Supabase fournit et que
+PGlite n'a pas — schéma `auth`, `auth.users`, `auth.uid()`, rôles `anon`,
+`authenticated`, `service_role` — puis applique les migrations dans l'ordre.
+
+`lib/db/migrations.test.ts` : 21 tests. Les migrations s'appliquent, les référentiels
+sont bien peuplés, chaque contrainte `CHECK` refuse ce qu'elle doit refuser, l'index de
+zone primaire unique tient, la RLS est active sur **toutes** les tables publiques, la
+banque n'a aucune policy d'écriture, et `seed_exercises` est inaccessible à
+`authenticated`.
+
+La fonction de seed est exercée avec les 330 exercices réels : insertion complète,
+idempotence au second passage, remplacement et non cumul des rattachements,
+désactivation d'un slug retiré puis réactivation à son retour, refus d'un payload vide
+ou mal formé.
+
+Le test qui compte le plus : un payload dont **le dernier** exercice viole une
+contrainte. Rien n'est écrit, pas même les trois premiers, valides. C'est la
+démonstration que l'exigence « pas d'écriture partielle » est tenue, et pas seulement
+affirmée.
+
+**Ça a servi immédiatement.** Le premier passage a échoué sur
+`syntax error at or near "position"`. `position` est un mot-clé de fonction en SQL,
+`POSITION(x IN y)`. Il passe comme nom de colonne dans un `CREATE TABLE`, ce qui
+explique que la migration de la table `exercises` s'applique très bien, mais pas dans
+une clause `RETURNS TABLE`, où il doit être cité. Sans PGlite, cette erreur se
+découvrait sur ton projet, au premier `db push`.
+
 ## Ce qui est vérifié et ce qui ne l'est pas
 
-Vérifié en local : `npm run test` (32 tests), `npm run typecheck`, `npm run lint`,
-`npm run build`. Le build confirme que Next détecte bien le proxy et qu'aucune route ne
-tente de se prérendre alors qu'elle dépend de la session.
+Vérifié en local, tout vert : `npm run test` (53 tests), `npm run typecheck`,
+`npm run lint`, `npm run build`. Le build confirme que Next détecte le proxy et
+qu'aucune route ne tente de se prérendre alors qu'elle dépend de la session. Les
+migrations et le seed sont vérifiés sur un vrai Postgres.
 
-Reste à vérifier sur le projet Supabase réel : application des migrations, exécution du
-seed, parcours de connexion complet. Voir la fin du fichier pour le résultat.
+Reste à vérifier sur le projet Supabase réel, parce que rien ici ne peut le simuler :
+application effective des migrations, exécution du seed contre la base distante, et
+parcours de connexion de bout en bout avec un vrai email.

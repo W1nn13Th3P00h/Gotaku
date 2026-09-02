@@ -9,11 +9,14 @@
 -- session_items le référence, et l'historique ne se réécrit pas.
 
 create or replace function public._bank_parse(payload jsonb)
+-- `position` est un mot-clé de fonction en SQL (POSITION(x IN y)). Il passe comme nom
+-- de colonne dans un CREATE TABLE mais pas dans une clause RETURNS TABLE, où il doit
+-- être cité. Les autres noms sont laissés nus pour rester lisibles.
 returns table (
   slug              text,
   name              text,
   type              exercise_type,
-  position          body_position,
+  "position"        body_position,
   symmetry          symmetry_type,
   intensity         int,
   duration_target_s int,
