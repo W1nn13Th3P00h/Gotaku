@@ -7475,28 +7475,6 @@
     ]
   },
   {
-    "slug": "wall-assisted-calf-stretch",
-    "name": "Mollet au mur",
-    "type": "passive_stretch",
-    "position": "wall",
-    "symmetry": "asymmetric",
-    "zones": [
-      "calves",
-      "ankles"
-    ],
-    "primary_zone": "calves",
-    "equipment": [],
-    "intensity": 1,
-    "duration_target_s": 40,
-    "duration_min_s": 25,
-    "duration_max_s": 75,
-    "instructions": [
-      "Avant-pied contre le mur, talon au sol, jambe tendue.",
-      "Avance le bassin vers le mur en gardant le genou tendu.",
-      "Le talon ne décolle jamais du sol."
-    ]
-  },
-  {
     "slug": "wall-assisted-dynamic-calf-stretch",
     "name": "Mollet dynamique au mur",
     "type": "active_stretch",
