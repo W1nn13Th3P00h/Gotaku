@@ -10,7 +10,7 @@ export default function LoginPage() {
       <div>
         <h1 className="text-2xl font-semibold tracking-tight">Gokaku</h1>
         <p className="mt-1 text-sm text-muted">
-          Un lien de connexion arrive par mail. Pas de mot de passe.
+          Application personnelle. Le compte se crée dans Supabase, pas ici.
         </p>
       </div>
       <Suspense>

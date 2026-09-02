@@ -170,7 +170,7 @@ Le parsing du JSON est isolé dans `_bank_parse`, appelé plusieurs fois par
 temporaires en plpgsql posent des problèmes de plans de requête mis en cache d'un appel
 à l'autre. Les deux fonctions sont révoquées pour `anon` et `authenticated`.
 
-## 8. Auth magic link
+## 8. Auth
 
 `@supabase/ssr` avec trois clients distincts, parce qu'ils n'ont pas le même accès aux
 cookies : navigateur, serveur, et proxy.
@@ -190,16 +190,28 @@ d'une heure. Il utilise `getUser()` et non `getSession()`, seul le premier reval
 token auprès de Supabase — `getSession()` fait confiance au cookie, qui est modifiable
 côté client.
 
-L'inscription est fermée (`shouldCreateUser: false`). Application mono-utilisateur : le
-compte se crée à la main dans le dashboard, une fois.
+**Adresse et mot de passe, pas de lien magique.** Le lot 0 a d'abord été écrit avec un
+lien magique, conformément à `CLAUDE.md`, puis basculé sur mot de passe classique.
 
-`/auth/confirm` accepte les deux formes de lien, `token_hash` + `type` et `code` PKCE.
-La première suppose de modifier le template d'email Supabase, ce que le README
-documente. La seconde couvre le cas où Supabase renvoie un code.
+Ce que ça a supprimé : la route `/auth/confirm`, qui existait pour transformer un
+`token_hash` en session, et surtout l'étape manuelle de modification du template
+d'email Supabase, la seule partie du lot 0 qui pouvait échouer silencieusement sans que
+rien dans le code ne le signale. Le lien magique par défaut renvoie le token dans le
+fragment d'URL, invisible du serveur, ce qui obligeait à réécrire le template à la main
+pour que le flux serveur fonctionne. Un point de fragilité en moins.
 
-**C'est l'étape manuelle qui reste à ta charge** et elle n'est pas optionnelle : sans
-le changement de template, le lien magique renvoie le token dans le fragment d'URL,
-invisible du serveur.
+`signInWithPassword` depuis le navigateur, le SDK écrit les cookies, le proxy les voit
+à la requête suivante. Après succès, `router.replace` puis `router.refresh` : le second
+est nécessaire, sans lui le cache du router client resert la version rendue sans
+session.
+
+L'application n'appelle jamais `signUp`. Il n'y a donc pas d'inscription à fermer côté
+code. Le compte unique se crée à la main dans le dashboard.
+
+`docs/spec.md` et `CLAUDE.md` mentionnent encore le lien magique. Les deux documents
+décrivent l'authentification comme un moyen de protéger l'accès, pas comme une
+fonctionnalité, et le choix du mécanisme ne change rien au reste. À corriger à
+l'occasion.
 
 ## 9. Écran de socle
 

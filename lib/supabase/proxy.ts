@@ -3,7 +3,13 @@ import { NextResponse, type NextRequest } from 'next/server'
 
 import { supabasePublicKey, supabaseUrl } from '@/lib/supabase/env'
 
-/** Chemins accessibles sans session. Tout le reste est protégé. */
+/**
+ * Chemins accessibles sans session. Tout le reste est protégé.
+ *
+ * `/auth` y figure pour que la déconnexion aboutisse même si la session a déjà
+ * expiré : sinon la requête est redirigée vers /login avant d'atteindre la route,
+ * et les cookies restent en place.
+ */
 const PUBLIC_PATHS = ['/login', '/auth']
 
 function isPublic(pathname: string): boolean {

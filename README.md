@@ -19,25 +19,19 @@ npm run dev
 
 `.env.local` n'est pas versionné et ne doit jamais l'être.
 
-## Étape à faire une fois dans le dashboard Supabase
+## Authentification
 
-Le lien magique doit pointer sur la route serveur, pas sur le flux implicite qui renvoie
-le token dans le fragment d'URL, inexploitable côté serveur.
+Adresse et mot de passe. Un seul compte, créé à la main, une fois, dans le dashboard
+Supabase : Authentication > Users > Add user, avec « Auto Confirm User » coché pour ne
+pas avoir à valider un mail.
 
-1. Authentication > URL Configuration : mettre `http://localhost:3000` en Site URL, et
-   ajouter `http://localhost:3000/auth/confirm` puis l'équivalent Vercel en Redirect URLs.
-2. Authentication > Emails > Magic Link : remplacer le corps par un lien vers
+L'application n'appelle jamais `signUp`. Il n'existe donc aucun parcours d'inscription,
+et rien à fermer côté Supabase. Mot de passe oublié : le réinitialiser depuis le
+dashboard.
 
-   ```
-   {{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=magiclink
-   ```
-
-3. Authentication > Users : créer le compte à la main. L'application est
-   mono-utilisateur, l'inscription est fermée (`shouldCreateUser: false`), un lien
-   demandé pour une adresse inconnue n'envoie rien.
-
-Sans l'étape 2, la route `/auth/confirm` reçoit un lien sans `token_hash` et renvoie
-sur `/login`.
+Pense à désactiver l'inscription publique dans Authentication > Sign In / Providers si
+elle est active, par principe. Rien dans le code ne l'utilise, mais l'endpoint Supabase
+reste ouvert sinon.
 
 ## Commandes
 

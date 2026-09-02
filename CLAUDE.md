@@ -15,7 +15,7 @@ données, pas pour gérer une population d'utilisateurs.
 
 - Next.js (App Router), TypeScript strict, Tailwind
 - Déploiement Vercel
-- Supabase : Postgres, Auth (magic link), Edge Functions, Cron
+- Supabase : Postgres, Auth (adresse et mot de passe), Edge Functions, Cron
 - Web Push VAPID, service worker, PWA installable sur écran d'accueil iOS
 - Zod pour la validation du JSON de la banque
 - Vitest pour les tests unitaires
@@ -95,4 +95,21 @@ npm run test         # tests unitaires, générateur en premier
 npm run seed         # valide data/exercises.json et pousse en base
 npm run typecheck
 npx supabase db push # applique les migrations
+```
+
+## Supabase CLI : lien avec le projet hébergé
+
+Pas de Docker sur la machine de dev : la stack locale (`supabase start`) n'est pas
+utilisée. Les migrations partent directement sur le projet hébergé, et le schéma est
+testé via PGlite.
+
+Le projet hébergé est `rcuwzjqwupkzagwsywdv` (nommé « Gotaku » côté Supabase, alors que
+`config.toml` porte `project_id = "Gokaku"` : c'est juste un identifiant local, sans
+impact fonctionnel). Le lien créé par `supabase link` est stocké dans
+`supabase/.temp/`, qui est gitignoré (`supabase/.gitignore`) et donc absent sur un clone
+frais. Sur toute nouvelle machine ou après un clone, refaire :
+
+```
+npx supabase login                              # authentifie la CLI
+npx supabase link --project-ref rcuwzjqwupkzagwsywdv
 ```

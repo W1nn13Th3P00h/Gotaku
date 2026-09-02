@@ -7,11 +7,17 @@ validé avant toute interface qui le consomme.
 
 Initialisation Next.js App Router, TypeScript strict, Tailwind, Vitest. Projet Supabase,
 migrations des référentiels et des tables, génération des types TypeScript. Script de seed
-avec schéma Zod. `data/exercises.json` contient la banque complète, 331 exercices déjà
-conformes aux référentiels. Auth magic link et protection globale des routes.
+avec schéma Zod. `data/exercises.json` contient la banque complète, 330 exercices déjà
+conformes aux référentiels. Auth par adresse et mot de passe, protection globale des
+routes.
 
 Fin de lot : `npm run seed` remplit la base depuis le JSON, l'application se lance et
 demande une authentification.
+
+**Fait.** Choix d'implémentation et écarts assumés dans `docs/init-log.md`. Deux points
+qui portent sur la suite : le seed passe par une fonction Postgres pour être réellement
+transactionnel, et `noUncheckedIndexedAccess` est actif, donc un accès indexé est typé
+`T | undefined`.
 
 ## Lot 1, banque en lecture
 
@@ -61,9 +67,9 @@ l'interface, affinage des messages d'échec du générateur, réglages de la tol
 
 ## État de la banque
 
-La banque est déjà constituée : 331 exercices dans `data/exercises.json`, validés contre
-les référentiels, sans slug en doublon. Le chantier de remplissage initialement prévu en
-parallèle du code n'a plus lieu d'être.
+La banque est déjà constituée : 330 exercices dans `data/exercises.json`, validés contre
+les référentiels, sans slug ni nom en doublon. Le chantier de remplissage initialement
+prévu en parallèle du code n'a plus lieu d'être.
 
 Zones les plus faiblement pourvues, à connaître pour ne pas s'étonner d'une génération
 maigre quand elles sont demandées seules : `shins` 4 exercices, `neck` 5, `triceps` 5,
@@ -72,5 +78,12 @@ une couverture qu'il ne peut pas tenir, ce que garantit le motif d'échec
 `ZONES_UNSERVABLE`.
 
 Aucun exercice n'utilise la position `hanging`. La valeur reste dans l'enum, sans effet.
-Un doublon de nom subsiste, « mollet au mur », sur deux slugs distincts, à trancher à
-l'occasion.
+
+Le doublon « Mollet au mur » est tranché. Les deux entrées décrivaient le même exercice,
+mêmes zones, type, position, symétrie, intensité, durée cible et mêmes instructions au mot
+près ; seules les bornes de durée différaient. `wall-assisted-calf-stretch` a été
+supprimé, `calf-stretch-on-wall` conservé. La banque est passée de 331 à 330.
+
+La validation de la banque n'est plus un contrôle ponctuel : `lib/bank/bank.test.ts`
+rejoue le schéma sur le fichier réel à chaque `npm run test`, et vérifie qu'aucune zone du
+référentiel n'est orpheline et qu'aucun nom n'est en doublon.
