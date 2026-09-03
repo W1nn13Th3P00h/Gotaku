@@ -101,7 +101,7 @@ option de l'écran de génération.
 
 ### Implementation for User Story 3
 
-- [ ] T005 [US3] Ajouter à `ZONE_PRESETS` dans `lib/presets.ts` les entrées « Cou et
+- [x] T005 [US3] Ajouter à `ZONE_PRESETS` dans `lib/presets.ts` les entrées « Cou et
       épaules » (`neck`, `shoulders`, `shoulder_rotators`, `traps`, `pecs`), « Hanches
       et bassin » (`hip_flexors`, `hip_rotators`, `glutes`, `adductors`), « Bras et
       avant-bras » (`biceps`, `triceps`, `forearm_flexors`, `forearm_extensors`)

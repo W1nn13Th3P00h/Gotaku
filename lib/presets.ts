@@ -55,4 +55,16 @@ export const ZONE_PRESETS: ZonePreset[] = [
     label: 'Journée assise',
     zones: ['hip_flexors', 'glutes', 'lumbar', 'thoracic', 'neck', 'traps', 'pecs'],
   },
+  {
+    label: 'Cou et épaules',
+    zones: ['neck', 'shoulders', 'shoulder_rotators', 'traps', 'pecs'],
+  },
+  {
+    label: 'Hanches et bassin',
+    zones: ['hip_flexors', 'hip_rotators', 'glutes', 'adductors'],
+  },
+  {
+    label: 'Bras et avant-bras',
+    zones: ['biceps', 'triceps', 'forearm_flexors', 'forearm_extensors'],
+  },
 ]
