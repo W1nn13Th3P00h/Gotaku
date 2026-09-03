@@ -143,10 +143,10 @@ option de l'écran de génération.
 
 ## Phase 7: Polish & Cross-Cutting Concerns
 
-- [ ] T012 Exécuter `npm run typecheck`, `npm run lint` et `npm run test` ; vérifier
+- [x] T012 Exécuter `npm run typecheck`, `npm run lint` et `npm run test` ; vérifier
       explicitement que les 11 tests obligatoires du générateur passent toujours sans
       modification
-- [ ] T013 Dérouler `quickstart.md` de bout en bout
+- [x] T013 Dérouler `quickstart.md` de bout en bout
 
 ---
 
