@@ -21,7 +21,7 @@ garantir la logique la plus délicate de ce lot (fenêtre de cinq minutes, fusea
 par rappel, idempotence, dégressivité des échecs) sans dépendre d'un vrai envoi. La
 génération des clés VAPID, le déploiement de l'Edge Function et la création du job
 Supabase Cron restent des étapes manuelles, déjà annoncées comme telles dans
-`.env.example` et `docs/night-log.md`.
+`.env.example`.
 
 ## Technical Context
 

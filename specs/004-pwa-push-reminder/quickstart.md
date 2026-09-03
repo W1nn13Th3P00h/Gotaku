@@ -3,7 +3,7 @@
 ## Pré-requis — étapes manuelles, à faire une fois, avec les identifiants de l'utilisateur
 
 Ces étapes ne sont **pas** exécutées par un agent d'implémentation (secrets, dépôt
-réel) — voir Assumptions de `spec.md` et `docs/night-log.md`.
+réel) — voir Assumptions de `spec.md`.
 
 ```bash
 npx web-push generate-vapid-keys

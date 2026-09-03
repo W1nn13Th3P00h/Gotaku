@@ -36,5 +36,5 @@
   dans `CLAUDE.md` (permission sur geste explicite, pas de Vercel Cron).
 - Point notable documenté en Assumptions plutôt qu'en clarification : les étapes
   nécessitant des secrets réels (clés VAPID, déploiement) sont des actions manuelles
-  hors périmètre de l'implémentation automatisée, conformément à `docs/night-log.md`.
+  hors périmètre de l'implémentation automatisée.
 - Prêt pour `/speckit-plan`.
