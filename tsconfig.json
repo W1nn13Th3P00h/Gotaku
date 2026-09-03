@@ -32,5 +32,12 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    // Runtime Deno (Edge Function), pas Node/Next.js : imports `npm:`, extensions
+    // `.ts` explicites, global `Deno` — un `tsconfig` propre à Deno type-checke ce
+    // dossier séparément (`plan.md` § Technical Context). `lib/reminders/` reste
+    // couvert normalement : seul ce dossier est exclu.
+    "supabase/functions"
+  ]
 }
