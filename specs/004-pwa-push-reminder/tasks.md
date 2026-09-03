@@ -220,3 +220,18 @@ sur téléphone restent les étapes manuelles de `quickstart.md`.
    dépendre du déploiement), puis étapes manuelles, puis validation de bout en bout sur
    un appareil réel
 5. Polish → gate `npm run typecheck && npm run lint && npm run test`
+
+---
+
+## Phase 7: Convergence
+
+- [x] T022 Rendre `createTestDb()` (`lib/db/test-db.ts`) tolérant à l'indisponibilité de
+      `pg_cron`/`pg_net` sous PGlite : la migration de ce lot,
+      `supabase/migrations/20260903120000_reminders_cron.sql`, active ces deux
+      extensions, absentes de PGlite, ce qui fait actuellement échouer
+      `createTestDb()` dès qu'elle est rejouée — cassant silencieusement
+      `lib/db/migrations.test.ts`, `lib/bank/queries.test.ts`,
+      `lib/sessions/queries.test.ts` et le test T014 de ce lot lui-même
+      (`lib/reminders/reminder-sends.test.ts`, seule vérification automatique de
+      l'idempotence FR-009). `npm run test` est actuellement rouge sur 4 fichiers de
+      test à cause de cette seule régression per FR-009 (contradicts)

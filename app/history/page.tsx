@@ -2,7 +2,12 @@ import Link from 'next/link'
 
 import { formatDurationShort } from '@/lib/format'
 import { zoneLabel } from '@/lib/referentials'
-import { getHistorySummary30d, listSessionsForHistory, type EffectiveStatus } from '@/lib/sessions/queries'
+import {
+  getHistorySummary30d,
+  listSessionsForHistory,
+  sortHistorySummaryByVolume,
+  type EffectiveStatus,
+} from '@/lib/sessions/queries'
 import { createClient } from '@/lib/supabase/server'
 
 export const metadata = { title: 'Historique — Gokaku' }
@@ -43,16 +48,36 @@ export default async function HistoryPage() {
               {summary[0]?.sessionCount ?? 0} séance{(summary[0]?.sessionCount ?? 0) > 1 ? 's' : ''} ·{' '}
               {formatDurationShort(summary[0]?.totalVolumeS ?? 0)} au total
             </p>
-            <ul className="mt-2 divide-y divide-border rounded-xl border border-border">
-              {summary
-                .filter((row) => row.secondsWorked > 0)
-                .map((row) => (
-                  <li key={row.zoneCode} className="flex items-center justify-between p-3 text-sm">
-                    <span>{zoneLabel(row.zoneCode)}</span>
-                    <span className="font-medium">{formatDurationShort(row.secondsWorked)}</span>
-                  </li>
-                ))}
-            </ul>
+            {(() => {
+              const worked = sortHistorySummaryByVolume(summary).filter((row) => row.secondsWorked > 0)
+              // Distinction utile seulement s'il y a réellement un écart de volume :
+              // sinon « plus »/« moins » travaillée serait trompeur.
+              const hasSpread =
+                worked.length > 1 && worked[0]?.secondsWorked !== worked[worked.length - 1]?.secondsWorked
+
+              return (
+                <ul className="mt-2 divide-y divide-border rounded-xl border border-border">
+                  {worked.map((row, i) => (
+                    <li key={row.zoneCode} className="flex items-center justify-between p-3 text-sm">
+                      <span className="flex items-center gap-2">
+                        {zoneLabel(row.zoneCode)}
+                        {hasSpread && i === 0 ? (
+                          <span className="rounded-full bg-accent/10 px-1.5 py-0.5 text-[10px] font-medium text-accent">
+                            Plus travaillée
+                          </span>
+                        ) : null}
+                        {hasSpread && i === worked.length - 1 ? (
+                          <span className="rounded-full bg-border px-1.5 py-0.5 text-[10px] font-medium text-muted">
+                            Moins travaillée
+                          </span>
+                        ) : null}
+                      </span>
+                      <span className="font-medium">{formatDurationShort(row.secondsWorked)}</span>
+                    </li>
+                  ))}
+                </ul>
+              )
+            })()}
           </>
         )}
       </section>

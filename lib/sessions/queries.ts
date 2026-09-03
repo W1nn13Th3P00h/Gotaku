@@ -298,6 +298,18 @@ export async function getHistorySummary30d(
 }
 
 /**
+ * Trie la synthèse par volume décroissant (zone la plus travaillée en tête),
+ * pour que `/history` mette en évidence les zones les plus et les moins
+ * travaillées sans calcul manuel (FR-016, SC-004). `session_history_summary`
+ * renvoie l'ordre du référentiel (`order by z.sort`) : ce tri ne change que
+ * l'affichage, jamais la donnée. Tri stable — les zones à égalité de volume
+ * gardent l'ordre du référentiel entre elles.
+ */
+export function sortHistorySummaryByVolume(rows: HistorySummary30d[]): HistorySummary30d[] {
+  return [...rows].sort((a, b) => b.secondsWorked - a.secondsWorked)
+}
+
+/**
  * Lecture pour la composition manuelle (Lot 4) — voir
  * `specs/003-manual-session-templates/data-model.md`.
  */
