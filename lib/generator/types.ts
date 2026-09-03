@@ -43,6 +43,8 @@ export type GeneratorInput = {
   requiredTypes?: ExerciseType[]
   maxIntensity?: 1 | 2 | 3
   preferNeglectedZones?: boolean
+  /** Écart accepté sur la durée totale finale (étape 5). Défaut : `TOLERANCE_S`. */
+  toleranceS?: number
 }
 
 export type GeneratorContext = {

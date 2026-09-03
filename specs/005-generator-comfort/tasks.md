@@ -54,7 +54,7 @@ qui relance la génération avec les critères corrigés.
 
 ### Tests for User Story 1
 
-- [ ] T001 [P] [US1] Écrire les tests Vitest dans
+- [x] T001 [P] [US1] Écrire les tests Vitest dans
       `lib/generator/failure-actions.test.ts` pour `suggestRecovery` : `ZONES_UNSERVABLE`
       retire les zones non couvrables ; `BUDGET_TOO_SMALL` retient le premier preset de
       durée ≥ la durée minimale viable (et le plus grand si aucun ne l'atteint) ;
@@ -63,10 +63,10 @@ qui relance la génération avec les critères corrigés.
 
 ### Implementation for User Story 1
 
-- [ ] T002 [US1] Implémenter `suggestRecovery` dans
+- [x] T002 [US1] Implémenter `suggestRecovery` dans
       `lib/generator/failure-actions.ts` (dépend de T001 ; fait passer T001 ; contrat :
       `contracts/failure-actions.md`)
-- [ ] T003 [US1] Dans `app/generateur/generator-screen.tsx`, sur l'écran d'échec :
+- [x] T003 [US1] Dans `app/generateur/generator-screen.tsx`, sur l'écran d'échec :
       appeler `suggestRecovery` avec le détail courant, et si le résultat n'est pas
       `null`, afficher un bouton d'action qui relance `runGeneration` avec cet input ;
       conserver dans tous les cas le bouton « Modifier les critères » déjà existant
@@ -85,7 +85,7 @@ option de l'écran de génération.
 
 ### Implementation for User Story 2
 
-- [ ] T004 [US2] Ajouter une case à cocher « Prioriser les zones délaissées » dans le
+- [x] T004 [US2] Ajouter une case à cocher « Prioriser les zones délaissées » dans le
       bloc `<details>` Options de `generator-screen.tsx`, état
       `preferNeglectedZones` (défaut `false`) inclus dans `currentInput()`
 
@@ -101,7 +101,7 @@ option de l'écran de génération.
 
 ### Implementation for User Story 3
 
-- [ ] T005 [US3] Ajouter à `ZONE_PRESETS` dans `lib/presets.ts` les entrées « Cou et
+- [x] T005 [US3] Ajouter à `ZONE_PRESETS` dans `lib/presets.ts` les entrées « Cou et
       épaules » (`neck`, `shoulders`, `shoulder_rotators`, `traps`, `pecs`), « Hanches
       et bassin » (`hip_flexors`, `hip_rotators`, `glutes`, `adductors`), « Bras et
       avant-bras » (`biceps`, `triceps`, `forearm_flexors`, `forearm_extensors`)
@@ -118,22 +118,22 @@ option de l'écran de génération.
 
 ### Implementation for User Story 4
 
-- [ ] T006 [US4] Ajouter `toleranceS?: number` à `GeneratorInput` dans
+- [x] T006 [US4] Ajouter `toleranceS?: number` à `GeneratorInput` dans
       `lib/generator/types.ts`
-- [ ] T007 [US4] Modifier `adjustDurations` dans `lib/generator/adjust.ts` pour
+- [x] T007 [US4] Modifier `adjustDurations` dans `lib/generator/adjust.ts` pour
       accepter un troisième paramètre `toleranceS: number = TOLERANCE_S`, remplaçant
       la lecture directe de la constante importée (dépend de T006)
-- [ ] T008 [US4] Dans `generateSession` (`lib/generator/generate.ts`), passer
+- [x] T008 [US4] Dans `generateSession` (`lib/generator/generate.ts`), passer
       `input.toleranceS` à `adjustDurations` (dépend de T007)
-- [ ] T009 [US4] Ajouter un test dans `lib/generator/generate.test.ts` vérifiant
+- [x] T009 [US4] Ajouter un test dans `lib/generator/generate.test.ts` vérifiant
       qu'une `toleranceS` personnalisée (ex. 60s) élargit effectivement l'écart
       accepté, sans modifier aucun des 11 tests obligatoires existants (SC-003)
       (dépend de T008)
-- [ ] T010 [US4] Mettre à jour `docs/generator.md` : bloc de contrat
+- [x] T010 [US4] Mettre à jour `docs/generator.md` : bloc de contrat
       `GeneratorInput` et étape 5, pour documenter `toleranceS` et sa valeur par
       défaut (dépend de T006-T009 ; `CLAUDE.md` : ce document doit rester la source de
       vérité de l'algorithme)
-- [ ] T011 [US4] Ajouter le contrôle de tolérance dans le bloc Options de
+- [x] T011 [US4] Ajouter le contrôle de tolérance dans le bloc Options de
       `generator-screen.tsx`, valeur par défaut affichée = `TOLERANCE_S` actuel
       (dépend de T006, T008)
 
@@ -143,10 +143,10 @@ option de l'écran de génération.
 
 ## Phase 7: Polish & Cross-Cutting Concerns
 
-- [ ] T012 Exécuter `npm run typecheck`, `npm run lint` et `npm run test` ; vérifier
+- [x] T012 Exécuter `npm run typecheck`, `npm run lint` et `npm run test` ; vérifier
       explicitement que les 11 tests obligatoires du générateur passent toujours sans
       modification
-- [ ] T013 Dérouler `quickstart.md` de bout en bout
+- [x] T013 Dérouler `quickstart.md` de bout en bout
 
 ---
 

@@ -19,11 +19,15 @@ const capPerSideS = (e: Exercise): number => Math.floor(flexPerSideMaxS(e) / 5) 
  * la boucle de sélection, où `remaining` est positif et inférieur au coût du plus
  * petit candidat restant — jamais négatif, la sélection ne dépasse jamais le budget.
  */
-export function adjustDurations(selected: Exercise[], remaining: number): AdjustedExercise[] {
+export function adjustDurations(
+  selected: Exercise[],
+  remaining: number,
+  toleranceS: number = TOLERANCE_S,
+): AdjustedExercise[] {
   const atTarget = (): AdjustedExercise[] =>
     selected.map((exercise) => ({ exercise, durationS: exercise.duration_target_s }))
 
-  if (remaining <= TOLERANCE_S) return atTarget()
+  if (remaining <= toleranceS) return atTarget()
 
   const totalFlexBudget = selected.reduce((sum, e) => sum + flexBudget(e), 0)
   if (totalFlexBudget <= 0) return atTarget()

@@ -3,7 +3,9 @@
 import { useMemo, useState } from 'react'
 
 import type { CatalogExercise } from '@/lib/bank/catalog'
+import { TOLERANCE_S } from '@/lib/generator/constants'
 import { costForDuration } from '@/lib/generator/cost'
+import { suggestRecovery } from '@/lib/generator/failure-actions'
 import { generateSession } from '@/lib/generator/generate'
 import { replaceExercise } from '@/lib/generator/replace'
 import type { ExerciseId, FailureDetail, GeneratorInput } from '@/lib/generator/types'
@@ -48,6 +50,18 @@ function failureMessage(detail: FailureDetail): string {
   }
 }
 
+/** Libellé de l'action de relance en un tap, alignée sur le motif d'échec courant. */
+function recoveryLabel(detail: FailureDetail, suggestion: GeneratorInput): string {
+  switch (detail.reason) {
+    case 'ZONES_UNSERVABLE':
+      return 'Continuer avec les zones couvrables'
+    case 'BUDGET_TOO_SMALL':
+      return `Générer en ${Math.round(suggestion.targetDurationS / 60)} min`
+    case 'EMPTY_CATALOG':
+      return 'Relancer sans matériel'
+  }
+}
+
 export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props) {
   const catalogById = useMemo(() => {
     const map = new Map<ExerciseId, CatalogExercise>()
@@ -72,6 +86,8 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
   const [excludedType, setExcludedType] = useState<ExerciseType | ''>('')
   const [requiredType, setRequiredType] = useState<ExerciseType | ''>('')
   const [maxIntensity, setMaxIntensity] = useState<1 | 2 | 3 | ''>('')
+  const [preferNeglectedZones, setPreferNeglectedZones] = useState(false)
+  const [toleranceS, setToleranceS] = useState<number>(TOLERANCE_S)
 
   const [view, setView] = useState<ViewState>({ kind: 'form' })
 
@@ -91,6 +107,8 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
       excludedTypes: excludedType ? [excludedType] : undefined,
       requiredTypes: requiredType ? [requiredType] : undefined,
       maxIntensity: maxIntensity || undefined,
+      preferNeglectedZones,
+      toleranceS,
     }
   }
 
@@ -123,6 +141,15 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
 
   function onRegenerate() {
     runGeneration(currentInput())
+  }
+
+  function onRecover(suggestion: GeneratorInput) {
+    // Le formulaire reste la source de vérité pour toute relance ultérieure
+    // (régénérer, revenir au formulaire) : on le resynchronise avec la suggestion.
+    setTargetDurationMin(suggestion.targetDurationS / 60)
+    setZones(suggestion.zones)
+    setEquipment(suggestion.equipment)
+    runGeneration(suggestion)
   }
 
   function onReplace(index: number) {
@@ -169,16 +196,30 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
   }
 
   if (view.kind === 'failure') {
+    const suggestion = suggestRecovery(view.detail, currentInput(), DURATION_PRESETS_MIN)
     return (
       <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-6 p-6">
         <div>
           <h1 className="text-xl font-semibold tracking-tight">Séance impossible</h1>
           <p className="mt-2 text-sm text-muted">{failureMessage(view.detail)}</p>
         </div>
+        {suggestion !== null ? (
+          <button
+            type="button"
+            onClick={() => onRecover(suggestion)}
+            className="w-full rounded-lg bg-accent py-3 text-sm font-medium text-accent-foreground"
+          >
+            {recoveryLabel(view.detail, suggestion)}
+          </button>
+        ) : null}
         <button
           type="button"
           onClick={onBackToForm}
-          className="w-full rounded-lg bg-accent py-3 text-sm font-medium text-accent-foreground"
+          className={
+            suggestion !== null
+              ? 'w-full rounded-lg border border-border py-3 text-sm font-medium'
+              : 'w-full rounded-lg bg-accent py-3 text-sm font-medium text-accent-foreground'
+          }
         >
           Modifier les critères
         </button>
@@ -415,6 +456,26 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
               <option value={2}>2</option>
               <option value={3}>3</option>
             </select>
+          </label>
+          <label className="flex items-center gap-2 text-xs text-muted">
+            <input
+              type="checkbox"
+              checked={preferNeglectedZones}
+              onChange={(e) => setPreferNeglectedZones(e.target.checked)}
+              className="h-4 w-4 rounded border-border"
+            />
+            Prioriser les zones délaissées
+          </label>
+          <label className="flex flex-col gap-1 text-xs text-muted">
+            Tolérance sur la durée totale (secondes)
+            <input
+              type="number"
+              min={0}
+              step={5}
+              value={toleranceS}
+              onChange={(e) => setToleranceS(Math.max(0, Number(e.target.value) || 0))}
+              className="rounded-lg border border-border bg-transparent px-3 py-2 text-sm text-foreground"
+            />
           </label>
         </div>
       </details>

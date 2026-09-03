@@ -331,4 +331,36 @@ describe('generateSession', () => {
       expect(item.durationS).toBeLessThanOrEqual(exercise.duration_max_s)
     }
   })
+
+  it('toleranceS personnalisée (US4) : élargit effectivement l\'écart accepté, sans toucher au comportement par défaut', () => {
+    const exercise = makeExercise({
+      slug: 'tolerance-flex',
+      zones: ['calves'],
+      duration_target_s: 30,
+      duration_min_s: 20,
+      duration_max_s: 50,
+    })
+    const catalog = [exercise]
+    // Coût 40s (30 + TRANSITION_S) ; remaining après sélection = 40s, entre le
+    // TOLERANCE_S par défaut (15) et une tolérance personnalisée de 60.
+    const input: GeneratorInput = { targetDurationS: 80, zones: ['calves'], equipment: [] }
+    const resultDefault = generateSession(input, makeContext(catalog, 1))
+    const resultCustom = generateSession({ ...input, toleranceS: 60 }, makeContext(catalog, 1))
+
+    expect(resultDefault.ok).toBe(true)
+    expect(resultCustom.ok).toBe(true)
+    if (!resultDefault.ok || !resultCustom.ok) return
+
+    const gapDefault = Math.abs(resultDefault.totalDurationS - input.targetDurationS)
+    const gapCustom = Math.abs(resultCustom.totalDurationS - input.targetDurationS)
+
+    // Sans toleranceS (comportement par défaut, inchangé) : l'écart de 40s dépasse
+    // TOLERANCE_S (15), l'ajustement comble donc une partie de l'écart via le flex.
+    expect(gapDefault).toBe(20)
+    // Avec toleranceS: 60, le même écart de 40s reste sous le seuil personnalisé :
+    // aucun ajustement n'est appliqué, la durée cible est conservée telle quelle.
+    expect(resultCustom.items[0]?.durationS).toBe(exercise.duration_target_s)
+    expect(gapCustom).toBeLessThanOrEqual(60)
+    expect(gapDefault).toBeLessThan(gapCustom)
+  })
 })

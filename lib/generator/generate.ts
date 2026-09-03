@@ -57,7 +57,7 @@ export function generateSession(
     rng,
   )
 
-  const adjusted = adjustDurations(selected, remaining)
+  const adjusted = adjustDurations(selected, remaining, input.toleranceS)
   const ordered = orderSelected(adjusted)
   const coverage = computeCoverage(ordered, input.zones)
 
