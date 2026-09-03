@@ -34,11 +34,11 @@ Projet unique Next.js App Router (voir `plan.md` § Project Structure) : `app/ba
 
 **Purpose**: existence des routes avant implémentation.
 
-- [ ] T000 Corriger `.gitignore` : le motif `coverage/` n'est pas ancré à la racine et
+- [X] T000 Corriger `.gitignore` : le motif `coverage/` n'est pas ancré à la racine et
       avale silencieusement toute route `app/bank/coverage/` (piège déjà rencontré et
       documenté par les cycles nocturnes du 2026-09-02, voir mémoire de session) ;
       remplacer par `/coverage/` pour ne viser que le rapport Vitest à la racine
-- [ ] T001 [P] Créer les trois routes vides `app/bank/page.tsx`, `app/bank/[slug]/page.tsx`
+- [X] T001 [P] Créer les trois routes vides `app/bank/page.tsx`, `app/bank/[slug]/page.tsx`
       et `app/bank/coverage/page.tsx`, chacune avec un titre de section et un texte « à
       venir » (aucune logique de données à ce stade)
 
@@ -53,14 +53,14 @@ Projet unique Next.js App Router (voir `plan.md` § Project Structure) : `app/ba
 
 **⚠️ CRITICAL**: aucune tâche de User Story 1 ou 2 ne démarre avant la fin de cette phase.
 
-- [ ] T002 [P] Définir dans `lib/bank/queries.ts` les types `BankFilters`,
+- [X] T002 [P] Définir dans `lib/bank/queries.ts` les types `BankFilters`,
       `ExerciseSummary`, `ExerciseDetail` et `ZoneCoverageRow` conformes à
       `data-model.md`
-- [ ] T003 [P] Écrire le test Vitest dans `lib/bank/queries.test.ts` qui appelle le
+- [X] T003 [P] Écrire le test Vitest dans `lib/bank/queries.test.ts` qui appelle le
       futur `mapExerciseRow` avec une ligne brute simulée contenant `position` et
       `intensity`, et vérifie que ces deux champs sont absents de l'objet retourné
       (doit échouer tant que T004 n'est pas fait — dépend de T002 pour les types)
-- [ ] T004 Implémenter `mapExerciseRow(row, { detailed })` dans `lib/bank/queries.ts` :
+- [X] T004 Implémenter `mapExerciseRow(row, { detailed })` dans `lib/bank/queries.ts` :
       construit un `ExerciseSummary` (ou `ExerciseDetail` si `detailed`) à partir d'une
       ligne Supabase brute (exercice + zones + équipements + zone primaire), sans jamais
       recopier `position` ni `intensity`, faisant passer T003 (dépend de T002, T003)
@@ -81,13 +81,13 @@ combinaison sans résultat affiche un message explicite plutôt qu'une liste vid
 
 ### Implementation for User Story 1
 
-- [ ] T005 [US1] Implémenter `listExercises(supabase, filters: BankFilters)` dans
+- [X] T005 [US1] Implémenter `listExercises(supabase, filters: BankFilters)` dans
       `lib/bank/queries.ts` : sélection explicite de colonnes (jamais `select('*')`),
       jointure vers `exercise_zones`/`exercise_equipment`, `ilike` insensible à la casse
       sur `name`, filtres `zone`/`type`/`equipment` combinables par ET logique, restreint
       à `active = true`, tri par `name`, mappage de chaque ligne via `mapExerciseRow`
       (dépend de T004 ; contrat : `contracts/bank-queries.md`)
-- [ ] T006 [US1] Implémenter `app/bank/page.tsx` : lit `search`/`zone`/`type`/`equipment`
+- [X] T006 [US1] Implémenter `app/bank/page.tsx` : lit `search`/`zone`/`type`/`equipment`
       depuis les `searchParams` de l'URL, appelle `listExercises`, affiche un champ de
       recherche et des contrôles de filtre en formulaire `GET` (URL partageable), la
       liste résultante (nom, type, zone primaire, durée cible), et un message explicite
@@ -109,18 +109,18 @@ d'édition.
 
 ### Implementation for User Story 2
 
-- [ ] T007 [US2] Implémenter `getExerciseBySlug(supabase, slug: string)` dans
+- [X] T007 [US2] Implémenter `getExerciseBySlug(supabase, slug: string)` dans
       `lib/bank/queries.ts` : sélection explicite incluant `instructions` et
       `contraindications`, `left join` vers la vue `exercise_last_performed`
       (`lastPerformedAt` à `null` si absent), retourne `null` si le slug n'existe pas ou
       est inactif, mappage via `mapExerciseRow` avec `detailed: true` (dépend de T004 ;
       contrat : `contracts/bank-queries.md`)
-- [ ] T008 [US2] Implémenter `app/bank/[slug]/page.tsx` : affiche nom, type, zones avec
+- [X] T008 [US2] Implémenter `app/bank/[slug]/page.tsx` : affiche nom, type, zones avec
       zone primaire mise en évidence, matériel requis, durée cible, instructions,
       contre-indications (ou leur absence), date de dernière exécution ou « jamais
       fait » ; appelle `notFound()` si `getExerciseBySlug` renvoie `null` (dépend de
       T007)
-- [ ] T009 [P] [US2] Relier chaque ligne de `app/bank/page.tsx` à `/bank/[slug]` (lien de
+- [X] T009 [P] [US2] Relier chaque ligne de `app/bank/page.tsx` à `/bank/[slug]` (lien de
       navigation depuis la liste, conforme au scénario d'acceptation US2 #1) (dépend de
       T006, T008)
 
@@ -140,11 +140,11 @@ les plus faibles sont visuellement distinguées.
 
 ### Tests for User Story 3
 
-- [ ] T010 [P] [US3] Ajouter la migration `supabase/migrations/20260903090000_zone_coverage_fn.sql`
+- [X] T010 [P] [US3] Ajouter la migration `supabase/migrations/20260903090000_zone_coverage_fn.sql`
       créant la fonction SQL `zone_coverage()` : `left join` de `zones` vers
       `exercise_zones`, `group by zones.code`, `count(exercise_zones.exercise_id)`,
       retournant une ligne par zone du référentiel (voir `research.md`)
-- [ ] T011 [US3] Écrire le test Vitest (PGlite, `createTestDb()` de `lib/db/test-db.ts`)
+- [X] T011 [US3] Écrire le test Vitest (PGlite, `createTestDb()` de `lib/db/test-db.ts`)
       dans `lib/bank/queries.test.ts` qui applique la migration T010, insère un jeu
       d'exercices de test couvrant certaines zones mais pas toutes, appelle
       `select * from zone_coverage()`, et vérifie que les 26 zones sont présentes, y
@@ -153,15 +153,15 @@ les plus faibles sont visuellement distinguées.
 
 ### Implementation for User Story 3
 
-- [ ] T012 [US3] Implémenter `getZoneCoverage(supabase)` dans `lib/bank/queries.ts` :
+- [X] T012 [US3] Implémenter `getZoneCoverage(supabase)` dans `lib/bank/queries.ts` :
       appelle `supabase.rpc('zone_coverage')`, attache `zoneLabel`/`regionCode` via
       `lib/referentials.ts`, calcule `isLowCoverage` avec la constante
       `ZONE_LOW_COVERAGE_THRESHOLD = 10` (dépend de T010, T011 ; contrat :
       `contracts/bank-queries.md`)
-- [ ] T013 [US3] Implémenter `app/bank/coverage/page.tsx` : tableau des 26 zones
+- [X] T013 [US3] Implémenter `app/bank/coverage/page.tsx` : tableau des 26 zones
       (libellé, région, compte), mise en évidence visuelle des lignes `isLowCoverage`
       (dépend de T012)
-- [ ] T014 [P] [US3] Ajouter un lien de navigation entre `/bank` et `/bank/coverage`
+- [X] T014 [P] [US3] Ajouter un lien de navigation entre `/bank` et `/bank/coverage`
       dans les deux sens (dépend de T006, T013)
 
 **Checkpoint**: les trois user stories fonctionnent indépendamment et ensemble
@@ -171,10 +171,10 @@ les plus faibles sont visuellement distinguées.
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 
-- [ ] T015 [P] Ajouter un lien vers `/bank` depuis l'écran actuel `app/page.tsx` (socle
+- [X] T015 [P] Ajouter un lien vers `/bank` depuis l'écran actuel `app/page.tsx` (socle
       du Lot 0), pour valider sans naviguer à la main par URL — à retirer/déplacer
       quand l'écran Accueil réel de `docs/spec.md` sera construit
-- [ ] T016 Exécuter `npm run typecheck`, `npm run lint` et `npm run test` ; corriger
+- [X] T016 Exécuter `npm run typecheck`, `npm run lint` et `npm run test` ; corriger
       toute régression avant de committer (gate non négociable, `CLAUDE.md`)
 - [ ] T017 Dérouler `quickstart.md` de bout en bout dans `npm run dev`
 
