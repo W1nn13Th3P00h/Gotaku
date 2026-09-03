@@ -34,6 +34,10 @@ Projet unique Next.js App Router (voir `plan.md` § Project Structure) : `app/ba
 
 **Purpose**: existence des routes avant implémentation.
 
+- [ ] T000 Corriger `.gitignore` : le motif `coverage/` n'est pas ancré à la racine et
+      avale silencieusement toute route `app/bank/coverage/` (piège déjà rencontré et
+      documenté par les cycles nocturnes du 2026-09-02, voir mémoire de session) ;
+      remplacer par `/coverage/` pour ne viser que le rapport Vitest à la racine
 - [ ] T001 [P] Créer les trois routes vides `app/bank/page.tsx`, `app/bank/[slug]/page.tsx`
       et `app/bank/coverage/page.tsx`, chacune avec un titre de section et un texte « à
       venir » (aucune logique de données à ce stade)
