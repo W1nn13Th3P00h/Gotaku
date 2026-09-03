@@ -6,6 +6,8 @@ import { formatDurationShort } from '@/lib/format'
 import { EXERCISE_TYPE_LABELS, equipmentLabel, zoneLabel } from '@/lib/referentials'
 import { createClient } from '@/lib/supabase/server'
 
+import { AddToCompositionButton } from '@/app/bank/add-to-composition-button'
+
 export const metadata = { title: 'Exercice — Gokaku' }
 
 export default async function ExercisePage({
@@ -25,7 +27,10 @@ export default async function ExercisePage({
         ← Banque
       </Link>
 
-      <h1 className="mt-4 text-2xl font-semibold tracking-tight">{exercise.name}</h1>
+      <div className="mt-4 flex items-start justify-between gap-3">
+        <h1 className="text-2xl font-semibold tracking-tight">{exercise.name}</h1>
+        <AddToCompositionButton exerciseId={exercise.id} />
+      </div>
       <p className="mt-1 text-sm text-muted">
         {EXERCISE_TYPE_LABELS[exercise.type]} · {formatDurationShort(exercise.durationTargetS)}
       </p>

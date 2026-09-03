@@ -14,6 +14,7 @@ import { mapExerciseRow, type RawExerciseDetailRow, type RawExerciseRow } from '
  */
 describe('mapExerciseRow', () => {
   const rawRow: RawExerciseRow & { position: string; intensity: number } = {
+    id: 'ex-couch-stretch',
     slug: 'couch-stretch',
     name: 'Couch stretch',
     type: 'passive_stretch',

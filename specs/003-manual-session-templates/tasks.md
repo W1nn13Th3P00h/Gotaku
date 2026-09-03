@@ -32,7 +32,7 @@ via `quickstart.md`, comme les requêtes de lecture des Lots 1 et 3.
 
 ## Phase 1: Setup
 
-- [ ] T001 [P] Créer les routes vides `app/compose/page.tsx`,
+- [X] T001 [P] Créer les routes vides `app/compose/page.tsx`,
       `app/compose/compose-screen.tsx` (`'use client'`, placeholder), et
       `app/compose/templates/page.tsx`
 
@@ -47,13 +47,13 @@ par la composition (US1) et par l'affichage des modèles (US3).
 
 **⚠️ CRITICAL**: aucune tâche US1/US2/US3 ne démarre avant la fin de cette phase.
 
-- [ ] T002 [P] Définir dans `lib/sessions/queries.ts` les types `CompositionForEdit` et
+- [X] T002 [P] Définir dans `lib/sessions/queries.ts` les types `CompositionForEdit` et
       `TemplateSummary` conformes à `data-model.md`
-- [ ] T003 [P] Écrire les tests Vitest dans `lib/sessions/composition.test.ts` pour
+- [X] T003 [P] Écrire les tests Vitest dans `lib/sessions/composition.test.ts` pour
       `computeTotalDurationS` (avec et sans exercices `perSide`) et `clampDurationS`
       (valeur dans la plage, sous la borne basse, au-dessus de la borne haute, valeur
       non entière) — doit échouer tant que T004 n'est pas fait
-- [ ] T004 Implémenter `computeTotalDurationS` et `clampDurationS` dans
+- [X] T004 Implémenter `computeTotalDurationS` et `clampDurationS` dans
       `lib/sessions/composition.ts` (dépend de T003 ; contrat :
       `contracts/composition.md`)
 
@@ -70,21 +70,21 @@ démarrer directement.
 
 ### Implementation for User Story 1
 
-- [ ] T005 [US1] Implémenter `getOrCreateDraftComposition(supabase)` dans
+- [X] T005 [US1] Implémenter `getOrCreateDraftComposition(supabase)` dans
       `lib/sessions/queries.ts` : cherche une séance `status = 'draft' AND
       source = 'manual'` pour l'utilisateur, la crée sinon (dépend de T002 ; contrat :
       `contracts/composition.md`)
-- [ ] T006 [US1] Implémenter `addItemToComposition`, `removeItemFromComposition`,
+- [X] T006 [US1] Implémenter `addItemToComposition`, `removeItemFromComposition`,
       `reorderItems`, `updateItemDuration` (via `clampDurationS`) dans
       `lib/sessions/mutations.ts` (dépend de T004, T005 ; contrat :
       `contracts/composition.md`)
-- [ ] T007 [US1] Ajouter l'action « ajouter à la composition » sur `app/bank/page.tsx`
+- [X] T007 [US1] Ajouter l'action « ajouter à la composition » sur `app/bank/page.tsx`
       et `app/bank/[slug]/page.tsx` (Lot 1), appelant `addItemToComposition` (dépend de
       T006)
-- [ ] T008 [US1] Implémenter `app/compose/page.tsx` : appelle
+- [X] T008 [US1] Implémenter `app/compose/page.tsx` : appelle
       `getOrCreateDraftComposition`, rend `<ComposeScreen composition={...} />` (dépend
       de T005)
-- [ ] T009 [US1] Implémenter `compose-screen.tsx` : liste des items avec boutons
+- [X] T009 [US1] Implémenter `compose-screen.tsx` : liste des items avec boutons
       monter/descendre (`reorderItems`), contrôle de durée clampé
       (`updateItemDuration`), retrait (`removeItemFromComposition`), durée totale
       recalculée en continu (`computeTotalDurationS`), bouton « démarrer » désactivé si
@@ -103,11 +103,11 @@ démarrer directement.
 
 ### Implementation for User Story 2
 
-- [ ] T010 [US2] Implémenter `saveAsTemplate(supabase, sessionId, name)` dans
+- [X] T010 [US2] Implémenter `saveAsTemplate(supabase, sessionId, name)` dans
       `lib/sessions/mutations.ts` : refuse un nom vide/espaces ou une composition vide,
       copie sinon `session_items` vers un nouveau `session_templates`/`template_items`
       (dépend de T005 ; contrat : `contracts/composition.md`)
-- [ ] T011 [US2] Ajouter le contrôle de sauvegarde (champ nom + bouton) dans
+- [X] T011 [US2] Ajouter le contrôle de sauvegarde (champ nom + bouton) dans
       `compose-screen.tsx`, désactivé si la composition est vide, affichant l'erreur si
       `saveAsTemplate` renvoie `EMPTY_NAME` (dépend de T009, T010)
 
@@ -125,17 +125,17 @@ manuellement à cette étape).
 
 ### Implementation for User Story 3
 
-- [ ] T012 [US3] Implémenter `listTemplates(supabase)` dans `lib/sessions/queries.ts`
+- [X] T012 [US3] Implémenter `listTemplates(supabase)` dans `lib/sessions/queries.ts`
       (dépend de T002 ; contrat : `contracts/composition.md`)
-- [ ] T013 [US3] Implémenter `startSessionFromTemplate(supabase, templateId)` dans
+- [X] T013 [US3] Implémenter `startSessionFromTemplate(supabase, templateId)` dans
       `lib/sessions/mutations.ts` : crée une nouvelle séance (`source: 'template'`),
       copie `template_items` → `session_items`, appelle `startSession` (contrat du
       Lot 3) (dépend de T002)
-- [ ] T014 [US3] Implémenter `app/compose/templates/page.tsx` : liste des modèles
+- [X] T014 [US3] Implémenter `app/compose/templates/page.tsx` : liste des modèles
       (`listTemplates`, nom/nombre d'exercices/durée totale), action « démarrer » par
       modèle (`startSessionFromTemplate` puis navigation vers `/session/[id]`) (dépend
       de T012, T013)
-- [ ] T015 [P] [US3] Ajouter un lien entre `/compose` et `/compose/templates` dans les
+- [X] T015 [P] [US3] Ajouter un lien entre `/compose` et `/compose/templates` dans les
       deux sens (dépend de T009, T014)
 
 **Checkpoint**: les trois user stories fonctionnent indépendamment et ensemble.
@@ -144,10 +144,10 @@ manuellement à cette étape).
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 
-- [ ] T016 [P] Ajouter un lien vers `/compose` depuis `app/page.tsx`
-- [ ] T017 Exécuter `npm run typecheck`, `npm run lint` et `npm run test` ; corriger
+- [X] T016 [P] Ajouter un lien vers `/compose` depuis `app/page.tsx`
+- [X] T017 Exécuter `npm run typecheck`, `npm run lint` et `npm run test` ; corriger
       toute régression
-- [ ] T018 Dérouler `quickstart.md` de bout en bout, y compris l'étape 11 (reprise
+- [X] T018 Dérouler `quickstart.md` de bout en bout, y compris l'étape 11 (reprise
       après fermeture d'onglet)
 
 ---
