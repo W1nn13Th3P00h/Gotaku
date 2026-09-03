@@ -147,7 +147,7 @@ manuellement à cette étape).
 - [X] T016 [P] Ajouter un lien vers `/compose` depuis `app/page.tsx`
 - [X] T017 Exécuter `npm run typecheck`, `npm run lint` et `npm run test` ; corriger
       toute régression
-- [ ] T018 Dérouler `quickstart.md` de bout en bout, y compris l'étape 11 (reprise
+- [X] T018 Dérouler `quickstart.md` de bout en bout, y compris l'étape 11 (reprise
       après fermeture d'onglet)
 
 ---
