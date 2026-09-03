@@ -72,6 +72,13 @@ export default async function Home() {
         Historique
       </Link>
 
+      <Link
+        href="/settings"
+        className="w-full rounded-lg border border-border py-3 text-center text-sm font-medium"
+      >
+        Réglages
+      </Link>
+
       <form action="/auth/signout" method="post">
         <button
           type="submit"
