@@ -16,6 +16,8 @@ export type BankFilters = {
 }
 
 export type ExerciseSummary = {
+  /** Utilisé pour rattacher un exercice à une composition (Lot 4) — jamais affiché tel quel. */
+  id: string
   slug: string
   name: string
   type: ExerciseType
@@ -47,6 +49,7 @@ export type ZoneCoverageRow = {
  * présents (garde contre une sélection élargie par erreur, par ex. `select('*')`).
  */
 export type RawExerciseRow = {
+  id: string
   slug: string
   name: string
   type: ExerciseType
@@ -81,6 +84,7 @@ export function mapExerciseRow(
   }
 
   const summary: ExerciseSummary = {
+    id: row.id,
     slug: row.slug,
     name: row.name,
     type: row.type,
@@ -102,6 +106,7 @@ export function mapExerciseRow(
 }
 
 const EXERCISE_SUMMARY_COLUMNS = `
+  id,
   slug,
   name,
   type,

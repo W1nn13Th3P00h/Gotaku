@@ -15,6 +15,8 @@ import {
 import type { EquipmentCode, ExerciseType, ZoneCode } from '@/lib/referentials'
 import { createClient } from '@/lib/supabase/server'
 
+import { AddToCompositionButton } from '@/app/bank/add-to-composition-button'
+
 export const metadata = { title: 'Banque — Gokaku' }
 
 type RawSearchParams = Record<string, string | string[] | undefined>
@@ -57,9 +59,14 @@ export default async function BankPage({
     <main className="mx-auto max-w-md p-6 pb-16">
       <div className="flex items-baseline justify-between">
         <h1 className="text-2xl font-semibold tracking-tight">Banque</h1>
-        <Link href="/bank/coverage" className="text-sm text-accent underline underline-offset-2">
-          Couverture
-        </Link>
+        <div className="flex gap-4">
+          <Link href="/compose" className="text-sm text-accent underline underline-offset-2">
+            Composition
+          </Link>
+          <Link href="/bank/coverage" className="text-sm text-accent underline underline-offset-2">
+            Couverture
+          </Link>
+        </div>
       </div>
       <p className="mt-1 text-sm text-muted">{exercises.length} exercice(s).</p>
 
@@ -150,10 +157,10 @@ export default async function BankPage({
       ) : (
         <ul className="mt-6 divide-y divide-border rounded-xl border border-border">
           {exercises.map((exercise) => (
-            <li key={exercise.slug}>
+            <li key={exercise.slug} className="flex items-center gap-3 p-4">
               <Link
                 href={`/bank/${exercise.slug}`}
-                className="flex items-center justify-between gap-4 p-4"
+                className="flex flex-1 items-center justify-between gap-4"
               >
                 <div>
                   <p className="font-medium">{exercise.name}</p>
@@ -168,6 +175,7 @@ export default async function BankPage({
                   {formatDurationShort(exercise.durationTargetS)}
                 </span>
               </Link>
+              <AddToCompositionButton exerciseId={exercise.id} />
             </li>
           ))}
         </ul>

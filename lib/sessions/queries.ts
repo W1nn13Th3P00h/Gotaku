@@ -1,5 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
+import { computeTotalDurationS } from '@/lib/sessions/composition'
 import type { ItemStatus } from '@/lib/session-player/types'
 import type { ZoneCode } from '@/lib/referentials'
 
@@ -293,5 +294,164 @@ export async function getHistorySummary30d(
     secondsWorked: row.seconds_worked,
     sessionCount: row.session_count,
     totalVolumeS: row.total_volume_s,
+  }))
+}
+
+/**
+ * Lecture pour la composition manuelle (Lot 4) — voir
+ * `specs/003-manual-session-templates/data-model.md`.
+ */
+
+export type CompositionItem = {
+  id: string
+  exerciseId: string
+  ord: number
+  name: string
+  durationS: number
+  perSide: boolean
+  /** Bornes de l'exercice rattaché, pour le clampage côté interface. */
+  minS: number
+  maxS: number
+}
+
+export type CompositionForEdit = {
+  sessionId: string
+  items: CompositionItem[]
+  /** Recalculée à la lecture (× 2 si `perSide`), jamais relue telle quelle depuis la base. */
+  totalDurationS: number
+  isEmpty: boolean
+}
+
+export type TemplateSummary = {
+  id: string
+  name: string
+  itemCount: number
+  totalDurationS: number
+}
+
+type RawCompositionItemRow = {
+  id: string
+  exercise_id: string
+  ord: number
+  duration_s: number
+  per_side: boolean
+  exercises: { name: string; duration_min_s: number; duration_max_s: number } | null
+}
+
+type RawCompositionRow = {
+  id: string
+  session_items: RawCompositionItemRow[]
+}
+
+const COMPOSITION_COLUMNS = `
+  id,
+  session_items (
+    id,
+    exercise_id,
+    ord,
+    duration_s,
+    per_side,
+    exercises ( name, duration_min_s, duration_max_s )
+  )
+`
+
+function mapCompositionRow(row: RawCompositionRow): CompositionForEdit {
+  const items = [...row.session_items]
+    .sort((a, b) => a.ord - b.ord)
+    .map((it): CompositionItem => {
+      // Comme `getSessionForExecution` : un item sans exercice rattaché est une
+      // corruption de données (clé étrangère non nulle), pas un cas à absorber.
+      if (!it.exercises) throw new Error(`item de composition sans exercice rattaché : ${it.id}`)
+
+      return {
+        id: it.id,
+        exerciseId: it.exercise_id,
+        ord: it.ord,
+        name: it.exercises.name,
+        durationS: it.duration_s,
+        perSide: it.per_side,
+        minS: it.exercises.duration_min_s,
+        maxS: it.exercises.duration_max_s,
+      }
+    })
+
+  return {
+    sessionId: row.id,
+    items,
+    totalDurationS: computeTotalDurationS(items),
+    isEmpty: items.length === 0,
+  }
+}
+
+/**
+ * Cherche la composition manuelle en cours de l'utilisateur (`status = 'draft'
+ * AND source = 'manual'`) ; en crée une si aucune n'existe. Ne renvoie jamais
+ * `null` (voir `research.md` § Une seule composition active à la fois).
+ */
+export async function getOrCreateDraftComposition(
+  supabase: SupabaseClient,
+): Promise<CompositionForEdit> {
+  const { data: existingRows, error: selectError } = await supabase
+    .from('sessions')
+    .select(COMPOSITION_COLUMNS)
+    .eq('status', 'draft')
+    .eq('source', 'manual')
+    .order('created_at', { ascending: false })
+    .limit(1)
+
+  if (selectError) throw selectError
+
+  const existing = (existingRows as unknown as RawCompositionRow[] | null)?.[0]
+  if (existing) return mapCompositionRow(existing)
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser()
+  if (userError) throw userError
+  if (!user) throw new Error('getOrCreateDraftComposition appelée sans utilisateur authentifié')
+
+  // `target_duration_s`/`seed` n'ont pas de sens pour une composition manuelle
+  // (colonnes du générateur) : 0 en placeholder, `target_duration_s` étant tenu
+  // à jour par les mutations de composition (voir `mutations.ts`).
+  const { data: created, error: insertError } = await supabase
+    .from('sessions')
+    .insert({ user_id: user.id, status: 'draft', source: 'manual', target_duration_s: 0, seed: 0 })
+    .select(COMPOSITION_COLUMNS)
+    .single()
+
+  if (insertError) throw insertError
+
+  return mapCompositionRow(created as unknown as RawCompositionRow)
+}
+
+type RawTemplateRow = {
+  id: string
+  name: string
+  template_items: { duration_s: number; per_side: boolean }[]
+}
+
+const TEMPLATE_SUMMARY_COLUMNS = `
+  id,
+  name,
+  template_items ( duration_s, per_side )
+`
+
+/** Tous les modèles de l'utilisateur, les plus récents en premier. */
+export async function listTemplates(supabase: SupabaseClient): Promise<TemplateSummary[]> {
+  const { data, error } = await supabase
+    .from('session_templates')
+    .select(TEMPLATE_SUMMARY_COLUMNS)
+    .order('created_at', { ascending: false })
+
+  if (error) throw error
+
+  return ((data ?? []) as unknown as RawTemplateRow[]).map((row) => ({
+    id: row.id,
+    name: row.name,
+    itemCount: row.template_items.length,
+    totalDurationS: computeTotalDurationS(
+      row.template_items.map((item) => ({ durationS: item.duration_s, perSide: item.per_side })),
+    ),
   }))
 }

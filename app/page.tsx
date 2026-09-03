@@ -59,6 +59,13 @@ export default async function Home() {
       </Link>
 
       <Link
+        href="/compose"
+        className="w-full rounded-lg border border-border py-3 text-center text-sm font-medium"
+      >
+        Composer une séance
+      </Link>
+
+      <Link
         href="/history"
         className="w-full rounded-lg border border-border py-3 text-center text-sm font-medium"
       >
