@@ -176,14 +176,22 @@ les plus faibles sont visuellement distinguées.
       quand l'écran Accueil réel de `docs/spec.md` sera construit
 - [X] T016 Exécuter `npm run typecheck`, `npm run lint` et `npm run test` ; corriger
       toute régression avant de committer (gate non négociable, `CLAUDE.md`)
-- [ ] T017 Dérouler `quickstart.md` de bout en bout dans `npm run dev` — reste à faire
-      manuellement par l'utilisateur : les écrans sont protégés par l'auth, pas
-      testable sans se connecter avec un vrai compte. Vérifié à la place par script
-      (clé de service, RLS contournée) contre le projet hébergé une fois `npm run
-      seed` exécuté : `listExercises` (330 actifs, filtre zone, recherche texte),
-      `getExerciseBySlug` (trouvé et absent) et `getZoneCoverage` (26 zones, total
-      702 = zone_links du seed, zones sous-alimentées identiques à `docs/roadmap.md`)
-      fonctionnent tous sans erreur sur les vraies données
+- [X] T017 Dérouler `quickstart.md` de bout en bout dans `npm run dev` — fait avec un
+      vrai compte (identifiants fournis par l'utilisateur), via un script
+      d'authentification `@supabase/ssr` + fetch contre le serveur de dev réel (pas
+      de navigateur disponible dans cet environnement, mais mêmes cookies de
+      session, mêmes routes, même rendu serveur) :
+      - `/bank` (200, connecté) : liste des 330 exercices
+      - `/bank?search=zzzzzzznothing` : message explicite « Aucun exercice ne
+        correspond… » (FR-011), pas de liste vide muette
+      - `/bank?zone=neck&type=passive_stretch` : 2 résultats, filtres combinés par ET
+      - `/bank/wall-assisted-achilles-stretch` : fiche complète correcte (nom, type,
+        zones, matériel « Aucun », « Jamais fait » en dernière exécution, instructions,
+        contre-indications « Aucune renseignée »), aucune position ni intensité visible
+      - `/bank/ce-slug-nexiste-pas` : 404
+      - `/bank/coverage` : 26 zones, mêmes comptes que la vérification par service
+        role (total 702), zones sous-alimentées identiques à `docs/roadmap.md`
+      Aucun script ni identifiant conservé après coup.
 
 ---
 
