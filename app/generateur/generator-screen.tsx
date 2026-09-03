@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 
 import type { CatalogExercise } from '@/lib/bank/catalog'
 import { costForDuration } from '@/lib/generator/cost'
+import { suggestRecovery } from '@/lib/generator/failure-actions'
 import { generateSession } from '@/lib/generator/generate'
 import { replaceExercise } from '@/lib/generator/replace'
 import type { ExerciseId, FailureDetail, GeneratorInput } from '@/lib/generator/types'
@@ -45,6 +46,18 @@ function failureMessage(detail: FailureDetail): string {
       return `Durée trop courte : le plus petit exercice possible demande déjà ${Math.ceil(detail.minViableDurationS / 60)} min. Choisis une durée plus longue.`
     case 'ZONES_UNSERVABLE':
       return `Trop de zones pour la durée choisie : ${detail.droppedZones.map(zoneLabel).join(', ')} ne pourrai${detail.droppedZones.length > 1 ? 'en' : ''}t pas être couverte${detail.droppedZones.length > 1 ? 's' : ''}. Réduis les zones ou augmente la durée.`
+  }
+}
+
+/** Libellé de l'action de relance en un tap, alignée sur le motif d'échec courant. */
+function recoveryLabel(detail: FailureDetail, suggestion: GeneratorInput): string {
+  switch (detail.reason) {
+    case 'ZONES_UNSERVABLE':
+      return 'Continuer avec les zones couvrables'
+    case 'BUDGET_TOO_SMALL':
+      return `Générer en ${Math.round(suggestion.targetDurationS / 60)} min`
+    case 'EMPTY_CATALOG':
+      return 'Relancer sans matériel'
   }
 }
 
@@ -125,6 +138,15 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
     runGeneration(currentInput())
   }
 
+  function onRecover(suggestion: GeneratorInput) {
+    // Le formulaire reste la source de vérité pour toute relance ultérieure
+    // (régénérer, revenir au formulaire) : on le resynchronise avec la suggestion.
+    setTargetDurationMin(suggestion.targetDurationS / 60)
+    setZones(suggestion.zones)
+    setEquipment(suggestion.equipment)
+    runGeneration(suggestion)
+  }
+
   function onReplace(index: number) {
     if (view.kind !== 'preview') return
     const currentItems = view.items.map((i) => ({ exercise: i.exercise, durationS: i.durationS }))
@@ -169,16 +191,30 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
   }
 
   if (view.kind === 'failure') {
+    const suggestion = suggestRecovery(view.detail, currentInput(), DURATION_PRESETS_MIN)
     return (
       <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-6 p-6">
         <div>
           <h1 className="text-xl font-semibold tracking-tight">Séance impossible</h1>
           <p className="mt-2 text-sm text-muted">{failureMessage(view.detail)}</p>
         </div>
+        {suggestion !== null ? (
+          <button
+            type="button"
+            onClick={() => onRecover(suggestion)}
+            className="w-full rounded-lg bg-accent py-3 text-sm font-medium text-accent-foreground"
+          >
+            {recoveryLabel(view.detail, suggestion)}
+          </button>
+        ) : null}
         <button
           type="button"
           onClick={onBackToForm}
-          className="w-full rounded-lg bg-accent py-3 text-sm font-medium text-accent-foreground"
+          className={
+            suggestion !== null
+              ? 'w-full rounded-lg border border-border py-3 text-sm font-medium'
+              : 'w-full rounded-lg bg-accent py-3 text-sm font-medium text-accent-foreground'
+          }
         >
           Modifier les critères
         </button>

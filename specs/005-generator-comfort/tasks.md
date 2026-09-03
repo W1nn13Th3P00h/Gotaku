@@ -54,7 +54,7 @@ qui relance la génération avec les critères corrigés.
 
 ### Tests for User Story 1
 
-- [ ] T001 [P] [US1] Écrire les tests Vitest dans
+- [x] T001 [P] [US1] Écrire les tests Vitest dans
       `lib/generator/failure-actions.test.ts` pour `suggestRecovery` : `ZONES_UNSERVABLE`
       retire les zones non couvrables ; `BUDGET_TOO_SMALL` retient le premier preset de
       durée ≥ la durée minimale viable (et le plus grand si aucun ne l'atteint) ;
@@ -63,10 +63,10 @@ qui relance la génération avec les critères corrigés.
 
 ### Implementation for User Story 1
 
-- [ ] T002 [US1] Implémenter `suggestRecovery` dans
+- [x] T002 [US1] Implémenter `suggestRecovery` dans
       `lib/generator/failure-actions.ts` (dépend de T001 ; fait passer T001 ; contrat :
       `contracts/failure-actions.md`)
-- [ ] T003 [US1] Dans `app/generateur/generator-screen.tsx`, sur l'écran d'échec :
+- [x] T003 [US1] Dans `app/generateur/generator-screen.tsx`, sur l'écran d'échec :
       appeler `suggestRecovery` avec le détail courant, et si le résultat n'est pas
       `null`, afficher un bouton d'action qui relance `runGeneration` avec cet input ;
       conserver dans tous les cas le bouton « Modifier les critères » déjà existant
