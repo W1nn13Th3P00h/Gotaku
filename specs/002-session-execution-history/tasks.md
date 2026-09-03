@@ -195,7 +195,7 @@ jours, ouvrir `/history` et vérifier liste et synthèse.
 - [X] T025 [P] Ajouter un lien vers `/history` depuis `app/page.tsx`
 - [X] T026 Exécuter `npm run typecheck`, `npm run lint` et `npm run test` ; corriger
       toute régression avant de committer
-- [ ] T027 Dérouler `quickstart.md` de bout en bout dans `npm run dev`
+- [X] T027 Dérouler `quickstart.md` de bout en bout dans `npm run dev`
 
 ---
 
