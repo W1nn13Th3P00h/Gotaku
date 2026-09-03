@@ -246,7 +246,7 @@ jours, ouvrir `/history` et vérifier liste et synthèse.
 
 ## Phase 7: Convergence
 
-- [ ] T028 Sur `app/history/page.tsx`, trier ou mettre en évidence visuellement les
+- [x] T028 Sur `app/history/page.tsx`, trier ou mettre en évidence visuellement les
       zones les plus et les moins travaillées de la synthèse 30 jours (actuellement
       listées dans l'ordre du référentiel, sans tri ni distinction visuelle), pour que
       l'utilisateur les identifie sans comparaison manuelle des volumes affichés, comme

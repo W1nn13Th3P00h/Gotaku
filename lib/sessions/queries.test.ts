@@ -3,6 +3,7 @@ import type { PGlite } from '@electric-sql/pglite'
 
 import { createTestDb } from '@/lib/db/test-db'
 import { ZONE_CODES } from '@/lib/referentials'
+import { sortHistorySummaryByVolume, type HistorySummary30d } from '@/lib/sessions/queries'
 
 /**
  * La fonction SQL `session_history_summary()` est le seul endroit où un bug
@@ -138,5 +139,29 @@ describe('session_history_summary()', () => {
     expect(rows.every((r) => r.seconds_worked === 0)).toBe(true)
     expect(rows[0]?.session_count).toBe(0)
     expect(rows[0]?.total_volume_s).toBe(0)
+  })
+})
+
+describe('sortHistorySummaryByVolume()', () => {
+  function row(zoneCode: string, secondsWorked: number): HistorySummary30d {
+    return { zoneCode: zoneCode as HistorySummary30d['zoneCode'], secondsWorked, sessionCount: 1, totalVolumeS: 600 }
+  }
+
+  it('trie par volume décroissant, la zone la plus travaillée en tête', () => {
+    const input = [row('abs', 30), row('quads', 90), row('neck', 60)]
+    const sorted = sortHistorySummaryByVolume(input)
+    expect(sorted.map((r) => r.zoneCode)).toEqual(['quads', 'neck', 'abs'])
+  })
+
+  it('conserve l\'ordre du référentiel entre zones à volume égal (tri stable)', () => {
+    const input = [row('abs', 30), row('quads', 30), row('neck', 60)]
+    const sorted = sortHistorySummaryByVolume(input)
+    expect(sorted.map((r) => r.zoneCode)).toEqual(['neck', 'abs', 'quads'])
+  })
+
+  it("ne modifie pas le tableau d'entrée", () => {
+    const input = [row('abs', 30), row('quads', 90)]
+    sortHistorySummaryByVolume(input)
+    expect(input.map((r) => r.zoneCode)).toEqual(['abs', 'quads'])
   })
 })
