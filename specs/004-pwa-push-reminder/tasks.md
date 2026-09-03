@@ -225,7 +225,7 @@ sur téléphone restent les étapes manuelles de `quickstart.md`.
 
 ## Phase 7: Convergence
 
-- [x] T022 Rendre `createTestDb()` (`lib/db/test-db.ts`) tolérant à l'indisponibilité de
+- [ ] T022 Rendre `createTestDb()` (`lib/db/test-db.ts`) tolérant à l'indisponibilité de
       `pg_cron`/`pg_net` sous PGlite : la migration de ce lot,
       `supabase/migrations/20260903120000_reminders_cron.sql`, active ces deux
       extensions, absentes de PGlite, ce qui fait actuellement échouer
