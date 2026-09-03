@@ -3,6 +3,7 @@
 import { useMemo, useState } from 'react'
 
 import type { CatalogExercise } from '@/lib/bank/catalog'
+import { TOLERANCE_S } from '@/lib/generator/constants'
 import { costForDuration } from '@/lib/generator/cost'
 import { suggestRecovery } from '@/lib/generator/failure-actions'
 import { generateSession } from '@/lib/generator/generate'
@@ -86,6 +87,7 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
   const [requiredType, setRequiredType] = useState<ExerciseType | ''>('')
   const [maxIntensity, setMaxIntensity] = useState<1 | 2 | 3 | ''>('')
   const [preferNeglectedZones, setPreferNeglectedZones] = useState(false)
+  const [toleranceS, setToleranceS] = useState<number>(TOLERANCE_S)
 
   const [view, setView] = useState<ViewState>({ kind: 'form' })
 
@@ -106,6 +108,7 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
       requiredTypes: requiredType ? [requiredType] : undefined,
       maxIntensity: maxIntensity || undefined,
       preferNeglectedZones,
+      toleranceS,
     }
   }
 
@@ -462,6 +465,17 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
               className="h-4 w-4 rounded border-border"
             />
             Prioriser les zones délaissées
+          </label>
+          <label className="flex flex-col gap-1 text-xs text-muted">
+            Tolérance sur la durée totale (secondes)
+            <input
+              type="number"
+              min={0}
+              step={5}
+              value={toleranceS}
+              onChange={(e) => setToleranceS(Math.max(0, Number(e.target.value) || 0))}
+              className="rounded-lg border border-border bg-transparent px-3 py-2 text-sm text-foreground"
+            />
           </label>
         </div>
       </details>

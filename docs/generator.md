@@ -16,6 +16,7 @@ type GeneratorInput = {
   requiredTypes?: ExerciseType[]; // au moins un exercice de chacun
   maxIntensity?: 1 | 2 | 3;
   preferNeglectedZones?: boolean; // défaut false
+  toleranceS?: number;            // défaut TOLERANCE_S (15) ; étape 5 uniquement
 };
 
 type GeneratorContext = {
@@ -41,7 +42,8 @@ NEVER_DONE_BONUS    = 1.2   // léger avantage aux exercices jamais réalisés
 NOISE_MIN           = 0.85
 NOISE_MAX           = 1.15
 ZONE_NEED_FLOOR     = 0.05  // une zone déjà servie garde un poids résiduel
-TOLERANCE_S         = 15    // écart accepté sur la durée totale finale
+TOLERANCE_S         = 15    // écart accepté sur la durée totale finale, valeur par
+                             // défaut de `input.toleranceS` (voir étape 5)
 TYPE_ORDER          = [massage, active_stretch, passive_stretch, muscle_activation]
 POSITION_ORDER      = [standing, wall, hanging, seated, quadruped, side_lying, supine, prone]
 ```
@@ -146,8 +148,15 @@ ne peut jamais réapparaître dans la même séance.
 candidat restant. C'est cet écart que l'ajustement absorbe, en jouant dans la plage
 autorisée de chaque exercice retenu.
 
+Le seuil utilisé est `input.toleranceS` si fourni, sinon `TOLERANCE_S`. C'est un champ
+optionnel de `GeneratorInput` : tout appelant qui ne le fournit pas garde exactement le
+comportement d'avant son introduction (rétrocompatible). Il n'agit que sur cette étape,
+jamais sur la correction du budget des étapes 1 à 4.
+
 ```
-if remaining > TOLERANCE_S:
+tolerance = input.toleranceS ?? TOLERANCE_S
+
+if remaining > tolerance:
     flex(i)  = (duration_max_s(i) - duration_target_s(i)) * (per_side(i) ? 2 : 1)
     total    = somme des flex
     si total > 0: répartir min(remaining, total) au prorata de flex(i),

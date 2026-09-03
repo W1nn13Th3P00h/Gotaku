@@ -118,22 +118,22 @@ option de l'écran de génération.
 
 ### Implementation for User Story 4
 
-- [ ] T006 [US4] Ajouter `toleranceS?: number` à `GeneratorInput` dans
+- [x] T006 [US4] Ajouter `toleranceS?: number` à `GeneratorInput` dans
       `lib/generator/types.ts`
-- [ ] T007 [US4] Modifier `adjustDurations` dans `lib/generator/adjust.ts` pour
+- [x] T007 [US4] Modifier `adjustDurations` dans `lib/generator/adjust.ts` pour
       accepter un troisième paramètre `toleranceS: number = TOLERANCE_S`, remplaçant
       la lecture directe de la constante importée (dépend de T006)
-- [ ] T008 [US4] Dans `generateSession` (`lib/generator/generate.ts`), passer
+- [x] T008 [US4] Dans `generateSession` (`lib/generator/generate.ts`), passer
       `input.toleranceS` à `adjustDurations` (dépend de T007)
-- [ ] T009 [US4] Ajouter un test dans `lib/generator/generate.test.ts` vérifiant
+- [x] T009 [US4] Ajouter un test dans `lib/generator/generate.test.ts` vérifiant
       qu'une `toleranceS` personnalisée (ex. 60s) élargit effectivement l'écart
       accepté, sans modifier aucun des 11 tests obligatoires existants (SC-003)
       (dépend de T008)
-- [ ] T010 [US4] Mettre à jour `docs/generator.md` : bloc de contrat
+- [x] T010 [US4] Mettre à jour `docs/generator.md` : bloc de contrat
       `GeneratorInput` et étape 5, pour documenter `toleranceS` et sa valeur par
       défaut (dépend de T006-T009 ; `CLAUDE.md` : ce document doit rester la source de
       vérité de l'algorithme)
-- [ ] T011 [US4] Ajouter le contrôle de tolérance dans le bloc Options de
+- [x] T011 [US4] Ajouter le contrôle de tolérance dans le bloc Options de
       `generator-screen.tsx`, valeur par défaut affichée = `TOLERANCE_S` actuel
       (dépend de T006, T008)
 
