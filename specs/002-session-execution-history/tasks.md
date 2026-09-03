@@ -31,7 +31,7 @@ Projet unique Next.js App Router : `app/session/[id]/`, `app/history/`,
 
 ## Phase 1: Setup
 
-- [ ] T001 [P] Créer les routes vides `app/session/[id]/page.tsx` (placeholder),
+- [X] T001 [P] Créer les routes vides `app/session/[id]/page.tsx` (placeholder),
       `app/session/[id]/session-player-screen.tsx` (`'use client'`, placeholder), et
       `app/history/page.tsx` (placeholder)
 
@@ -46,16 +46,16 @@ aussi bien pour démarrer une séance neuve (US1) que pour en reprendre une (US2
 
 **⚠️ CRITICAL**: aucune tâche US1/US2 ne démarre avant la fin de cette phase.
 
-- [ ] T002 [P] Définir dans `lib/session-player/types.ts` : `PlayerState`,
+- [X] T002 [P] Définir dans `lib/session-player/types.ts` : `PlayerState`,
       `PlayerItem`, `PlayerPhase` conformes à `data-model.md`
-- [ ] T003 [P] Définir dans `lib/sessions/queries.ts` les types `SessionForExecution`,
+- [X] T003 [P] Définir dans `lib/sessions/queries.ts` les types `SessionForExecution`,
       `HistorySessionRow`, `HistorySummary30d` conformes à `data-model.md`
-- [ ] T004 [P] Écrire le test Vitest dans `lib/session-player/reducer.test.ts` pour
+- [X] T004 [P] Écrire le test Vitest dans `lib/session-player/reducer.test.ts` pour
       `init(items, nowMs)` : une séance neuve (tous `pending`) démarre à l'index 0 ;
       une séance partiellement faite démarre au premier item `pending` ; une séance
       entièrement `done`/`skipped` retourne `phase: 'finished'` (doit échouer tant que
       T005 n'est pas fait — dépend de T002)
-- [ ] T005 Implémenter `init(items, nowMs)` dans `lib/session-player/reducer.ts`
+- [X] T005 Implémenter `init(items, nowMs)` dans `lib/session-player/reducer.ts`
       (dépend de T002, T004 ; contrat : `contracts/session-player.md`)
 
 **Checkpoint**: `npm run test` passe sur `reducer.test.ts` (le seul test présent à ce
@@ -74,16 +74,16 @@ dérouler `quickstart.md` étapes 1 à 8.
 
 ### Tests for User Story 1
 
-- [ ] T006 [P] [US1] Tests Vitest dans `lib/session-player/reducer.test.ts` pour
+- [X] T006 [P] [US1] Tests Vitest dans `lib/session-player/reducer.test.ts` pour
       `tick`/`pause`/`resume` : le temps restant se recalcule depuis l'horodatage de
       référence (pas de dérive sur des ticks irréguliers), `pause` fige le temps
       écoulé, `resume` repart exactement de ce point (scénarios d'acceptation US1 #2 à
       #4)
-- [ ] T007 [P] [US1] Tests Vitest pour `skip`/`back` : `skip` marque l'item `skipped`
+- [X] T007 [P] [US1] Tests Vitest pour `skip`/`back` : `skip` marque l'item `skipped`
       et avance immédiatement ; `back` remet l'item précédent à `pending` et redémarre
       son horodatage ; `back` sur le tout premier item est sans effet (scénarios #5,
       #6, edge cases correspondants)
-- [ ] T008 [P] [US1] Tests Vitest pour l'exercice asymétrique et la fin de séance :
+- [X] T008 [P] [US1] Tests Vitest pour l'exercice asymétrique et la fin de séance :
       la phase droite puis la phase gauche sont traitées comme deux exercices à part
       entière ; `skip` sur la phase droite enchaîne sur la phase gauche (pas sur
       l'exercice suivant) ; le dernier item traité (réalisé ou passé) fait passer
@@ -91,33 +91,33 @@ dérouler `quickstart.md` étapes 1 à 8.
 
 ### Implementation for User Story 1
 
-- [ ] T009 [US1] Implémenter `tick`, `pause`, `resume` dans
+- [X] T009 [US1] Implémenter `tick`, `pause`, `resume` dans
       `lib/session-player/reducer.ts` (dépend de T005 ; fait passer T006)
-- [ ] T010 [US1] Implémenter `skip`, `back` dans `lib/session-player/reducer.ts`
+- [X] T010 [US1] Implémenter `skip`, `back` dans `lib/session-player/reducer.ts`
       (dépend de T009 ; fait passer T007)
-- [ ] T011 [US1] Implémenter la gestion des deux phases d'un exercice asymétrique et
+- [X] T011 [US1] Implémenter la gestion des deux phases d'un exercice asymétrique et
       la transition vers `phase: 'finished'` dans `lib/session-player/reducer.ts`
       (dépend de T010 ; fait passer T008)
-- [ ] T012 [US1] Implémenter `getSessionForExecution`, `startSession`,
+- [X] T012 [US1] Implémenter `getSessionForExecution`, `startSession`,
       `markItemDone`, `markItemSkipped`, `completeSession` dans
       `lib/sessions/queries.ts` et `lib/sessions/mutations.ts` (dépend de T003 ;
       contrat : `contracts/sessions-queries.md`)
-- [ ] T013 [US1] Implémenter `app/session/[id]/page.tsx` : appelle
+- [X] T013 [US1] Implémenter `app/session/[id]/page.tsx` : appelle
       `getSessionForExecution`, `notFound()` si `null`, rend
       `<SessionPlayerScreen session={...} />` (dépend de T012)
-- [ ] T014 [US1] Implémenter `session-player-screen.tsx` : boucle
+- [X] T014 [US1] Implémenter `session-player-screen.tsx` : boucle
       `requestAnimationFrame` qui appelle `tick` avec `performance.now()`, affiche
       décompte/nom/instructions/zones/aperçu du suivant, boutons pause/passer/revenir
       reliés au reducer, appelle `startSession` au montage, `markItemDone`/
       `markItemSkipped` à chaque item terminé (dépend de T009, T010, T011, T013)
-- [ ] T015 [US1] Ajouter le contexte WebAudio dans `session-player-screen.tsx` :
+- [X] T015 [US1] Ajouter le contexte WebAudio dans `session-player-screen.tsx` :
       initialisé sur le tap « démarrer » (geste utilisateur), signal synthétisé à 3
       secondes de la fin de la phase courante et à chaque changement d'exercice/côté,
       jamais `navigator.vibrate` (dépend de T014)
-- [ ] T016 [US1] Ajouter le Screen Wake Lock dans `session-player-screen.tsx` :
+- [X] T016 [US1] Ajouter le Screen Wake Lock dans `session-player-screen.tsx` :
       demandé au démarrage, relâché à la sortie de l'écran (fin ou navigation hors de
       l'écran), repli silencieux si `navigator.wakeLock` est absent (dépend de T014)
-- [ ] T017 [US1] Implémenter l'écran de fin dans `session-player-screen.tsx` : durée
+- [X] T017 [US1] Implémenter l'écran de fin dans `session-player-screen.tsx` : durée
       réelle (écoulée depuis `started_at`), nombre d'exercices réalisés et passés,
       zones travaillées ; appelle `completeSession` quand `phase` devient `finished`
       (dépend de T011, T014)
@@ -137,14 +137,14 @@ correctement au premier item `pending`.
 
 ### Implementation for User Story 2
 
-- [ ] T018 [US2] Implémenter `getResumableSessionsToday` dans `lib/sessions/queries.ts`
+- [X] T018 [US2] Implémenter `getResumableSessionsToday` dans `lib/sessions/queries.ts`
       : séances dont le statut effectif n'est ni `completed` ni `abandoned` (voir
       `data-model.md` § Statut effectif) (dépend de T003 ; contrat :
       `contracts/sessions-queries.md`)
-- [ ] T019 [US2] Implémenter `revertItemToPending` dans `lib/sessions/mutations.ts`,
+- [X] T019 [US2] Implémenter `revertItemToPending` dans `lib/sessions/mutations.ts`,
       appelé par `session-player-screen.tsx` sur l'action « revenir » (dépend de T010,
       T012, T014)
-- [ ] T020 [P] [US2] Ajouter sur `app/page.tsx` (écran de socle du Lot 0) une section
+- [X] T020 [P] [US2] Ajouter sur `app/page.tsx` (écran de socle du Lot 0) une section
       listant les séances de `getResumableSessionsToday`, chacune avec un lien vers
       `/session/[id]` — à déplacer vers l'écran Accueil réel de `docs/spec.md` quand il
       existera (dépend de T018)
@@ -192,7 +192,7 @@ jours, ouvrir `/history` et vérifier liste et synthèse.
 
 ## Phase 6: Polish & Cross-Cutting Concerns
 
-- [ ] T025 [P] Ajouter un lien vers `/history` depuis `app/page.tsx`
+- [X] T025 [P] Ajouter un lien vers `/history` depuis `app/page.tsx`
 - [ ] T026 Exécuter `npm run typecheck`, `npm run lint` et `npm run test` ; corriger
       toute régression avant de committer
 - [ ] T027 Dérouler `quickstart.md` de bout en bout dans `npm run dev`
