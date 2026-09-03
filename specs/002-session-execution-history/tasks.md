@@ -193,7 +193,7 @@ jours, ouvrir `/history` et vérifier liste et synthèse.
 ## Phase 6: Polish & Cross-Cutting Concerns
 
 - [X] T025 [P] Ajouter un lien vers `/history` depuis `app/page.tsx`
-- [ ] T026 Exécuter `npm run typecheck`, `npm run lint` et `npm run test` ; corriger
+- [X] T026 Exécuter `npm run typecheck`, `npm run lint` et `npm run test` ; corriger
       toute régression avant de committer
 - [ ] T027 Dérouler `quickstart.md` de bout en bout dans `npm run dev`
 
