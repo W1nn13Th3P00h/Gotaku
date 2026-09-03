@@ -85,6 +85,7 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
   const [excludedType, setExcludedType] = useState<ExerciseType | ''>('')
   const [requiredType, setRequiredType] = useState<ExerciseType | ''>('')
   const [maxIntensity, setMaxIntensity] = useState<1 | 2 | 3 | ''>('')
+  const [preferNeglectedZones, setPreferNeglectedZones] = useState(false)
 
   const [view, setView] = useState<ViewState>({ kind: 'form' })
 
@@ -104,6 +105,7 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
       excludedTypes: excludedType ? [excludedType] : undefined,
       requiredTypes: requiredType ? [requiredType] : undefined,
       maxIntensity: maxIntensity || undefined,
+      preferNeglectedZones,
     }
   }
 
@@ -451,6 +453,15 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
               <option value={2}>2</option>
               <option value={3}>3</option>
             </select>
+          </label>
+          <label className="flex items-center gap-2 text-xs text-muted">
+            <input
+              type="checkbox"
+              checked={preferNeglectedZones}
+              onChange={(e) => setPreferNeglectedZones(e.target.checked)}
+              className="h-4 w-4 rounded border-border"
+            />
+            Prioriser les zones délaissées
           </label>
         </div>
       </details>

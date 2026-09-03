@@ -85,7 +85,7 @@ option de l'écran de génération.
 
 ### Implementation for User Story 2
 
-- [ ] T004 [US2] Ajouter une case à cocher « Prioriser les zones délaissées » dans le
+- [x] T004 [US2] Ajouter une case à cocher « Prioriser les zones délaissées » dans le
       bloc `<details>` Options de `generator-screen.tsx`, état
       `preferNeglectedZones` (défaut `false`) inclus dans `currentInput()`
 
