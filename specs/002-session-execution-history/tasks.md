@@ -241,3 +241,13 @@ jours, ouvrir `/history` et vérifier liste et synthèse.
 3. User Story 2 → valider seule → reprise fiable
 4. User Story 3 → valider seule → historique et synthèse
 5. Polish → gate `npm run typecheck && npm run lint && npm run test`
+
+---
+
+## Phase 7: Convergence
+
+- [ ] T028 Sur `app/history/page.tsx`, trier ou mettre en évidence visuellement les
+      zones les plus et les moins travaillées de la synthèse 30 jours (actuellement
+      listées dans l'ordre du référentiel, sans tri ni distinction visuelle), pour que
+      l'utilisateur les identifie sans comparaison manuelle des volumes affichés, comme
+      l'exige FR-016 (et SC-004) per FR-016 (partial)
