@@ -230,3 +230,68 @@ export async function getResumableSessionsToday(
     .map((row) => mapHistorySessionRow(row, now))
     .filter((row) => row.effectiveStatus === 'in_progress')
 }
+
+const HISTORY_WINDOW_DAYS = 30
+
+/**
+ * Séances `in_progress`/`completed` de l'utilisateur, triées par date
+ * décroissante, statut effectif calculé par ligne. Une composition `draft`
+ * (Lot 4) n'apparaît jamais ici.
+ *
+ * Triée par `started_at` (toujours renseigné dès qu'une séance est démarrée)
+ * plutôt que par `coalesce(completed_at, started_at)` : le query builder
+ * Supabase ne permet pas d'ordonner sur une expression calculée, et l'écart
+ * pratique entre les deux tris est nul pour un usage mono-utilisateur.
+ */
+export async function listSessionsForHistory(
+  supabase: SupabaseClient,
+): Promise<HistorySessionRow[]> {
+  const { data, error } = await supabase
+    .from('sessions')
+    .select(HISTORY_SESSION_COLUMNS)
+    .in('status', ['in_progress', 'completed'])
+    .order('started_at', { ascending: false })
+
+  if (error) throw error
+
+  const now = new Date()
+  return ((data ?? []) as unknown as RawHistorySessionRow[]).map((row) =>
+    mapHistorySessionRow(row, now),
+  )
+}
+
+type RawHistorySummaryRow = {
+  zone_code: ZoneCode
+  seconds_worked: number
+  session_count: number
+  total_volume_s: number
+}
+
+/**
+ * Synthèse des 30 derniers jours (RPC `session_history_summary`). `null` (pas
+ * un tableau vide) si aucune séance `completed` sur la fenêtre, pour que
+ * l'appelant affiche le message explicite requis par FR-017 plutôt qu'un
+ * tableau de zéros.
+ */
+export async function getHistorySummary30d(
+  supabase: SupabaseClient,
+): Promise<HistorySummary30d[] | null> {
+  const since = new Date()
+  since.setDate(since.getDate() - HISTORY_WINDOW_DAYS)
+
+  const { data, error } = await supabase.rpc('session_history_summary', {
+    since: since.toISOString(),
+  })
+
+  if (error) throw error
+
+  const rows = (data ?? []) as RawHistorySummaryRow[]
+  if (rows.length === 0 || rows[0]?.session_count === 0) return null
+
+  return rows.map((row) => ({
+    zoneCode: row.zone_code,
+    secondsWorked: row.seconds_worked,
+    sessionCount: row.session_count,
+    totalVolumeS: row.total_volume_s,
+  }))
+}

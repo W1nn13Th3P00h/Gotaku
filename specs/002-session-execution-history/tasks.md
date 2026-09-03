@@ -163,13 +163,13 @@ jours, ouvrir `/history` et vérifier liste et synthèse.
 
 ### Tests for User Story 3
 
-- [ ] T021 [P] [US3] Ajouter la migration
+- [X] T021 [P] [US3] Ajouter la migration
       `supabase/migrations/20260903100000_session_history_summary_fn.sql` créant la
       fonction SQL `session_history_summary(since timestamptz)` : part du référentiel
       `zones`, agrège le temps travaillé (× 2 si `per_side`) sur les séances
       `completed` dont `completed_at >= since`, retourne une ligne par zone y compris
       à zéro (voir `research.md`)
-- [ ] T022 [US3] Écrire le test Vitest (PGlite, `createTestDb()`) dans
+- [X] T022 [US3] Écrire le test Vitest (PGlite, `createTestDb()`) dans
       `lib/sessions/queries.test.ts` : insère des séances de test à des dates
       distinctes (certaines avant/après `since`, certaines `completed`/`abandoned` non
       pertinentes), un exercice `per_side`, et vérifie fenêtre, zone à zéro incluse, et
@@ -178,11 +178,11 @@ jours, ouvrir `/history` et vérifier liste et synthèse.
 
 ### Implementation for User Story 3
 
-- [ ] T023 [US3] Implémenter `getHistorySummary30d` (RPC `session_history_summary`,
+- [X] T023 [US3] Implémenter `getHistorySummary30d` (RPC `session_history_summary`,
       retourne `null` si aucune séance sur la fenêtre) et `listSessionsForHistory`
       (statut effectif calculé par ligne) dans `lib/sessions/queries.ts` (dépend de
       T022, T003 ; contrat : `contracts/sessions-queries.md`)
-- [ ] T024 [US3] Implémenter `app/history/page.tsx` : liste inversée des séances,
+- [X] T024 [US3] Implémenter `app/history/page.tsx` : liste inversée des séances,
       vue de synthèse, message explicite si `getHistorySummary30d` renvoie `null`
       (FR-017) (dépend de T023)
 
