@@ -17,8 +17,9 @@ dist/
 .env.test.local
 .env.production.local
 
-# tests
-coverage/
+# tests (ancré à la racine : sans le "/" initial, ce motif avale aussi
+# app/bank/coverage/, une route légitime, pas le rapport Vitest)
+/coverage/
 .vitest/
 
 # supabase local
