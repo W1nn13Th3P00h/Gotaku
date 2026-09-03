@@ -98,11 +98,17 @@ export function SettingsScreen({ reminder }: Props) {
   async function handleActivate() {
     if (activating) return
     setActivating(true)
-    // Pas besoin de lire le résultat ici : `getPermissionSnapshot` est relu à
-    // chaque rendu, y compris celui déclenché par `setActivating(false)`
-    // ci-dessous, donc reflète déjà l'état système à jour.
-    await subscribeToPush()
-    setActivating(false)
+    try {
+      // Pas besoin de lire le résultat ici : `getPermissionSnapshot` est relu
+      // à chaque rendu, y compris celui déclenché par `setActivating(false)`
+      // ci-dessous, donc reflète déjà l'état système à jour.
+      await subscribeToPush()
+    } finally {
+      // Toujours réactiver le bouton, même si `subscribeToPush` a levé (ex.
+      // NEXT_PUBLIC_VAPID_PUBLIC_KEY absente) : jamais bloqué en désactivé
+      // sans possibilité de réessayer.
+      setActivating(false)
+    }
   }
 
   const [timeLocal, setTimeLocal] = useState(reminder?.timeLocal ?? '07:00')
