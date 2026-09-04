@@ -467,3 +467,28 @@ export async function listTemplates(supabase: SupabaseClient): Promise<TemplateS
     ),
   }))
 }
+
+/**
+ * Dernière séance terminée, pour l'accueil (`docs/spec.md` § Accueil : « la date
+ * et la durée de la dernière séance »). `null` si aucune séance n'a jamais été
+ * menée à son terme.
+ *
+ * Trié sur `completed_at` et non `started_at` : c'est la date affichée pour une
+ * séance terminée, et une séance reprise tard le soir ne doit pas se faire
+ * dépasser par une séance plus ancienne mais démarrée plus tard.
+ */
+export async function getLastCompletedSession(
+  supabase: SupabaseClient,
+): Promise<HistorySessionRow | null> {
+  const { data, error } = await supabase
+    .from('sessions')
+    .select(HISTORY_SESSION_COLUMNS)
+    .eq('status', 'completed')
+    .order('completed_at', { ascending: false })
+    .limit(1)
+
+  if (error) throw error
+
+  const row = ((data ?? []) as unknown as RawHistorySessionRow[])[0]
+  return row ? mapHistorySessionRow(row, new Date()) : null
+}

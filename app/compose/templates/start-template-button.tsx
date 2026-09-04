@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
+import { Button } from '@/components/ui/button'
 import { startSessionFromTemplate } from '@/lib/sessions/mutations'
 import { createClient } from '@/lib/supabase/client'
 
@@ -23,13 +24,8 @@ export function StartTemplateButton({ templateId }: Props) {
   }
 
   return (
-    <button
-      type="button"
-      onClick={handleClick}
-      disabled={starting}
-      className="shrink-0 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-accent-foreground disabled:opacity-40"
-    >
-      Démarrer
-    </button>
+    <Button variant="primary" onClick={handleClick} disabled={starting} className="shrink-0">
+      {starting ? 'Démarrage…' : 'Démarrer'}
+    </Button>
   )
 }

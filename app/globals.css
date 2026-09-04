@@ -10,9 +10,12 @@
   --background: #ffffff;
   --foreground: #18181b;
   --muted: #71717a;
+  /* Fond légèrement contrasté, pour poser une carte sur la page sans bordure. */
+  --subtle: #f4f4f5;
   --border: #e4e4e7;
   --accent: #4f46e5;
   --accent-foreground: #ffffff;
+  --danger: #dc2626;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -20,9 +23,11 @@
     --background: #09090b;
     --foreground: #fafafa;
     --muted: #a1a1aa;
+    --subtle: #18181b;
     --border: #27272a;
     --accent: #818cf8;
     --accent-foreground: #09090b;
+    --danger: #f87171;
   }
 }
 
@@ -30,9 +35,11 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
+  --color-subtle: var(--subtle);
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-danger: var(--danger);
   --font-sans:
     ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
@@ -49,4 +56,36 @@ body {
   /* Marges de sécurité iOS, utiles dès que la PWA tourne en plein écran. */
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom)
     env(safe-area-inset-left);
+}
+
+/*
+ * Le halo gris de Safari iOS double le retour tactile des composants, qui ont
+ * déjà leur propre état `active:`. Il déborde en plus des coins arrondis.
+ */
+button,
+a,
+[role='button'],
+label,
+summary {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/*
+ * Anneau de focus unique pour toute l'interface. Posé ici plutôt que répété par
+ * composant : aucun élément tabulable ne peut passer à travers, y compris ceux
+ * qui ne viennent pas de `components/ui/`.
+ */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
 }

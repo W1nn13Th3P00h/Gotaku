@@ -2,6 +2,11 @@
 
 import { useEffect, useMemo, useState, useSyncExternalStore } from 'react'
 
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { Field, FormMessage, inputClasses } from '@/components/ui/field'
+import { BackLink, Page, PageHeader, Section } from '@/components/ui/page'
+import { ToggleChip } from '@/components/ui/chip'
 import { upsertReminder, type Reminder } from '@/lib/push/queries'
 import { subscribeToPush } from '@/lib/push/subscribe'
 import { createClient } from '@/lib/supabase/client'
@@ -125,9 +130,13 @@ export function SettingsScreen({ reminder }: Props) {
 
   const timezone = timezoneOverride ?? detectedTimezone
 
-  function toggleWeekday(value: number) {
+  function markDirty() {
     setSaveError(null)
     setSaved(false)
+  }
+
+  function toggleWeekday(value: number) {
+    markDirty()
     setWeekdays((prev) =>
       prev.includes(value) ? prev.filter((d) => d !== value) : [...prev, value].sort((a, b) => a - b),
     )
@@ -145,123 +154,117 @@ export function SettingsScreen({ reminder }: Props) {
   }
 
   return (
-    <main className="mx-auto max-w-md p-6">
-      <h1 className="text-2xl font-semibold tracking-tight">Réglages</h1>
+    <Page>
+      <BackLink href="/">Accueil</BackLink>
+
+      <div className="mt-2">
+        <PageHeader title="Réglages" />
+      </div>
 
       <section className="mt-6">
         {!installed ? (
-          <div className="rounded-xl border border-border p-4 text-sm">
+          <Card className="text-sm">
             <p className="font-medium">Ajoute Gokaku à ton écran d&apos;accueil</p>
             <p className="mt-2 text-muted">
               Dans Safari, appuie sur l&apos;icône de partage puis « Sur l&apos;écran d&apos;accueil ».
               Les notifications de rappel ne fonctionnent que depuis l&apos;application installée.
             </p>
-          </div>
+          </Card>
         ) : permission === 'granted' ? (
-          <p className="rounded-xl border border-border p-4 text-sm text-muted">
-            Notifications activées.
-          </p>
+          <Card className="text-sm text-muted">Notifications activées.</Card>
         ) : permission === 'denied' ? (
-          <p className="rounded-xl border border-border p-4 text-sm text-muted">
+          <Card className="text-sm text-muted">
             Notifications refusées. Pour les activer, change l&apos;autorisation dans les réglages du
             système, puis reviens ici.
-          </p>
+          </Card>
         ) : permission === 'unsupported' ? (
-          <p className="rounded-xl border border-border p-4 text-sm text-muted">
+          <Card className="text-sm text-muted">
             Les notifications ne sont pas prises en charge sur cet appareil.
-          </p>
+          </Card>
         ) : (
-          <button
-            type="button"
-            onClick={handleActivate}
-            disabled={activating}
-            className="w-full rounded-lg bg-accent py-4 text-base font-medium text-accent-foreground disabled:opacity-40"
-          >
-            Activer les notifications
-          </button>
+          <Button variant="primary" size="lg" block onClick={handleActivate} disabled={activating}>
+            {activating ? 'Activation…' : 'Activer les notifications'}
+          </Button>
         )}
       </section>
 
-      <section className="mt-8 rounded-xl border border-border p-4">
+      <Card className="mt-8">
         <h2 className="text-sm font-medium">Rappel quotidien</h2>
 
-        <label className="mt-4 flex items-center justify-between gap-3 text-sm">
-          Heure
-          <input
-            type="time"
-            value={timeLocal}
-            onChange={(e) => {
-              setTimeLocal(e.target.value)
-              setSaveError(null)
-              setSaved(false)
-            }}
-            className="rounded-lg border border-border bg-transparent px-3 py-2 text-base outline-none focus:border-accent"
-          />
-        </label>
+        <div className="mt-4 flex flex-col gap-4">
+          <Field label="Heure" inline>
+            <input
+              type="time"
+              value={timeLocal}
+              onChange={(e) => {
+                setTimeLocal(e.target.value)
+                markDirty()
+              }}
+              className={`${inputClasses} w-auto`}
+            />
+          </Field>
 
-        <fieldset className="mt-4">
-          <legend className="text-sm">Jours</legend>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {WEEKDAYS.map((day) => (
-              <button
-                key={day.value}
-                type="button"
-                onClick={() => toggleWeekday(day.value)}
-                aria-pressed={weekdays.includes(day.value)}
-                className={
-                  'rounded-lg border px-3 py-1.5 text-sm ' +
-                  (weekdays.includes(day.value)
-                    ? 'border-accent bg-accent text-accent-foreground'
-                    : 'border-border')
-                }
-              >
-                {day.label.slice(0, 3)}
-              </button>
-            ))}
-          </div>
-        </fieldset>
+          <fieldset>
+            <legend className="text-sm">Jours</legend>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {WEEKDAYS.map((day) => (
+                <ToggleChip
+                  key={day.value}
+                  selected={weekdays.includes(day.value)}
+                  onClick={() => toggleWeekday(day.value)}
+                >
+                  <span className="sr-only">{day.label}</span>
+                  <span aria-hidden="true">{day.label.slice(0, 3)}</span>
+                </ToggleChip>
+              ))}
+            </div>
+          </fieldset>
 
-        <label className="mt-4 flex flex-col gap-1 text-sm">
-          Fuseau horaire
-          <input
-            type="text"
-            value={timezone}
-            onChange={(e) => {
-              setTimezoneOverride(e.target.value)
-              setSaveError(null)
-              setSaved(false)
-            }}
-            className="w-full rounded-lg border border-border bg-transparent px-3 py-2 text-base outline-none focus:border-accent"
-          />
-        </label>
+          <Field label="Fuseau horaire">
+            <input
+              type="text"
+              value={timezone}
+              onChange={(e) => {
+                setTimezoneOverride(e.target.value)
+                markDirty()
+              }}
+              className={inputClasses}
+            />
+          </Field>
 
-        <label className="mt-4 flex items-center justify-between gap-3 text-sm">
-          Rappel actif
-          <input
-            type="checkbox"
-            checked={active}
-            onChange={(e) => {
-              setActive(e.target.checked)
-              setSaveError(null)
-              setSaved(false)
-            }}
-            className="h-5 w-5"
-          />
-        </label>
+          <Field label="Rappel actif" inline>
+            <input
+              type="checkbox"
+              checked={active}
+              onChange={(e) => {
+                setActive(e.target.checked)
+                markDirty()
+              }}
+              className="h-5 w-5 accent-accent"
+            />
+          </Field>
 
-        {saveError ? (
-          <p className="mt-3 text-sm text-red-600 dark:text-red-400">{saveError}</p>
-        ) : null}
-        {saved ? <p className="mt-3 text-sm text-muted">Rappel sauvegardé.</p> : null}
+          {saveError ? <FormMessage kind="error">{saveError}</FormMessage> : null}
+          {saved ? <FormMessage kind="success">Rappel sauvegardé.</FormMessage> : null}
 
-        <button
-          type="button"
-          onClick={handleSave}
-          className="mt-4 w-full rounded-lg bg-accent py-3 text-sm font-medium text-accent-foreground"
-        >
-          Sauvegarder
-        </button>
-      </section>
-    </main>
+          <Button variant="primary" block onClick={handleSave}>
+            Sauvegarder
+          </Button>
+        </div>
+      </Card>
+
+      {/*
+        La déconnexion vit ici et non sur l'accueil : `docs/spec.md` limite
+        l'accueil à la génération, au rappel, à la dernière séance et aux accès
+        modèles/banque/historique, « rien d'autre ».
+      */}
+      <Section title="Compte" className="mt-8">
+        <form action="/auth/signout" method="post">
+          <Button type="submit" block>
+            Se déconnecter
+          </Button>
+        </form>
+      </Section>
+    </Page>
   )
 }

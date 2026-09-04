@@ -42,7 +42,7 @@ const WEEKDAY_NAMES = [
   'Sunday',
 ] as const
 
-function parseTimeLocalToMinutes(timeLocal: string): number {
+export function parseTimeLocalToMinutes(timeLocal: string): number {
   const [hourStr, minuteStr] = timeLocal.split(':')
   return Number(hourStr) * 60 + Number(minuteStr)
 }
@@ -52,7 +52,7 @@ function parseTimeLocalToMinutes(timeLocal: string): number {
  * minuit local, dans `timezone`, à `date`. `Intl.DateTimeFormat` : disponible
  * nativement en Node/Vitest comme en Deno, aucune bibliothèque de dates tierce.
  */
-function localWeekdayAndMinutes(
+export function localWeekdayAndMinutes(
   date: Date,
   timezone: string,
 ): { weekday: number; minutesSinceMidnight: number } {

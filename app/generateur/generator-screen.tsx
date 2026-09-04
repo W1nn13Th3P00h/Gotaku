@@ -10,6 +10,12 @@ import { generateSession } from '@/lib/generator/generate'
 import { replaceExercise } from '@/lib/generator/replace'
 import type { ExerciseId, FailureDetail, GeneratorInput } from '@/lib/generator/types'
 import { DURATION_PRESETS_MIN, ZONE_PRESETS } from '@/lib/presets'
+import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import { ToggleChip } from '@/components/ui/chip'
+import { Field, inputClasses, selectClasses } from '@/components/ui/field'
+import { BackLink, Page, PageHeader, Section } from '@/components/ui/page'
+import { StickyBar } from '@/components/ui/sticky-bar'
 import {
   EQUIPMENT,
   EXERCISE_TYPES,
@@ -198,32 +204,22 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
   if (view.kind === 'failure') {
     const suggestion = suggestRecovery(view.detail, currentInput(), DURATION_PRESETS_MIN)
     return (
-      <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-6 p-6">
-        <div>
-          <h1 className="text-xl font-semibold tracking-tight">Séance impossible</h1>
-          <p className="mt-2 text-sm text-muted">{failureMessage(view.detail)}</p>
-        </div>
+      <Page layout="centered">
+        <PageHeader title="Séance impossible" subtitle={failureMessage(view.detail)} />
         {suggestion !== null ? (
-          <button
-            type="button"
-            onClick={() => onRecover(suggestion)}
-            className="w-full rounded-lg bg-accent py-3 text-sm font-medium text-accent-foreground"
-          >
+          <Button variant="primary" size="lg" block onClick={() => onRecover(suggestion)}>
             {recoveryLabel(view.detail, suggestion)}
-          </button>
+          </Button>
         ) : null}
-        <button
-          type="button"
+        <Button
+          variant={suggestion !== null ? 'secondary' : 'primary'}
+          size="lg"
+          block
           onClick={onBackToForm}
-          className={
-            suggestion !== null
-              ? 'w-full rounded-lg border border-border py-3 text-sm font-medium'
-              : 'w-full rounded-lg bg-accent py-3 text-sm font-medium text-accent-foreground'
-          }
         >
           Modifier les critères
-        </button>
-      </main>
+        </Button>
+      </Page>
     )
   }
 
@@ -233,261 +229,281 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
       0,
     )
     const targetDurationS = targetDurationMin * 60
+    const deltaS = totalDurationS - targetDurationS
 
     return (
-      <main className="mx-auto flex min-h-dvh max-w-md flex-col gap-6 p-6">
-        <div>
-          <h1 className="text-xl font-semibold tracking-tight">Aperçu de la séance</h1>
-          <p className="mt-1 text-sm text-muted">
-            {Math.round(totalDurationS / 60)} min générées pour {Math.round(targetDurationS / 60)} min
-            demandées
-          </p>
-          {view.unmetRequiredTypes.length > 0 ? (
-            <p className="mt-1 text-sm text-muted">
-              Type{view.unmetRequiredTypes.length > 1 ? 's' : ''} imposé
-              {view.unmetRequiredTypes.length > 1 ? 's' : ''} non trouvé
-              {view.unmetRequiredTypes.length > 1 ? 's' : ''} :{' '}
-              {view.unmetRequiredTypes.map((t) => EXERCISE_TYPE_LABELS[t]).join(', ')}
-            </p>
-          ) : null}
-        </div>
-
-        <ol className="flex flex-col gap-2">
-          {view.items.map((item, index) => (
-            <li
-              key={`${item.exercise.id}-${index}`}
-              className="flex flex-col gap-2 rounded-xl border border-border p-4"
-            >
-              <div className="flex items-baseline justify-between gap-2">
-                <span className="text-sm font-medium">{item.exercise.name}</span>
-                <span className="text-sm text-muted">
-                  {item.durationS}s{item.exercise.symmetry === 'asymmetric' ? ' / côté' : ''}
+      <Page className="pb-32">
+        <PageHeader
+          title="Aperçu de la séance"
+          subtitle={
+            <>
+              {view.items.length} exercice{view.items.length > 1 ? 's' : ''} ·{' '}
+              <span className="tabular-nums">{Math.round(totalDurationS / 60)} min</span> pour{' '}
+              <span className="tabular-nums">{Math.round(targetDurationS / 60)} min</span> demandées
+              {/* L'écart est le seul chiffre que le spec demande de comparer :
+                  autant l'écrire plutôt que le laisser calculer. */}
+              {Math.abs(deltaS) >= 30 ? (
+                <span className="text-muted">
+                  {' '}
+                  ({deltaS > 0 ? '+' : '−'}
+                  {Math.round(Math.abs(deltaS) / 60)} min)
                 </span>
-              </div>
-              <p className="text-xs text-muted">
-                {EXERCISE_TYPE_LABELS[item.exercise.type]} · {zoneLabel(item.exercise.primary_zone)}
-              </p>
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => onMove(index, -1)}
-                  disabled={index === 0}
-                  className="rounded-lg border border-border px-3 py-1.5 text-xs disabled:opacity-30"
-                  aria-label="Monter"
-                >
-                  ↑
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onMove(index, 1)}
-                  disabled={index === view.items.length - 1}
-                  className="rounded-lg border border-border px-3 py-1.5 text-xs disabled:opacity-30"
-                  aria-label="Descendre"
-                >
-                  ↓
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onReplace(index)}
-                  className="rounded-lg border border-border px-3 py-1.5 text-xs"
-                >
-                  Remplacer
-                </button>
-                <button
-                  type="button"
-                  onClick={() => onRemove(index)}
-                  className="rounded-lg border border-border px-3 py-1.5 text-xs"
-                >
-                  Retirer
-                </button>
-              </div>
+              ) : null}
+            </>
+          }
+        />
+
+        {view.unmetRequiredTypes.length > 0 ? (
+          <Card className="mt-4 text-sm text-muted">
+            Type{view.unmetRequiredTypes.length > 1 ? 's' : ''} imposé
+            {view.unmetRequiredTypes.length > 1 ? 's' : ''} non trouvé
+            {view.unmetRequiredTypes.length > 1 ? 's' : ''} :{' '}
+            {view.unmetRequiredTypes.map((t) => EXERCISE_TYPE_LABELS[t]).join(', ')}
+          </Card>
+        ) : null}
+
+        <ol className="mt-6 flex flex-col gap-3">
+          {view.items.map((item, index) => (
+            <li key={`${item.exercise.id}-${index}`}>
+              <Card>
+                <div className="flex items-baseline justify-between gap-3">
+                  <span className="text-sm font-medium">
+                    <span className="mr-2 text-muted tabular-nums">{index + 1}</span>
+                    {item.exercise.name}
+                  </span>
+                  <span className="shrink-0 text-sm text-muted tabular-nums">
+                    {item.durationS}s{item.exercise.symmetry === 'asymmetric' ? ' / côté' : ''}
+                  </span>
+                </div>
+                <p className="mt-1 text-xs text-muted">
+                  {EXERCISE_TYPE_LABELS[item.exercise.type]} · {zoneLabel(item.exercise.primary_zone)}
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <Button
+                    size="sm"
+                    onClick={() => onMove(index, -1)}
+                    disabled={index === 0}
+                    aria-label={`Monter ${item.exercise.name}`}
+                  >
+                    ↑
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={() => onMove(index, 1)}
+                    disabled={index === view.items.length - 1}
+                    aria-label={`Descendre ${item.exercise.name}`}
+                  >
+                    ↓
+                  </Button>
+                  <Button size="sm" onClick={() => onReplace(index)} className="ml-auto">
+                    Remplacer
+                  </Button>
+                  <Button size="sm" onClick={() => onRemove(index)}>
+                    Retirer
+                  </Button>
+                </div>
+              </Card>
             </li>
           ))}
         </ol>
 
-        <div className="flex gap-3">
-          <button
-            type="button"
-            onClick={onRegenerate}
-            className="w-full rounded-lg border border-border py-3 text-sm font-medium"
-          >
-            Régénérer
-          </button>
-          <button
-            type="button"
-            onClick={onBackToForm}
-            className="w-full rounded-lg border border-border py-3 text-sm font-medium"
-          >
-            Nouveaux critères
-          </button>
-        </div>
-      </main>
+        <StickyBar>
+          <div className="flex gap-3">
+            <Button block onClick={onBackToForm}>
+              Critères
+            </Button>
+            <Button variant="primary" block onClick={onRegenerate}>
+              Régénérer
+            </Button>
+          </div>
+        </StickyBar>
+      </Page>
     )
   }
 
+  const canGenerate = zones.length > 0
+
   return (
-    <main className="mx-auto flex min-h-dvh max-w-md flex-col gap-6 p-6">
-      <h1 className="text-xl font-semibold tracking-tight">Générer une séance</h1>
+    <Page className="pb-32">
+      <BackLink href="/">Accueil</BackLink>
 
-      <section>
-        <h2 className="text-sm font-medium">Durée</h2>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {DURATION_PRESETS_MIN.map((min) => (
-            <button
-              key={min}
-              type="button"
-              onClick={() => setTargetDurationMin(min)}
-              className={`rounded-lg border px-4 py-2 text-sm ${
-                targetDurationMin === min
-                  ? 'border-accent bg-accent text-accent-foreground'
-                  : 'border-border'
-              }`}
-            >
-              {min} min
-            </button>
-          ))}
-        </div>
-      </section>
+      <div className="mt-2">
+        <PageHeader title="Générer une séance" />
+      </div>
 
-      <section>
-        <h2 className="text-sm font-medium">Zones</h2>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {ZONE_PRESETS.map((preset) => (
-            <button
-              key={preset.label}
-              type="button"
-              onClick={() => setZones(preset.zones)}
-              className="rounded-lg border border-border px-3 py-1.5 text-xs"
-            >
-              {preset.label}
-            </button>
-          ))}
-        </div>
-        <div className="mt-3 flex flex-col gap-3">
-          {zonesByRegion().map(({ region, zones: regionZones }) => (
-            <div key={region.code}>
-              <p className="text-xs text-muted">{region.label}</p>
-              <div className="mt-1 flex flex-wrap gap-2">
-                {regionZones.map((zone) => (
-                  <button
-                    key={zone.code}
-                    type="button"
-                    onClick={() => toggleZone(zone.code)}
-                    className={`rounded-lg border px-3 py-1.5 text-xs ${
-                      zones.includes(zone.code)
-                        ? 'border-accent bg-accent text-accent-foreground'
-                        : 'border-border'
-                    }`}
-                  >
-                    {zone.label}
-                  </button>
-                ))}
+      <div className="mt-6 flex flex-col gap-8">
+        <Section title="Durée">
+          <div className="flex flex-wrap gap-2">
+            {DURATION_PRESETS_MIN.map((min) => (
+              <ToggleChip
+                key={min}
+                selected={targetDurationMin === min}
+                onClick={() => setTargetDurationMin(min)}
+                className="min-w-16 justify-center"
+              >
+                {min} min
+              </ToggleChip>
+            ))}
+          </div>
+        </Section>
+
+        <Section
+          title="Zones"
+          action={
+            zones.length > 0 ? (
+              <Button variant="quiet" size="sm" onClick={() => setZones([])} className="-mr-2">
+                Tout effacer
+              </Button>
+            ) : null
+          }
+          description={
+            zones.length > 0
+              ? `${zones.length} zone${zones.length > 1 ? 's' : ''} sélectionnée${zones.length > 1 ? 's' : ''}.`
+              : 'Au moins une zone est nécessaire.'
+          }
+        >
+          {/*
+            Les raccourcis remplacent la sélection, les zones la modifient : deux
+            gestes opposés, donc deux traitements visuels distincts. Rendus
+            identiques, ils se confondaient.
+          */}
+          <p className="text-xs font-medium uppercase tracking-wide text-muted">Raccourcis</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {ZONE_PRESETS.map((preset) => (
+              <Button
+                key={preset.label}
+                variant="subtle"
+                size="sm"
+                onClick={() => setZones(preset.zones)}
+              >
+                {preset.label}
+              </Button>
+            ))}
+          </div>
+
+          <div className="mt-4 flex flex-col gap-4">
+            {zonesByRegion().map(({ region, zones: regionZones }) => (
+              <div key={region.code}>
+                <p className="text-xs font-medium uppercase tracking-wide text-muted">
+                  {region.label}
+                </p>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {regionZones.map((zone) => (
+                    <ToggleChip
+                      key={zone.code}
+                      selected={zones.includes(zone.code)}
+                      onClick={() => toggleZone(zone.code)}
+                    >
+                      {zone.label}
+                    </ToggleChip>
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </Section>
 
-      <section>
-        <h2 className="text-sm font-medium">Matériel disponible</h2>
-        <p className="mt-1 text-xs text-muted">Aucune sélection : séance sans matériel.</p>
-        <div className="mt-2 flex flex-wrap gap-2">
-          {EQUIPMENT.map((item) => (
-            <button
-              key={item.code}
-              type="button"
-              onClick={() => toggleEquipment(item.code)}
-              className={`rounded-lg border px-3 py-1.5 text-xs ${
-                equipment.includes(item.code)
-                  ? 'border-accent bg-accent text-accent-foreground'
-                  : 'border-border'
-              }`}
-            >
-              {equipmentLabel(item.code)}
-            </button>
-          ))}
-        </div>
-      </section>
+        <Section title="Matériel disponible" description="Aucune sélection : séance sans matériel.">
+          <div className="flex flex-wrap gap-2">
+            {EQUIPMENT.map((item) => (
+              <ToggleChip
+                key={item.code}
+                selected={equipment.includes(item.code)}
+                onClick={() => toggleEquipment(item.code)}
+              >
+                {equipmentLabel(item.code)}
+              </ToggleChip>
+            ))}
+          </div>
+        </Section>
 
-      <details className="rounded-lg border border-border p-4">
-        <summary className="text-sm font-medium">Options</summary>
-        <div className="mt-3 flex flex-col gap-3">
-          <label className="flex flex-col gap-1 text-xs text-muted">
-            Exclure un type
-            <select
-              value={excludedType}
-              onChange={(e) => setExcludedType(e.target.value as ExerciseType | '')}
-              className="rounded-lg border border-border bg-transparent px-3 py-2 text-sm text-foreground"
-            >
-              <option value="">Aucun</option>
-              {EXERCISE_TYPES.map((type) => (
-                <option key={type} value={type}>
-                  {EXERCISE_TYPE_LABELS[type]}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="flex flex-col gap-1 text-xs text-muted">
-            Imposer un type
-            <select
-              value={requiredType}
-              onChange={(e) => setRequiredType(e.target.value as ExerciseType | '')}
-              className="rounded-lg border border-border bg-transparent px-3 py-2 text-sm text-foreground"
-            >
-              <option value="">Aucun</option>
-              {EXERCISE_TYPES.map((type) => (
-                <option key={type} value={type}>
-                  {EXERCISE_TYPE_LABELS[type]}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="flex flex-col gap-1 text-xs text-muted">
-            Intensité maximale
-            <select
-              value={maxIntensity}
-              onChange={(e) =>
-                setMaxIntensity(e.target.value ? (Number(e.target.value) as 1 | 2 | 3) : '')
-              }
-              className="rounded-lg border border-border bg-transparent px-3 py-2 text-sm text-foreground"
-            >
-              <option value="">Aucune</option>
-              <option value={1}>1</option>
-              <option value={2}>2</option>
-              <option value={3}>3</option>
-            </select>
-          </label>
-          <label className="flex items-center gap-2 text-xs text-muted">
-            <input
-              type="checkbox"
-              checked={preferNeglectedZones}
-              onChange={(e) => setPreferNeglectedZones(e.target.checked)}
-              className="h-4 w-4 rounded border-border"
-            />
-            Prioriser les zones délaissées
-          </label>
-          <label className="flex flex-col gap-1 text-xs text-muted">
-            Tolérance sur la durée totale (secondes)
-            <input
-              type="number"
-              min={0}
-              step={5}
-              value={toleranceS}
-              onChange={(e) => setToleranceS(Math.max(0, Number(e.target.value) || 0))}
-              className="rounded-lg border border-border bg-transparent px-3 py-2 text-sm text-foreground"
-            />
-          </label>
-        </div>
-      </details>
+        <details className="rounded-xl border border-border">
+          <summary className="flex min-h-14 cursor-pointer items-center px-4 text-sm font-medium">
+            Options
+          </summary>
+          <div className="flex flex-col gap-4 border-t border-border p-4">
+            <Field label="Exclure un type">
+              <select
+                value={excludedType}
+                onChange={(e) => setExcludedType(e.target.value as ExerciseType | '')}
+                className={selectClasses}
+              >
+                <option value="">Aucun</option>
+                {EXERCISE_TYPES.map((type) => (
+                  <option key={type} value={type}>
+                    {EXERCISE_TYPE_LABELS[type]}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field label="Imposer un type">
+              <select
+                value={requiredType}
+                onChange={(e) => setRequiredType(e.target.value as ExerciseType | '')}
+                className={selectClasses}
+              >
+                <option value="">Aucun</option>
+                {EXERCISE_TYPES.map((type) => (
+                  <option key={type} value={type}>
+                    {EXERCISE_TYPE_LABELS[type]}
+                  </option>
+                ))}
+              </select>
+            </Field>
+            <Field label="Intensité maximale">
+              <select
+                value={maxIntensity}
+                onChange={(e) =>
+                  setMaxIntensity(e.target.value ? (Number(e.target.value) as 1 | 2 | 3) : '')
+                }
+                className={selectClasses}
+              >
+                <option value="">Aucune</option>
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+              </select>
+            </Field>
+            <label className="flex min-h-11 items-center gap-3 text-sm">
+              <input
+                type="checkbox"
+                checked={preferNeglectedZones}
+                onChange={(e) => setPreferNeglectedZones(e.target.checked)}
+                className="h-5 w-5 accent-accent"
+              />
+              Prioriser les zones délaissées
+            </label>
+            <Field label="Tolérance sur la durée totale" hint="En secondes.">
+              <input
+                type="number"
+                min={0}
+                step={5}
+                value={toleranceS}
+                onChange={(e) => setToleranceS(Math.max(0, Number(e.target.value) || 0))}
+                className={inputClasses}
+              />
+            </Field>
+          </div>
+        </details>
+      </div>
 
-      <button
-        type="button"
-        onClick={onGenerate}
-        disabled={zones.length === 0}
-        className="w-full rounded-lg bg-accent py-3 text-sm font-medium text-accent-foreground disabled:opacity-50"
-      >
-        Générer
-      </button>
-    </main>
+      {/*
+        Le formulaire fait plusieurs écrans de haut une fois les zones dépliées :
+        l'action de sortie est ancrée, sinon chaque essai impose de redescendre
+        toute la liste.
+      */}
+      <StickyBar>
+        <Button variant="primary" size="lg" block onClick={onGenerate} disabled={!canGenerate}>
+          Générer
+        </Button>
+        <p className="mt-2 text-center text-xs text-muted">
+          {canGenerate
+            ? `${targetDurationMin} min · ${zones.length} zone${zones.length > 1 ? 's' : ''}${
+                equipment.length > 0 ? ` · ${equipment.length} matériel` : ''
+              }`
+            : 'Sélectionne au moins une zone.'}
+        </p>
+      </StickyBar>
+    </Page>
   )
 }
