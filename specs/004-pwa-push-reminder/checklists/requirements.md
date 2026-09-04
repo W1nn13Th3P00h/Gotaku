@@ -33,7 +33,7 @@
 
 - Aucun point en échec. Périmètre cadré par `docs/spec.md` (sections Réglages, Rappel
   push) et `docs/roadmap.md` (Lot 5), et par les pièges de plateforme déjà tranchés
-  dans `CLAUDE.md` (permission sur geste explicite, pas de Vercel Cron).
+  dans `CLAUDE.md` (permission sur geste explicite, pas de cron de l'hébergeur).
 - Point notable documenté en Assumptions plutôt qu'en clarification : les étapes
   nécessitant des secrets réels (clés VAPID, déploiement) sont des actions manuelles
   hors périmètre de l'implémentation automatisée.

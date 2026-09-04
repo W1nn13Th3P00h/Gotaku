@@ -61,7 +61,7 @@ largement sous la minute d'exécution pour un seul rappel réel (`docs/roadmap.m
 **Constraints**: jamais de `Notification.requestPermission()` hors d'un geste
 utilisateur explicite (déjà acté, `CLAUDE.md`) ; jamais de tentative d'abonnement avant
 que l'app tourne en mode installé (`display-mode: standalone` sur iOS) ; jamais de
-Vercel Cron pour la planification (`CLAUDE.md`) ; aucune génération ni dépôt réel de
+cron de l'hébergeur pour la planification (`CLAUDE.md`) ; aucune génération ni dépôt réel de
 secret VAPID par un agent d'implémentation (étape manuelle, voir Assumptions du spec).
 
 **Scale/Scope**: au plus un rappel actif et quelques abonnements (un par appareil
@@ -84,7 +84,7 @@ installé) pour l'unique utilisateur réel de l'application.
   utilisateur, aucun partage d'abonnement.
 - **Pièges de plateforme déjà tranchés** — c'est le cœur même de ce lot : permission
   sur geste explicite (FR-003), PWA installée requise (FR-001/FR-002), Supabase Cron et
-  non Vercel Cron (FR-008).
+  non le cron de l'hébergeur (FR-008).
 - **Méthode de travail** — ce plan est le document de validation explicite avant
   implémentation.
 
