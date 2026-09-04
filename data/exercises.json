@@ -261,7 +261,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout, pieds largeur de hanches, bras tendus au-dessus de la tête.",
+      "Debout, pieds largeur de hanches, poids réparti sur tout le pied, bras tendus au-dessus de la tête.",
       "Recule les hanches en gardant le dos plat jusqu'à sentir les ischios, puis redresse-toi.",
       "Les genoux restent légèrement fléchis, le dos ne s'arrondit jamais."
     ]
@@ -305,9 +305,9 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout, bras à l'horizontale sur le côté, paume vers l'avant.",
+      "Debout, bras tendu à l'horizontale sur le côté, paume vers l'avant.",
       "Ouvre le bras vers l'arrière jusqu'à la tension, puis ramène-le devant toi.",
-      "Garde l'épaule basse, ne compense pas en cambrant."
+      "Garde l'épaule basse et le coude tendu, ne compense pas en cambrant."
     ]
   },
   {
@@ -397,7 +397,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout, bras tendu au-dessus de la tête, l'autre le long du corps.",
+      "Debout, pieds largeur de hanches, bras tendu au-dessus de la tête, l'autre le long du corps.",
       "Dessine un arc en penchant le buste sur le côté, puis reviens à la verticale.",
       "Le bassin reste stable, tu ne pars ni vers l'avant ni vers l'arrière."
     ]
@@ -822,7 +822,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout, un bras tendu au-dessus de la tête.",
+      "Debout, pieds largeur de hanches, un bras tendu au-dessus de la tête.",
       "Penche le buste sur le côté en dessinant un arc, puis reviens et change de bras.",
       "Le bassin ne bouge pas, seul le tronc s'incline."
     ]
@@ -845,7 +845,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout, bras écartés à l'horizontale comme un archer.",
+      "Debout, pieds largeur de hanches, bras écartés à l'horizontale comme un archer.",
       "Tourne le buste d'un côté en ouvrant le bras arrière, puis reviens et inverse.",
       "Les hanches restent face à l'avant, la rotation vient du haut du dos."
     ]
@@ -890,7 +890,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout, bras le long du corps, côtes basses.",
+      "Debout, pieds largeur de hanches, bras le long du corps, côtes basses.",
       "Monte un bras tendu au-dessus de la tête le plus loin possible, puis l'autre.",
       "Ne cambre pas pour gagner de l'amplitude, l'effort vient de l'épaule."
     ]
@@ -1002,7 +1002,7 @@
     "duration_min_s": 40,
     "duration_max_s": 90,
     "instructions": [
-      "Place la balle entre l'avant de l'épaule et un mur.",
+      "Place la balle entre l'avant de l'épaule et un mur, bras relâché le long du corps.",
       "Appuie ton poids sur la balle et fais de petits cercles très lents.",
       "Bouge le bras librement pour faire glisser les tissus sous la balle."
     ]
@@ -1116,7 +1116,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout, élastique tendu entre les deux mains, bras tendus devant toi.",
+      "Debout, élastique tenu à deux mains en prise large, bras tendus devant toi.",
       "Passe les bras au-dessus de la tête puis derrière le dos, sans plier les coudes.",
       "Écarte les mains si tu bloques, resserre au fil des passages."
     ]
@@ -3496,7 +3496,7 @@
     "duration_min_s": 40,
     "duration_max_s": 90,
     "instructions": [
-      "Debout ou assis, tronc relâché.",
+      "Debout ou assis, tronc relâché, genoux légèrement fléchis si debout.",
       "Travaille les masses musculaires de part et d'autre de la colonne.",
       "Ne passe jamais sur les vertèbres ni sur les reins."
     ]
@@ -3778,7 +3778,7 @@
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
-      "Debout, dos de la main posé au bas du dos.",
+      "Debout, pieds largeur de hanches, dos de la main posé au bas du dos.",
       "Décolle la main du dos de quelques centimètres et tiens.",
       "L'épaule ne part pas vers l'avant, garde le buste droit."
     ]
@@ -3983,7 +3983,7 @@
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
-      "Genou arrière au sol, jambe avant tendue, talon au sol.",
+      "Genou arrière au sol, jambe avant tendue, talon au sol, mains posées sur la cuisse avant ou au sol pour l'équilibre.",
       "Recule le bassin et penche le buste dos plat vers la jambe avant.",
       "Ramène la pointe de pied vers toi en fin de mouvement."
     ]
@@ -4299,7 +4299,7 @@
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
-      "Coude pointé au plafond, main dans le dos entre les omoplates.",
+      "Debout, coude pointé au plafond, main dans le dos entre les omoplates.",
       "Accompagne le coude vers l'arrière avec l'autre main.",
       "Garde les côtes basses et le regard à l'horizontale."
     ]
@@ -4483,7 +4483,7 @@
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
-      "Debout, bras tendus au-dessus de la tête, mains écartées.",
+      "Debout, pieds largeur de hanches, bras tendus au-dessus de la tête, mains écartées.",
       "Pousse vers le plafond en descendant les omoplates.",
       "Garde les côtes basses, ne cambre pas."
     ]
@@ -5046,7 +5046,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Tube tenu en prise large derrière la nuque.",
+      "Debout, pieds largeur d'épaules, tube tenu en prise large derrière la nuque.",
       "Pousse le tube au-dessus de la tête sans avancer la tête.",
       "Garde les coudes tendus et les omoplates basses."
     ]
@@ -5226,7 +5226,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout, un bras tendu au-dessus de la tête, l'autre le long du corps.",
+      "Debout, pieds largeur de hanches, un bras tendu au-dessus de la tête, l'autre le long du corps.",
       "Penche le buste sur le côté en dessinant un arc large.",
       "Le bassin reste stable, tiens la position en respirant."
     ]
@@ -5386,7 +5386,7 @@
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
-      "Debout, bras tendus devant, mains croisées.",
+      "Debout, pieds largeur de hanches, bras tendus devant, mains croisées.",
       "Pousse les mains loin devant en arrondissant le haut du dos.",
       "Écarte les omoplates au maximum, laisse la tête suivre."
     ]
@@ -5660,7 +5660,7 @@
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
-      "Debout, croise les bras et attrape chaque omoplate avec la main opposée.",
+      "Debout, pieds largeur de hanches, croise les bras et attrape chaque omoplate avec la main opposée.",
       "Tire les bras vers l'avant en arrondissant le haut du dos.",
       "Rentre le menton et respire dans le haut du dos."
     ]
@@ -5756,7 +5756,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Tube tenu derrière le dos, une main en haut, l'autre en bas.",
+      "Debout, tube tenu derrière le dos, une main en haut, l'autre en bas.",
       "Tire doucement vers le bas avec la main basse pour ouvrir l'épaule haute.",
       "Ne force jamais, l'amplitude vient progressivement."
     ]
@@ -5802,7 +5802,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Élastique tenu à deux mains devant toi, bras tendus.",
+      "Debout, pieds largeur de hanches, élastique tenu à deux mains devant toi, bras tendus.",
       "Monte les bras au-dessus de la tête en écartant contre la résistance.",
       "Garde les côtes basses et les coudes tendus."
     ]
@@ -6097,7 +6097,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout, bras tendus devant toi, mains l'une sur l'autre.",
+      "Debout, pieds largeur de hanches, bras tendus devant toi, mains l'une sur l'autre.",
       "Ouvre un bras vers le côté en tournant le buste, suis la main du regard.",
       "Les hanches restent face à l'avant."
     ]
@@ -6845,7 +6845,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout, bras écartés à l'horizontale comme un archer.",
+      "Debout, pieds largeur de hanches, bras écartés à l'horizontale comme un archer.",
       "Tourne le buste d'un côté en ouvrant le bras arrière au maximum.",
       "Les hanches restent face à l'avant."
     ]
@@ -7208,7 +7208,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout, mains jointes en haut d'un côté, bras tendus.",
+      "Debout, pieds largeur de hanches, mains jointes en haut d'un côté, bras tendus.",
       "Descends en diagonale vers la hanche opposée en tournant le buste.",
       "Remonte sur le même trajet, le mouvement reste contrôlé."
     ]
