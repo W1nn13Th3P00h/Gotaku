@@ -114,7 +114,8 @@ séances, volume total.
 
 ### Réglages
 
-Rappel : heure locale, jours de la semaine, activation. Un seul rappel en v1.
+Rappels : plusieurs possibles, chacun avec sa propre heure locale, ses propres jours
+de la semaine et sa propre activation.
 
 État des notifications, avec écran d'installation expliquant l'ajout à l'écran d'accueil,
 puis bouton d'activation des notifications déclenchant la demande de permission.

@@ -4,7 +4,7 @@ import { buttonClasses } from '@/components/ui/button'
 import { Card, CardList, CardListItem } from '@/components/ui/card'
 import { Page, PageHeader } from '@/components/ui/page'
 import { formatDurationShort } from '@/lib/format'
-import { getReminder } from '@/lib/push/queries'
+import { getReminders } from '@/lib/push/queries'
 import { nextReminderLabel } from '@/lib/reminders/next'
 import { getLastCompletedSession, getResumableSessionsToday } from '@/lib/sessions/queries'
 import { createClient } from '@/lib/supabase/server'
@@ -35,13 +35,13 @@ function formatSessionDate(iso: string): string {
  */
 export default async function Home() {
   const supabase = await createClient()
-  const [resumableSessions, lastSession, reminder] = await Promise.all([
+  const [resumableSessions, lastSession, reminders] = await Promise.all([
     getResumableSessionsToday(supabase),
     getLastCompletedSession(supabase),
-    getReminder(supabase),
+    getReminders(supabase),
   ])
 
-  const nextReminder = nextReminderLabel(reminder, new Date())
+  const nextReminder = nextReminderLabel(reminders, new Date())
 
   return (
     <Page className="flex min-h-dvh flex-col gap-8">

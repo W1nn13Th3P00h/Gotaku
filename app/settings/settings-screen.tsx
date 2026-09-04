@@ -7,15 +7,16 @@ import { Card } from '@/components/ui/card'
 import { Field, FormMessage, inputClasses } from '@/components/ui/field'
 import { BackLink, Page, PageHeader, Section } from '@/components/ui/page'
 import { ToggleChip } from '@/components/ui/chip'
-import { upsertReminder, type Reminder } from '@/lib/push/queries'
+import { createReminder, deleteReminder, updateReminder, type Reminder } from '@/lib/push/queries'
 import { subscribeToPush } from '@/lib/push/subscribe'
 import { EQUIPMENT, equipmentLabel, type EquipmentCode } from '@/lib/referentials'
 import { updateAvailableEquipment } from '@/lib/settings/queries'
 import { createClient } from '@/lib/supabase/client'
 
 /**
- * Écran de réglages : installation PWA + activation des notifications (US1),
- * formulaire du rappel (US2). Voir `contracts/settings-screen.md`.
+ * Écran de réglages : installation PWA + activation des notifications (Lot 5),
+ * liste des rappels (US1/US2/US3 de `specs/006-multiple-reminders/`). Voir
+ * `specs/006-multiple-reminders/contracts/settings-screen.md`.
  *
  * `installed`/`permission`/`detectedTimezone` sont lus via
  * `useSyncExternalStore` plutôt que `useState`+`useEffect` : ce sont des
@@ -26,11 +27,59 @@ import { createClient } from '@/lib/supabase/client'
  */
 
 type Props = {
-  reminder: Reminder | null
+  reminders: Reminder[]
   availableEquipment: EquipmentCode[]
 }
 
 type PermissionState = 'unsupported' | 'default' | 'granted' | 'denied'
+
+/**
+ * Une carte par rappel, existant ou en cours d'ajout. `key` est une clé locale
+ * React stable, jamais envoyée à la base ; `id` reste `null` tant que la carte
+ * n'a pas été sauvegardée au moins une fois.
+ */
+type ReminderDraft = {
+  key: string
+  id: string | null
+  timeLocal: string
+  weekdays: number[]
+  timezone: string
+  active: boolean
+  saving: boolean
+  saveError: string | null
+  saved: boolean
+}
+
+let nextDraftKey = 0
+
+function newReminderDraft(timezone: string): ReminderDraft {
+  nextDraftKey += 1
+  return {
+    key: `new-${nextDraftKey}`,
+    id: null,
+    timeLocal: '07:00',
+    weekdays: [],
+    timezone,
+    active: false,
+    saving: false,
+    saveError: null,
+    saved: false,
+  }
+}
+
+function draftFromReminder(reminder: Reminder): ReminderDraft {
+  return {
+    key: reminder.id,
+    id: reminder.id,
+    timeLocal: reminder.timeLocal,
+    weekdays: reminder.weekdays,
+    timezone: reminder.timezone,
+    active: reminder.active,
+    saving: false,
+    saveError: null,
+    saved: false,
+  }
+}
 
 const WEEKDAYS = [
   { value: 1, label: 'Lundi' },
@@ -75,7 +124,89 @@ function getDetectedTimezoneServerSnapshot(): string {
   return ''
 }
 
-export function SettingsScreen({ reminder, availableEquipment }: Props) {
+type ReminderCardProps = {
+  draft: ReminderDraft
+  onChange: (patch: Partial<ReminderDraft>) => void
+  onSave: () => void
+  onDelete: () => void
+}
+
+function ReminderCard({ draft, onChange, onSave, onDelete }: ReminderCardProps) {
+  function toggleWeekday(value: number) {
+    onChange({
+      weekdays: draft.weekdays.includes(value)
+        ? draft.weekdays.filter((d) => d !== value)
+        : [...draft.weekdays, value].sort((a, b) => a - b),
+      saveError: null,
+      saved: false,
+    })
+  }
+
+  return (
+    <Card className="mt-4">
+      <div className="flex flex-col gap-4">
+        <Field label="Heure" inline>
+          <input
+            type="time"
+            value={draft.timeLocal}
+            onChange={(e) => onChange({ timeLocal: e.target.value, saveError: null, saved: false })}
+            className={`${inputClasses} w-auto`}
+          />
+        </Field>
+
+        <fieldset>
+          <legend className="text-sm">Jours</legend>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {WEEKDAYS.map((day) => (
+              <ToggleChip
+                key={day.value}
+                selected={draft.weekdays.includes(day.value)}
+                onClick={() => toggleWeekday(day.value)}
+              >
+                <span className="sr-only">{day.label}</span>
+                <span aria-hidden="true">{day.label.slice(0, 3)}</span>
+              </ToggleChip>
+            ))}
+          </div>
+        </fieldset>
+
+        <Field label="Fuseau horaire">
+          <input
+            type="text"
+            value={draft.timezone}
+            onChange={(e) => onChange({ timezone: e.target.value, saveError: null, saved: false })}
+            className={inputClasses}
+          />
+        </Field>
+
+        <Field label="Rappel actif" inline>
+          <input
+            type="checkbox"
+            checked={draft.active}
+            onChange={(e) => onChange({ active: e.target.checked, saveError: null, saved: false })}
+            className="h-5 w-5 accent-accent"
+          />
+        </Field>
+
+        {draft.saveError ? <FormMessage kind="error">{draft.saveError}</FormMessage> : null}
+        {draft.saved ? <FormMessage kind="success">Rappel sauvegardé.</FormMessage> : null}
+
+        <div className="flex gap-2">
+          <Button variant="primary" block onClick={onSave} disabled={draft.saving}>
+            {draft.saving ? 'Sauvegarde…' : 'Sauvegarder'}
+          </Button>
+          {draft.id !== null ? (
+            <Button block onClick={onDelete}>
+              Supprimer
+            </Button>
+          ) : null}
+        </div>
+      </div>
+    </Card>
+  )
+}
+
+export function SettingsScreen({ reminders, availableEquipment }: Props) {
   const supabase = useMemo(() => createClient(), [])
 
   const installed = useSyncExternalStore(
@@ -119,23 +250,13 @@ export function SettingsScreen({ reminder, availableEquipment }: Props) {
     }
   }
 
-  const [timeLocal, setTimeLocal] = useState(reminder?.timeLocal ?? '07:00')
-  const [weekdays, setWeekdays] = useState<number[]>(reminder?.weekdays ?? [])
-  // `null` tant que l'utilisateur n'a pas modifié le champ à la main : la
-  // timezone détectée (potentiellement différente entre le rendu serveur et le
-  // client, voir plus haut) reste alors la valeur affichée/soumise.
-  const [timezoneOverride, setTimezoneOverride] = useState<string | null>(
-    reminder?.timezone ?? null,
+  const [reminderDrafts, setReminderDrafts] = useState<ReminderDraft[]>(() =>
+    reminders.map(draftFromReminder),
   )
-  const [active, setActive] = useState(reminder?.active ?? false)
-  const [saveError, setSaveError] = useState<string | null>(null)
-  const [saved, setSaved] = useState(false)
 
   const [equipment, setEquipment] = useState<EquipmentCode[]>(availableEquipment)
   const [equipmentSaving, setEquipmentSaving] = useState(false)
   const [equipmentSaved, setEquipmentSaved] = useState(false)
-
-  const timezone = timezoneOverride ?? detectedTimezone
 
   function toggleEquipment(code: EquipmentCode) {
     setEquipmentSaved(false)
@@ -149,27 +270,47 @@ export function SettingsScreen({ reminder, availableEquipment }: Props) {
     setEquipmentSaved(true)
   }
 
-  function markDirty() {
-    setSaveError(null)
-    setSaved(false)
+  function patchDraft(key: string, patch: Partial<ReminderDraft>) {
+    setReminderDrafts((prev) => prev.map((d) => (d.key === key ? { ...d, ...patch } : d)))
   }
 
-  function toggleWeekday(value: number) {
-    markDirty()
-    setWeekdays((prev) =>
-      prev.includes(value) ? prev.filter((d) => d !== value) : [...prev, value].sort((a, b) => a - b),
-    )
+  function handleAddReminder() {
+    setReminderDrafts((prev) => [...prev, newReminderDraft(detectedTimezone)])
   }
 
-  async function handleSave() {
-    setSaveError(null)
-    setSaved(false)
-    const result = await upsertReminder(supabase, { timeLocal, weekdays, timezone, active })
+  async function handleSaveReminder(key: string) {
+    const draft = reminderDrafts.find((d) => d.key === key)
+    if (!draft) return
+
+    patchDraft(key, { saving: true, saveError: null, saved: false })
+
+    const input = {
+      timeLocal: draft.timeLocal,
+      weekdays: draft.weekdays,
+      timezone: draft.timezone,
+      active: draft.active,
+    }
+    const result =
+      draft.id === null
+        ? await createReminder(supabase, input)
+        : await updateReminder(supabase, draft.id, input)
+
     if (!result.ok) {
-      setSaveError('Sélectionne au moins un jour pour activer le rappel.')
+      patchDraft(key, { saving: false, saveError: 'Sélectionne au moins un jour pour activer le rappel.' })
       return
     }
-    setSaved(true)
+
+    patchDraft(key, { saving: false, saved: true, id: result.id })
+  }
+
+  async function handleDeleteReminder(key: string) {
+    const draft = reminderDrafts.find((d) => d.key === key)
+    if (!draft) return
+
+    if (draft.id !== null) {
+      await deleteReminder(supabase, draft.id)
+    }
+    setReminderDrafts((prev) => prev.filter((d) => d.key !== key))
   }
 
   return (
@@ -207,70 +348,23 @@ export function SettingsScreen({ reminder, availableEquipment }: Props) {
         )}
       </section>
 
-      <Card className="mt-8">
-        <h2 className="text-sm font-medium">Rappel quotidien</h2>
+      <div className="mt-8">
+        <h2 className="text-sm font-medium">Rappels</h2>
 
-        <div className="mt-4 flex flex-col gap-4">
-          <Field label="Heure" inline>
-            <input
-              type="time"
-              value={timeLocal}
-              onChange={(e) => {
-                setTimeLocal(e.target.value)
-                markDirty()
-              }}
-              className={`${inputClasses} w-auto`}
-            />
-          </Field>
+        {reminderDrafts.map((draft) => (
+          <ReminderCard
+            key={draft.key}
+            draft={draft}
+            onChange={(patch) => patchDraft(draft.key, patch)}
+            onSave={() => void handleSaveReminder(draft.key)}
+            onDelete={() => void handleDeleteReminder(draft.key)}
+          />
+        ))}
 
-          <fieldset>
-            <legend className="text-sm">Jours</legend>
-            <div className="mt-2 flex flex-wrap gap-2">
-              {WEEKDAYS.map((day) => (
-                <ToggleChip
-                  key={day.value}
-                  selected={weekdays.includes(day.value)}
-                  onClick={() => toggleWeekday(day.value)}
-                >
-                  <span className="sr-only">{day.label}</span>
-                  <span aria-hidden="true">{day.label.slice(0, 3)}</span>
-                </ToggleChip>
-              ))}
-            </div>
-          </fieldset>
-
-          <Field label="Fuseau horaire">
-            <input
-              type="text"
-              value={timezone}
-              onChange={(e) => {
-                setTimezoneOverride(e.target.value)
-                markDirty()
-              }}
-              className={inputClasses}
-            />
-          </Field>
-
-          <Field label="Rappel actif" inline>
-            <input
-              type="checkbox"
-              checked={active}
-              onChange={(e) => {
-                setActive(e.target.checked)
-                markDirty()
-              }}
-              className="h-5 w-5 accent-accent"
-            />
-          </Field>
-
-          {saveError ? <FormMessage kind="error">{saveError}</FormMessage> : null}
-          {saved ? <FormMessage kind="success">Rappel sauvegardé.</FormMessage> : null}
-
-          <Button variant="primary" block onClick={handleSave}>
-            Sauvegarder
-          </Button>
-        </div>
-      </Card>
+        <Button block className="mt-4" onClick={handleAddReminder}>
+          Ajouter un rappel
+        </Button>
+      </div>
 
       <Card className="mt-8">
         <h2 className="text-sm font-medium">Matériel disponible</h2>
