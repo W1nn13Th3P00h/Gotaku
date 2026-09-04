@@ -1,6 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 
 import { clampDurationS, computeTotalDurationS } from '@/lib/sessions/composition'
+import type { EquipmentCode, ExerciseType, ZoneCode } from '@/lib/referentials'
 
 /**
  * Écritures de progression pour l'exécution (Lot 3), au fil de l'eau (voir
@@ -224,6 +225,43 @@ export type SaveAsTemplateResult =
   | { ok: true; templateId: string }
   | { ok: false; reason: 'EMPTY_NAME' | 'EMPTY_COMPOSITION' }
 
+type TemplateItemInput = {
+  exerciseId: string
+  ord: number
+  durationS: number
+  perSide: boolean
+}
+
+/** Écrit un modèle nommé et ses items — partagé par `saveAsTemplate` et `saveGeneratedAsTemplate`. */
+async function insertTemplate(
+  supabase: SupabaseClient,
+  userId: string,
+  name: string,
+  items: TemplateItemInput[],
+): Promise<string> {
+  const { data: template, error: insertError } = await supabase
+    .from('session_templates')
+    .insert({ user_id: userId, name })
+    .select('id')
+    .single()
+
+  if (insertError) throw insertError
+
+  const { error: templateItemsError } = await supabase.from('template_items').insert(
+    items.map((item) => ({
+      template_id: template.id,
+      exercise_id: item.exerciseId,
+      ord: item.ord,
+      duration_s: item.durationS,
+      per_side: item.perSide,
+    })),
+  )
+
+  if (templateItemsError) throw templateItemsError
+
+  return template.id
+}
+
 /**
  * Copie les `session_items` actuels de la composition vers un nouveau modèle
  * nommé (`session_templates`/`template_items`) — une copie, pas une référence
@@ -254,27 +292,121 @@ export async function saveAsTemplate(
   if (userError) throw userError
   if (!user) throw new Error('saveAsTemplate appelée sans utilisateur authentifié')
 
-  const { data: template, error: insertError } = await supabase
-    .from('session_templates')
-    .insert({ user_id: user.id, name: trimmedName })
-    .select('id')
-    .single()
-
-  if (insertError) throw insertError
-
-  const { error: templateItemsError } = await supabase.from('template_items').insert(
+  const templateId = await insertTemplate(
+    supabase,
+    user.id,
+    trimmedName,
     items.map((item) => ({
-      template_id: template.id,
-      exercise_id: item.exercise_id,
+      exerciseId: item.exercise_id,
       ord: item.ord,
-      duration_s: item.duration_s,
-      per_side: item.per_side,
+      durationS: item.duration_s,
+      perSide: item.per_side,
     })),
   )
 
-  if (templateItemsError) throw templateItemsError
+  return { ok: true, templateId }
+}
 
-  return { ok: true, templateId: template.id }
+/**
+ * Même contrat que `saveAsTemplate`, mais pour l'aperçu du générateur (Lot 2) :
+ * les items n'existent qu'en mémoire côté client, jamais encore en base — voir
+ * `docs/spec.md` § Aperçu de séance. Refuse un nom vide/espaces ou un aperçu vide.
+ */
+export async function saveGeneratedAsTemplate(
+  supabase: SupabaseClient,
+  name: string,
+  items: { exerciseId: string; durationS: number; perSide: boolean }[],
+): Promise<SaveAsTemplateResult> {
+  const trimmedName = name.trim()
+  if (!trimmedName) return { ok: false, reason: 'EMPTY_NAME' }
+  if (items.length === 0) return { ok: false, reason: 'EMPTY_COMPOSITION' }
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser()
+  if (userError) throw userError
+  if (!user) throw new Error('saveGeneratedAsTemplate appelée sans utilisateur authentifié')
+
+  const templateId = await insertTemplate(
+    supabase,
+    user.id,
+    trimmedName,
+    items.map((item, ord) => ({
+      exerciseId: item.exerciseId,
+      ord,
+      durationS: item.durationS,
+      perSide: item.perSide,
+    })),
+  )
+
+  return { ok: true, templateId }
+}
+
+/**
+ * Persiste l'aperçu du générateur (Lot 2, `docs/spec.md` § Aperçu de séance) :
+ * crée la `sessions` `source: 'generated'` et ses `session_items` à partir des
+ * items tels qu'affichés (après remplacement/retrait/réordonnancement
+ * éventuels côté client), puis démarre l'exécution (`startSession`, Lot 3).
+ * Miroir de `startSessionFromTemplate`.
+ */
+export async function startGeneratedSession(
+  supabase: SupabaseClient,
+  params: {
+    items: { exerciseId: string; durationS: number; perSide: boolean }[]
+    requestedZones: ZoneCode[]
+    availableEquipment: EquipmentCode[]
+    excludedTypes: ExerciseType[]
+    seed: number
+  },
+): Promise<{ sessionId: string }> {
+  if (params.items.length === 0) {
+    throw new Error('startGeneratedSession appelée avec un aperçu vide')
+  }
+
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser()
+  if (userError) throw userError
+  if (!user) throw new Error('startGeneratedSession appelée sans utilisateur authentifié')
+
+  const totalDurationS = computeTotalDurationS(
+    params.items.map((item) => ({ durationS: item.durationS, perSide: item.perSide })),
+  )
+
+  const { data: session, error: sessionError } = await supabase
+    .from('sessions')
+    .insert({
+      user_id: user.id,
+      status: 'draft',
+      source: 'generated',
+      target_duration_s: totalDurationS,
+      requested_zones: params.requestedZones,
+      available_equipment: params.availableEquipment,
+      excluded_types: params.excludedTypes,
+      seed: params.seed,
+    })
+    .select('id')
+    .single()
+
+  if (sessionError) throw sessionError
+
+  const { error: itemsInsertError } = await supabase.from('session_items').insert(
+    params.items.map((item, ord) => ({
+      session_id: session.id,
+      exercise_id: item.exerciseId,
+      ord,
+      duration_s: item.durationS,
+      per_side: item.perSide,
+    })),
+  )
+
+  if (itemsInsertError) throw itemsInsertError
+
+  await startSession(supabase, session.id)
+
+  return { sessionId: session.id }
 }
 
 /**
