@@ -1,5 +1,6 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { useMemo, useState } from 'react'
 
 import type { CatalogExercise } from '@/lib/bank/catalog'
@@ -10,10 +11,12 @@ import { generateSession } from '@/lib/generator/generate'
 import { replaceExercise } from '@/lib/generator/replace'
 import type { ExerciseId, FailureDetail, GeneratorInput } from '@/lib/generator/types'
 import { DURATION_PRESETS_MIN, ZONE_PRESETS } from '@/lib/presets'
+import { saveGeneratedAsTemplate, startGeneratedSession } from '@/lib/sessions/mutations'
+import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { ToggleChip } from '@/components/ui/chip'
-import { Field, inputClasses, selectClasses } from '@/components/ui/field'
+import { Field, FormMessage, inputClasses, selectClasses } from '@/components/ui/field'
 import { BackLink, Page, PageHeader, Section } from '@/components/ui/page'
 import { StickyBar } from '@/components/ui/sticky-bar'
 import {
@@ -33,7 +36,14 @@ type ResultItem = { exercise: CatalogExercise; durationS: number }
 type ViewState =
   | { kind: 'form' }
   | { kind: 'failure'; detail: FailureDetail }
-  | { kind: 'preview'; items: ResultItem[]; unmetRequiredTypes: ExerciseType[] }
+  | {
+      kind: 'preview'
+      items: ResultItem[]
+      unmetRequiredTypes: ExerciseType[]
+      /** Entrée et seed ayant produit cet aperçu — nécessaires pour le persister au « Démarrer »/« Sauvegarder ». */
+      input: GeneratorInput
+      seed: number
+    }
 
 type Props = {
   catalog: CatalogExercise[]
@@ -69,6 +79,9 @@ function recoveryLabel(detail: FailureDetail, suggestion: GeneratorInput): strin
 }
 
 export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props) {
+  const supabase = useMemo(() => createClient(), [])
+  const router = useRouter()
+
   const catalogById = useMemo(() => {
     const map = new Map<ExerciseId, CatalogExercise>()
     for (const exercise of catalog) map.set(exercise.id, exercise)
@@ -97,6 +110,12 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
 
   const [view, setView] = useState<ViewState>({ kind: 'form' })
 
+  const [starting, setStarting] = useState(false)
+  const [templateName, setTemplateName] = useState('')
+  const [saving, setSaving] = useState(false)
+  const [saveError, setSaveError] = useState<string | null>(null)
+  const [saved, setSaved] = useState(false)
+
   function toggleZone(zone: ZoneCode) {
     setZones((prev) => (prev.includes(zone) ? prev.filter((z) => z !== zone) : [...prev, zone]))
   }
@@ -119,12 +138,13 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
   }
 
   function runGeneration(input: GeneratorInput) {
+    const seed = randomSeed()
     const result = generateSession(input, {
       catalog,
       lastPerformed: lastPerformedMap,
       zoneVolume30d: zoneVolumeMap,
       now: new Date(),
-      seed: randomSeed(),
+      seed,
     })
 
     if (!result.ok) {
@@ -137,7 +157,50 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
       if (exercise === undefined) throw new Error(`Exercice inconnu : ${item.exerciseId}`)
       return { exercise, durationS: item.durationS }
     })
-    setView({ kind: 'preview', items, unmetRequiredTypes: result.unmetRequiredTypes })
+    setTemplateName('')
+    setSaveError(null)
+    setSaved(false)
+    setView({ kind: 'preview', items, unmetRequiredTypes: result.unmetRequiredTypes, input, seed })
+  }
+
+  function previewToItems(items: ResultItem[]) {
+    return items.map((item) => ({
+      exerciseId: item.exercise.id,
+      durationS: item.durationS,
+      perSide: item.exercise.symmetry === 'asymmetric',
+    }))
+  }
+
+  async function handleStart() {
+    if (view.kind !== 'preview' || view.items.length === 0 || starting) return
+    setStarting(true)
+    const { sessionId } = await startGeneratedSession(supabase, {
+      items: previewToItems(view.items),
+      requestedZones: view.input.zones,
+      availableEquipment: view.input.equipment,
+      excludedTypes: view.input.excludedTypes ?? [],
+      seed: view.seed,
+    })
+    router.push(`/session/${sessionId}`)
+  }
+
+  async function handleSaveTemplate() {
+    if (view.kind !== 'preview') return
+    setSaveError(null)
+    setSaved(false)
+    setSaving(true)
+    const result = await saveGeneratedAsTemplate(supabase, templateName, previewToItems(view.items))
+    setSaving(false)
+    if (!result.ok) {
+      setSaveError(
+        result.reason === 'EMPTY_NAME'
+          ? 'Donnez un nom au modèle avant de le sauvegarder.'
+          : 'L’aperçu est vide : rien à sauvegarder.',
+      )
+      return
+    }
+    setTemplateName('')
+    setSaved(true)
   }
 
   function onGenerate() {
@@ -307,14 +370,49 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
           ))}
         </ol>
 
+        <Card className="mt-8">
+          <div className="flex flex-col gap-3">
+            <label className="flex flex-col gap-1.5 text-sm">
+              <span className="font-medium">Sauvegarder comme modèle</span>
+              <input
+                type="text"
+                value={templateName}
+                onChange={(e) => {
+                  setTemplateName(e.target.value)
+                  setSaveError(null)
+                  setSaved(false)
+                }}
+                placeholder="Nom du modèle"
+                className={inputClasses}
+              />
+            </label>
+            {saveError ? <FormMessage kind="error">{saveError}</FormMessage> : null}
+            {saved ? <FormMessage kind="success">Modèle sauvegardé.</FormMessage> : null}
+            <Button block onClick={handleSaveTemplate} disabled={view.items.length === 0 || saving}>
+              {saving ? 'Sauvegarde…' : 'Sauvegarder'}
+            </Button>
+          </div>
+        </Card>
+
         <StickyBar>
-          <div className="flex gap-3">
-            <Button block onClick={onBackToForm}>
-              Critères
+          <div className="flex flex-col gap-3">
+            <Button
+              variant="primary"
+              size="lg"
+              block
+              onClick={handleStart}
+              disabled={view.items.length === 0 || starting}
+            >
+              {starting ? 'Démarrage…' : 'Démarrer'}
             </Button>
-            <Button variant="primary" block onClick={onRegenerate}>
-              Régénérer
-            </Button>
+            <div className="flex gap-3">
+              <Button block onClick={onBackToForm}>
+                Critères
+              </Button>
+              <Button block onClick={onRegenerate}>
+                Régénérer
+              </Button>
+            </div>
           </div>
         </StickyBar>
       </Page>
