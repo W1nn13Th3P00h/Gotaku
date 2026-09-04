@@ -172,7 +172,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Sur le ventre, mains sous les épaules, jambes tendues et pieds au sol.",
+      "Sur le ventre, mains sous les épaules, jambes tendues, dessus des pieds et orteils relâchés au sol.",
       "Pousse sur les bras pour redresser le buste en gardant le bassin au sol.",
       "Redescends lentement et enchaîne, sans écraser les lombaires en haut."
     ]
@@ -194,9 +194,9 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Pieds écartés largeur d'épaules, descends en squat le plus bas possible.",
+      "Pieds écartés largeur d'épaules, orteils légèrement tournés vers l'extérieur, descends en squat le plus bas possible.",
       "Pousse les genoux vers l'extérieur avec les coudes et remonte de quelques centimètres, puis redescends.",
-      "Garde les talons au sol et la poitrine ouverte tout du long."
+      "Garde les pieds bien à plat, talons au sol, et la poitrine ouverte tout du long."
     ]
   },
   {
@@ -374,7 +374,8 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout en équilibre, attrape la cheville et amène le talon vers la fesse.",
+      "Debout en équilibre sur une jambe, pied d'appui bien à plat et ancré au sol.",
+      "Attrape la cheville de l'autre jambe et amène le talon vers la fesse.",
       "Serre le fessier du côté étiré et avance légèrement le bassin, puis relâche.",
       "Garde les genoux côte à côte, ne laisse pas le bassin partir en avant."
     ]
@@ -419,7 +420,8 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Grande fente avant, genou arrière proche du sol, bras tendus au-dessus de la tête.",
+      "Grande fente avant, pied avant à plat au sol, orteils pointés vers l'avant.",
+      "Genou arrière proche du sol, dessus du pied arrière posé, bras tendus au-dessus de la tête.",
       "Pousse le bassin vers l'avant en serrant le fessier arrière, puis relâche.",
       "Garde les côtes basses, l'ouverture vient de la hanche et non des lombaires."
     ]
@@ -533,7 +535,7 @@
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
-      "Pieds largeur d'épaules, pointes légèrement ouvertes, bras devant toi.",
+      "Pieds largeur d'épaules, pointes légèrement ouvertes, poids réparti sur tout le pied, bras devant toi.",
       "Descends en poussant les hanches vers l'arrière jusqu'à casser la parallèle.",
       "Remonte en poussant dans les talons, genoux dans l'axe des pieds."
     ]
@@ -600,9 +602,9 @@
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
-      "Debout, pieds parallèles, appui léger sur un mur pour l'équilibre.",
-      "Monte sur la pointe d'un pied, redescends, puis alterne.",
-      "Va au bout de l'extension à chaque montée, contrôle la descente."
+      "Debout, pieds parallèles bien à plat, appui léger sur un mur pour l'équilibre.",
+      "Monte sur la pointe d'un pied en passant le poids sur le gros orteil et les orteils voisins, redescends, puis alterne.",
+      "Va au bout de l'extension de la cheville à chaque montée, contrôle la descente."
     ]
   },
   {
@@ -644,8 +646,8 @@
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
-      "Sur une marche, avant-pieds en appui, talons dans le vide.",
-      "Monte sur les deux pointes, puis redescends sur un seul pied très lentement.",
+      "Sur une marche, avant-pieds et orteils en appui bien à plat sur le bord, talons dans le vide.",
+      "Monte sur les deux pointes, orteils en extension, puis redescends sur un seul pied très lentement.",
       "Alterne le pied de descente, cinq secondes minimum par répétition."
     ]
   },
@@ -710,7 +712,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout en équilibre, attrape un tibia avec les deux mains.",
+      "Debout en équilibre, pied d'appui bien ancré au sol, attrape un tibia avec les deux mains.",
       "Ramène le tibia vers la poitrine en le gardant horizontal, puis change de côté.",
       "Garde le buste droit, ne t'enroule pas vers la jambe."
     ]
@@ -732,7 +734,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "En fente à genou, pied avant à plat, genou arrière au sol.",
+      "En fente à genou, pied avant à plat, orteils pointés vers l'avant, genou arrière au sol.",
       "Avance le bassin pour étirer la hanche arrière, puis change de jambe.",
       "Serre le fessier arrière et garde les côtes basses."
     ]
@@ -754,7 +756,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout face à un appui, mains posées dessus.",
+      "Debout face à un appui, mains posées dessus, pied d'appui bien à plat au sol.",
       "Balance une jambe d'un côté à l'autre devant toi, amplitude progressive.",
       "Garde le buste face à l'appui, puis change de jambe."
     ]
@@ -776,7 +778,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout de profil à un appui, une main posée dessus.",
+      "Debout de profil à un appui, une main posée dessus, pied d'appui bien à plat au sol.",
       "Balance la jambe d'avant en arrière, en montant progressivement l'amplitude.",
       "Le buste reste droit, puis change de jambe."
     ]
@@ -798,7 +800,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Fais un grand pas en avant et descends en fente, genou arrière proche du sol.",
+      "Fais un grand pas en avant, pied avant à plat au sol, orteils vers l'avant, et descends en fente, genou arrière proche du sol.",
       "Pose la main au sol côté intérieur et ouvre l'autre bras vers le plafond.",
       "Reviens debout et enchaîne sur l'autre jambe, en gardant le buste long."
     ]
@@ -866,7 +868,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Grande fente avant, bras tendus au-dessus de la tête.",
+      "Grande fente avant, pied avant à plat au sol, orteils pointés vers l'avant, bras tendus au-dessus de la tête.",
       "Pousse le bassin vers l'avant, tiens deux secondes, puis change de jambe.",
       "Serre le fessier arrière pour protéger les lombaires."
     ]
@@ -932,9 +934,9 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Grand pas sur le côté, jambe d'appui fléchie, l'autre tendue.",
+      "Grand pas sur le côté, jambe d'appui fléchie pied à plat, l'autre tendue.",
       "Descends sur la jambe fléchie et incline le buste du même côté, puis change.",
-      "Garde le pied de la jambe tendue à plat au sol."
+      "Garde le pied de la jambe tendue à plat au sol, orteils pointés vers le haut."
     ]
   },
   {
@@ -954,7 +956,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Fente avant courte, pied avant à plat, mains libres.",
+      "Fente avant courte, pied avant à plat au sol, orteils restent posés, mains libres.",
       "Pousse le genou avant vers l'avant au-delà des orteils sans décoller le talon.",
       "Recule le pied d'un centimètre dès que ça devient trop facile."
     ]
@@ -976,9 +978,9 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "En fente à genou, pied avant à plat, mains posées au sol de part et d'autre.",
+      "En fente à genou, pied avant à plat, orteils pointés vers l'avant, mains posées au sol de part et d'autre.",
       "Avance le genou vers l'avant et sur les côtés, en cherchant les angles.",
-      "Le talon reste collé au sol pendant tout le mouvement."
+      "Le talon et l'avant-pied restent collés au sol pendant tout le mouvement."
     ]
   },
   {
@@ -1044,7 +1046,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "En fente à genou, pose les deux mains sur le genou avant.",
+      "En fente à genou, pied avant à plat, orteils vers l'avant, pose les deux mains sur le genou avant.",
       "Pousse le genou vers l'avant avec les mains, talon collé au sol.",
       "Insiste sur les derniers degrés en respirant, sans à-coups."
     ]
@@ -1090,8 +1092,8 @@
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
-      "Debout, gainé, mains sur les hanches.",
-      "Recule une jambe et descends jusqu'à ce que le genou frôle le sol.",
+      "Debout, gainé, pied d'appui à plat, mains sur les hanches.",
+      "Recule une jambe et descends jusqu'à ce que le genou frôle le sol, dessus du pied arrière posé.",
       "Remonte en poussant dans le talon avant, alterne les jambes."
     ]
   },
@@ -1138,7 +1140,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Descends en squat profond, élastique tendu entre les mains.",
+      "Descends en squat profond, pieds à plat écartés largeur d'épaules, élastique tendu entre les mains.",
       "Fais passer l'élastique de l'avant vers l'arrière en gardant la position basse.",
       "Garde la poitrine ouverte et les talons au sol."
     ]
@@ -1186,7 +1188,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Élastique en boucle autour de la cheville, tension vers l'arrière.",
+      "Élastique en boucle autour de la cheville, tension vers l'arrière, pied à plat au sol.",
       "Avance le genou par-dessus les orteils, talon au sol, contre la traction.",
       "Fais varier l'angle du genou pour balayer toute l'articulation."
     ]
@@ -1211,7 +1213,7 @@
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
-      "Debout sur l'élastique, extrémités tenues en main, dos plat.",
+      "Debout sur l'élastique, pieds à plat largeur de hanches, extrémités tenues en main, dos plat.",
       "Recule les hanches puis redresse-toi en poussant dans les talons.",
       "Le dos ne s'arrondit jamais, la charge reste sur les ischios."
     ]
@@ -1355,7 +1357,7 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "En fente à genou, élastique en traction sur la hanche arrière vers l'avant.",
+      "En fente à genou, pied avant à plat, élastique en traction sur la hanche arrière vers l'avant.",
       "Avance le bassin en serrant le fessier, laisse l'élastique tirer vers l'arrière.",
       "Côtes basses, ne compense jamais par les lombaires."
     ]
@@ -1619,9 +1621,10 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Dos au mur, élastique en traction sur les hanches vers l'arrière.",
-      "Descends en squat en laissant l'élastique tirer le bassin en arrière.",
-      "Garde les talons au sol et le dos en contact avec le mur."
+      "Dos au mur, pieds à plat écartés largeur de hanches, orteils légèrement tournés vers l'extérieur.",
+      "Élastique ancré derrière toi, tendu à hauteur de hanches pour tirer le bassin vers l'arrière.",
+      "Descends en squat en laissant l'élastique accentuer le recul du bassin, genoux dans l'axe des pieds.",
+      "Garde les talons au sol tout du long et le dos en contact avec le mur."
     ]
   },
   {
@@ -1643,7 +1646,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Élastique en traction sur les hanches, descends en squat profond.",
+      "Pieds à plat écartés largeur d'épaules, élastique en traction sur les hanches, descends en squat profond.",
       "Pousse les genoux vers l'extérieur avec les coudes et fais osciller le bassin.",
       "Reste bas, la poitrine ouverte, sans décoller les talons."
     ]
@@ -1834,7 +1837,7 @@
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
-      "À quatre pattes, genoux décollés de quelques centimètres, dos plat.",
+      "À quatre pattes, genoux décollés de quelques centimètres, appui sur la pointe des pieds, dos plat.",
       "Avance main et pied opposés en gardant le bassin stable.",
       "Ne laisse pas les hanches osciller latéralement."
     ]
@@ -1926,8 +1929,8 @@
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
-      "À genoux, orteils fléchis sous le pied, fesses vers les talons.",
-      "Assieds-toi progressivement en arrière pour charger la base des orteils.",
+      "À genoux, orteils repliés en flexion sous le pied, plante en contact avec les talons.",
+      "Assieds-toi progressivement en arrière pour charger la base des orteils repliés.",
       "Dose avec les mains au sol, ne va pas jusqu'à la douleur vive."
     ]
   },
@@ -1972,7 +1975,7 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Descends en squat le plus bas possible, pieds à plat.",
+      "Descends en squat le plus bas possible, pieds à plat, talons au sol.",
       "Pose les coudes à l'intérieur des genoux et pousse-les vers l'extérieur.",
       "Garde la poitrine ouverte et respire, laisse le bassin descendre."
     ]
@@ -1994,7 +1997,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "En squat bas, une main au sol entre les pieds.",
+      "En squat bas, pieds à plat, une main au sol entre les pieds.",
       "Ouvre l'autre bras vers le plafond en tournant le buste, puis change de côté.",
       "Garde les talons au sol et le bassin bas."
     ]
@@ -2016,7 +2019,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "En squat bas, pieds largement écartés.",
+      "En squat bas, pieds largement écartés et bien à plat.",
       "Transfère le poids d'une jambe à l'autre en gardant le bassin bas.",
       "Les deux talons restent au sol pendant le transfert."
     ]
@@ -2131,8 +2134,8 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "En position de chien tête en bas, mains et pieds au sol.",
-      "Fléchis un genou et pousse le talon opposé vers le sol.",
+      "En position de chien tête en bas, mains et pieds à plat au sol.",
+      "Fléchis un genou et pousse le talon de la jambe tendue vers le sol, orteils de ce pied pointés vers l'avant.",
       "Alterne lentement, garde le dos long et les hanches hautes."
     ]
   },
@@ -2153,9 +2156,10 @@
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
-      "Avant-pied contre le mur, talon au sol, jambe tendue.",
-      "Avance le bassin vers le mur jusqu'à sentir l'arrière de la jambe.",
-      "Garde le genou tendu, le talon ne décolle pas."
+      "Avant-pied et orteils du pied avant posés contre le mur, orteils en extension, talon au sol.",
+      "Genou de cette jambe tendu, l'autre pied à plat au sol un peu en arrière pour l'équilibre.",
+      "Avance le bassin vers le mur jusqu'à sentir l'étirement dans le mollet.",
+      "Garde le talon ancré au sol et le genou tendu pendant tout l'étirement."
     ]
   },
   {
@@ -2199,7 +2203,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Sur le ventre, mains sous les épaules, pousse pour monter en cobra.",
+      "Sur le ventre, mains sous les épaules, dessus des pieds au sol, pousse pour monter en cobra.",
       "Recule ensuite les fesses vers les talons en position de prière.",
       "Enchaîne les deux positions au rythme de la respiration."
     ]
@@ -2221,8 +2225,8 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Pieds très écartés, descends sur une jambe, l'autre tendue sur le côté.",
-      "Garde le pied de la jambe tendue à plat, pointe vers le haut.",
+      "Pieds très écartés, descends sur une jambe fléchie pied à plat, l'autre tendue sur le côté.",
+      "Garde le pied de la jambe tendue à plat, orteils pointés vers le haut.",
       "Transfère le poids d'un côté à l'autre en restant bas."
     ]
   },
@@ -2331,7 +2335,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout, fais un grand pas en avant en croisant devant l'autre jambe.",
+      "Debout, fais un grand pas en avant en croisant devant l'autre jambe, pied avant à plat au sol.",
       "Descends en fente puis remonte et enchaîne avec l'autre jambe.",
       "Garde le buste droit, le genou avant reste dans l'axe du pied."
     ]
@@ -2423,7 +2427,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Mains et pieds au sol, bassin poussé vers le haut et l'arrière.",
+      "Mains et pieds à plat au sol, pieds parallèles, bassin poussé vers le haut et l'arrière.",
       "Allonge le dos et pousse les talons vers le sol.",
       "Fléchis légèrement les genoux si le dos s'arrondit."
     ]
@@ -2446,8 +2450,8 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Depuis le chien tête en bas, avance le buste en passant près du sol.",
-      "Termine en cobra, poitrine ouverte, bassin au sol.",
+      "Depuis le chien tête en bas, pieds à plat au sol, avance le buste en passant près du sol.",
+      "Termine en cobra, dessus des pieds posé au sol, poitrine ouverte, bassin au sol.",
       "Reviens en poussant le bassin vers l'arrière, enchaîne sur la respiration."
     ]
   },
@@ -2468,9 +2472,9 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Grande fente avant, mains au sol de part et d'autre du pied avant.",
+      "Grande fente avant, pied avant à plat au sol, mains au sol de part et d'autre du pied avant.",
       "Descends le bassin puis remonte, en petites oscillations contrôlées.",
-      "Alterne les jambes, garde le genou arrière proche du sol."
+      "Alterne les jambes, garde le genou arrière proche du sol, dessus du pied arrière posé."
     ]
   },
   {
@@ -2648,7 +2652,7 @@
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
-      "Debout, gainé, mains sur les hanches.",
+      "Debout, gainé, pied d'appui à plat, mains sur les hanches.",
       "Fais un grand pas en avant et descends jusqu'au genou arrière proche du sol.",
       "Remonte en poussant dans le talon avant, alterne."
     ]
@@ -2854,7 +2858,7 @@
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
-      "Debout, pieds largeur de hanches, mains derrière la nuque.",
+      "Debout, pieds à plat largeur de hanches, mains derrière la nuque.",
       "Recule les hanches en gardant le dos plat jusqu'à l'horizontale.",
       "Remonte en serrant les fessiers, sans arrondir le dos."
     ]
@@ -2879,9 +2883,9 @@
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
-      "Debout sur l'élastique, l'autre extrémité passée derrière la nuque.",
+      "Debout sur l'élastique, pieds à plat, l'autre extrémité passée derrière la nuque.",
       "Penche le buste vers l'avant, dos plat, contre la résistance.",
-      "Remonte en poussant les hanches vers l'avant."
+      "Remonte en poussant les hanches vers l'avant, poids dans les talons."
     ]
   },
   {
@@ -2901,7 +2905,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout, recule une jambe en fente profonde.",
+      "Debout, pied d'appui à plat, recule une jambe en fente profonde, dessus du pied arrière posé.",
       "Monte les deux bras au-dessus de la tête en ouvrant la poitrine.",
       "Reviens debout et enchaîne avec l'autre jambe."
     ]
@@ -2923,7 +2927,7 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Genou arrière au sol, pied avant à plat, buste droit.",
+      "Genou arrière au sol, pied avant à plat, orteils pointés vers l'avant, buste droit.",
       "Attrape le pied arrière et ramène le talon vers la fesse.",
       "Serre le fessier arrière pour effacer la cambrure."
     ]
@@ -2945,7 +2949,7 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Sur le dos, pieds au mur, une cheville posée sur le genou opposé.",
+      "Sur le dos, pied d'appui à plat contre le mur, une cheville posée sur le genou opposé.",
       "Fais glisser le pied d'appui vers le bas pour augmenter la tension.",
       "Garde le bas du dos plaqué au sol."
     ]
@@ -2990,7 +2994,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "En demi-squat, coudes posés sur les genoux.",
+      "En demi-squat, pieds à plat, coudes posés sur les genoux.",
       "Tourne le buste pour ouvrir un bras vers le plafond, puis l'autre.",
       "Le bassin ne bouge pas, la rotation vient du haut du dos."
     ]
@@ -3124,7 +3128,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout en équilibre, attrape le tibia à deux mains.",
+      "Debout en équilibre, pied d'appui bien ancré au sol, attrape le tibia à deux mains.",
       "Ramène-le horizontalement vers la poitrine, cheville et genou à la même hauteur.",
       "Reste grand, ne t'enroule pas vers la jambe."
     ]
@@ -3330,7 +3334,7 @@
     "duration_min_s": 40,
     "duration_max_s": 90,
     "instructions": [
-      "Assis, cheville posée sur le genou opposé, voûte accessible.",
+      "Assis, cheville posée sur le genou opposé, voûte accessible, orteils relâchés.",
       "Passe l'appareil du talon vers les orteils, lentement.",
       "Reste léger, la plante est très sensible."
     ]
@@ -3867,7 +3871,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout, mains derrière la nuque, penche le buste dos plat.",
+      "Debout, pieds à plat, mains derrière la nuque, penche le buste dos plat.",
       "Depuis cette position, descends en squat puis redresse le buste.",
       "Enchaîne dans l'ordre inverse pour revenir, dos toujours plat."
     ]
@@ -3891,7 +3895,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "En fente à genou, pose une charge sur la cuisse avant, près du genou.",
+      "En fente à genou, pied avant à plat, pose une charge sur la cuisse avant, près du genou.",
       "Avance le genou par-dessus les orteils, talon collé au sol.",
       "Balaye vers l'intérieur et l'extérieur pour trouver les blocages."
     ]
@@ -4001,7 +4005,7 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "À genoux, pieds tendus derrière, fesses posées sur les talons.",
+      "À genoux, dessus des pieds et orteils en extension complète au sol, fesses posées sur les talons.",
       "Bascule le buste en arrière en appui sur les mains.",
       "Serre les fessiers pour éviter la cambrure."
     ]
@@ -4162,9 +4166,10 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Avant-bras contre le montant, coude au-dessus du niveau de l'épaule.",
-      "Avance le buste en gardant le tronc gainé.",
-      "Fais varier la hauteur du coude pour changer le faisceau sollicité."
+      "Debout de profil au chambranle, avant-bras et paume contre le montant, coude au-dessus du niveau de l'épaule.",
+      "Pied du même côté légèrement avancé pour garder l'équilibre dans le pas qui suit.",
+      "Avance le buste en gardant le tronc gainé, sans cambrer le bas du dos.",
+      "Fais varier la hauteur du coude d'un essai à l'autre pour changer le faisceau du pectoral sollicité."
     ]
   },
   {
@@ -4184,7 +4189,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "En fente avant, main au sol côté intérieur du pied avant.",
+      "En fente avant, pied avant à plat, main au sol côté intérieur du pied avant.",
       "Ouvre un bras vers le plafond, puis passe-le sous le corps de l'autre côté.",
       "Enchaîne lentement, le bassin reste bas et stable."
     ]
@@ -4206,7 +4211,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "En fente avant, main au sol à l'intérieur du pied avant.",
+      "En fente avant, pied avant à plat, main au sol à l'intérieur du pied avant.",
       "Ouvre l'autre bras vers le plafond en tournant le buste.",
       "Suis la main du regard, garde le genou arrière au sol."
     ]
@@ -4363,9 +4368,10 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Avant-bras contre le montant, coude à hauteur d'épaule.",
+      "Debout de profil au chambranle, avant-bras et paume contre le montant, coude à hauteur d'épaule.",
+      "Pied du même côté légèrement avancé pour garder l'équilibre dans le pas qui suit.",
       "Avance le buste en gardant le tronc gainé, sans cambrer.",
-      "Tourne légèrement le buste à l'opposé pour intensifier."
+      "Tourne légèrement le buste à l'opposé du mur pour intensifier l'étirement."
     ]
   },
   {
@@ -4386,7 +4392,7 @@
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
-      "En position de planche, mains sous les épaules, corps aligné.",
+      "En position de planche, mains sous les épaules, appui sur la pointe des pieds, corps aligné.",
       "Ramène un genou vers la poitrine puis alterne rapidement.",
       "Garde le bassin bas, ne laisse pas les hanches monter."
     ]
@@ -4545,8 +4551,9 @@
     "duration_min_s": 39,
     "duration_max_s": 97,
     "instructions": [
-      "Face au mur, pointes de pieds proches de la plinthe, bras tendus au-dessus de la tête.",
-      "Descends en squat sans toucher le mur avec les mains ni la tête.",
+      "Face au mur, pieds à plat écartés largeur de hanches, pointes de pieds proches de la plinthe.",
+      "Bras tendus au-dessus de la tête, paumes vers le mur.",
+      "Descends en squat sans toucher le mur avec les mains ni la tête, poids réparti sur tout le pied.",
       "Garde les talons au sol et le regard devant."
     ]
   },
@@ -4569,8 +4576,8 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Élastique tendu entre les mains au-dessus de la tête, bras tendus.",
-      "Descends en squat en écartant les mains contre la résistance.",
+      "Pieds à plat écartés largeur d'épaules, élastique tendu entre les mains au-dessus de la tête, bras tendus.",
+      "Descends en squat en écartant les mains contre la résistance, talons au sol.",
       "Garde les bras derrière la ligne des oreilles."
     ]
   },
@@ -4616,9 +4623,10 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Dos plaqué au mur, cuisses parallèles au sol, genoux à quatre-vingt-dix degrés.",
-      "Tiens la position en poussant le dos contre le mur.",
-      "Répartis le poids sur tout le pied, respire normalement."
+      "Dos plaqué au mur, pieds à plat écartés largeur de hanches et légèrement avancés.",
+      "Descends jusqu'à cuisses parallèles au sol, genoux à quatre-vingt-dix degrés.",
+      "Tiens la position en poussant le dos contre le mur, poids réparti sur tout le pied.",
+      "Respire normalement sans remonter avant la fin du temps."
     ]
   },
   {
@@ -4803,8 +4811,8 @@
     "duration_min_s": 39,
     "duration_max_s": 78,
     "instructions": [
-      "Debout sur une jambe, l'autre tendue devant toi.",
-      "Descends aussi bas que possible en gardant le talon au sol.",
+      "Debout sur une jambe, pied bien à plat, l'autre tendue devant toi.",
+      "Descends aussi bas que possible en gardant le talon au sol et les orteils relâchés.",
       "Remonte contrôlé, sers-toi d'un appui si nécessaire."
     ]
   },
@@ -4826,7 +4834,7 @@
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
-      "En position de planche haute, corps aligné.",
+      "En position de planche haute, appui sur la pointe des deux pieds, corps aligné.",
       "Ramène un pied vers l'avant et pose la pointe à côté de la main.",
       "Alterne sans laisser le bassin monter."
     ]
@@ -4848,8 +4856,9 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Avant-bras contre le montant, coude à hauteur d'épaule.",
-      "Pousse contre le montant cinq secondes, puis relâche et avance le buste.",
+      "Debout de profil au chambranle, avant-bras et paume contre le montant, coude à hauteur d'épaule.",
+      "Pousse contre le montant cinq secondes sans bouger, en contractant le pectoral.",
+      "Relâche puis avance le buste pour gagner en amplitude.",
       "Répète trois fois en gagnant un peu d'amplitude à chaque cycle."
     ]
   },
@@ -5012,7 +5021,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Installe-toi en squat profond, dos droit et abdominaux gainés.",
+      "Installe-toi en squat profond, pieds à plat, dos droit et abdominaux gainés.",
       "Place les mains un peu plus larges que les épaules sur le tube, en position de front rack.",
       "Pousse le tube au-dessus de la tête avec les épaules actives, sans perdre la position basse."
     ]
@@ -5239,9 +5248,9 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Pieds très écartés, descends sur une jambe, l'autre tendue.",
+      "Pieds très écartés, descends sur une jambe fléchie pied à plat, l'autre tendue.",
       "Installe-toi dans la position basse et laisse le bassin descendre.",
-      "Garde le pied tendu à plat, pointe vers le haut."
+      "Garde le pied tendu à plat, orteils pointés vers le haut."
     ]
   },
   {
@@ -5264,7 +5273,7 @@
     "duration_max_s": 75,
     "instructions": [
       "Élastique en boucle sur le dessus du pied, tension vers l'avant.",
-      "Recule pour créer la traction et fléchis la cheville vers l'arrière.",
+      "Recule pour créer la traction et fléchis la cheville vers l'arrière, orteils relâchés.",
       "Le talon reste au sol, le mouvement est lent."
     ]
   },
@@ -5469,7 +5478,7 @@
     "duration_max_s": 75,
     "instructions": [
       "Sur le dos, genoux ramenés vers la poitrine.",
-      "Roule vers l'arrière puis reviens en position assise jambes écartées en V.",
+      "Roule vers l'arrière puis reviens en position assise jambes écartées en V, pointes de pieds vers le haut.",
       "Utilise l'élan du bassin, pas celui de la nuque."
     ]
   },
@@ -5539,7 +5548,7 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Grande fente avant, genou arrière au sol, bras tendus au-dessus de la tête.",
+      "Grande fente avant, pied avant à plat, genou arrière au sol, bras tendus au-dessus de la tête.",
       "Pousse le bassin vers l'avant en serrant le fessier arrière.",
       "Garde les côtes basses et le buste grand."
     ]
@@ -5628,8 +5637,9 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Assis dos au mur, avant-bras plaqués en position de gardien de but.",
-      "Fais glisser les avant-bras vers le haut sans décoller les poignets.",
+      "Assis dos au mur, pieds à plat au sol, genoux fléchis à angle droit.",
+      "Avant-bras et poignets plaqués au mur en position de gardien de but.",
+      "Fais glisser les avant-bras vers le haut sans décoller les poignets ni le bas du dos du mur.",
       "Redescends lentement en serrant les omoplates vers le bas."
     ]
   },
@@ -5697,7 +5707,7 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "À genoux, pointes de pieds tendues, fesses sur les talons.",
+      "À genoux, orteils en extension complète, dessus du pied posé au sol, fesses sur les talons.",
       "Assieds-toi progressivement en arrière, mains derrière pour doser.",
       "Décolle légèrement les genoux du sol pour intensifier."
     ]
@@ -5926,7 +5936,8 @@
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
-      "Debout sur une jambe, l'autre pied décollé, regard devant.",
+      "Debout sur une jambe, pied bien à plat, les orteils légèrement écartés pour ancrer l'appui.",
+      "L'autre pied décollé, regard devant.",
       "Tiens la position en gardant le bassin horizontal.",
       "Ferme les yeux pour intensifier une fois la position stable."
     ]
@@ -5972,7 +5983,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Depuis la planche haute, amène un pied à l'extérieur de la main du même côté.",
+      "Depuis la planche haute, amène un pied à plat à l'extérieur de la main du même côté.",
       "Descends le bassin et laisse la hanche s'ouvrir.",
       "Reviens en planche et alterne."
     ]
@@ -6040,7 +6051,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout jambes tendues, penche-toi et attrape les orteils.",
+      "Debout jambes tendues, pieds à plat, penche-toi et attrape les orteils.",
       "Descends en squat en gardant les mains sur les pieds et la poitrine haute.",
       "Retends les jambes sans lâcher les orteils, et recommence."
     ]
@@ -6152,8 +6163,8 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Grande fente avant debout, bassin poussé vers l'avant.",
-      "Bascule ensuite le poids en arrière en tendant la jambe avant.",
+      "Grande fente avant debout, pied avant à plat, bassin poussé vers l'avant.",
+      "Bascule ensuite le poids en arrière en tendant la jambe avant, talon au sol.",
       "Enchaîne les deux positions lentement, dos plat."
     ]
   },
@@ -6174,7 +6185,8 @@
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
-      "Debout en équilibre, attrape la cheville et amène le talon vers la fesse.",
+      "Debout en équilibre sur une jambe, pied d'appui bien à plat et ancré au sol.",
+      "Attrape la cheville de l'autre jambe et amène le talon vers la fesse.",
       "Garde les genoux côte à côte et le bassin en rétroversion.",
       "Serre le fessier du côté étiré, ne cambre pas."
     ]
@@ -6220,7 +6232,7 @@
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
-      "Debout sur une box, un pied dans le vide.",
+      "Debout sur une box, pied d'appui bien à plat sur le bord, un pied dans le vide.",
       "Descends lentement en fléchissant la jambe d'appui jusqu'à effleurer le sol.",
       "Contrôle la descente, le genou reste dans l'axe du pied."
     ]
@@ -6242,7 +6254,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Assis, jambes tendues et très écartées, mains au sol devant.",
+      "Assis, jambes tendues et très écartées, pointes de pieds vers le haut, mains au sol devant.",
       "Fais glisser le buste d'une jambe à l'autre en passant par le centre.",
       "Garde le dos plat et les genoux vers le plafond."
     ]
@@ -6514,7 +6526,7 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Un talon posé sur un appui à hauteur de hanche, jambe tendue.",
+      "Un talon posé sur un appui à hauteur de hanche, jambe tendue, pied d'appui au sol bien à plat.",
       "Penche le buste vers la jambe posée, dos plat.",
       "Les hanches restent parallèles à l'appui."
     ]
@@ -6538,9 +6550,9 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Talon posé sur une box, jambe tendue, buste droit.",
+      "Talon posé sur une box, jambe tendue, pied d'appui au sol bien à plat, buste droit.",
       "Penche-toi vers l'avant en gardant le dos plat, puis sur le côté.",
-      "Garde la pointe de pied vers le haut."
+      "Garde la pointe de pied posée sur la box vers le haut."
     ]
   },
   {
@@ -6650,7 +6662,7 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Sur le ventre, mains sous les épaules, jambes tendues.",
+      "Sur le ventre, mains sous les épaules, jambes tendues, dessus des pieds au sol.",
       "Pousse sur les bras pour ouvrir la poitrine, bassin au sol.",
       "Épaules loin des oreilles, ne force pas sur les lombaires."
     ]
@@ -6672,7 +6684,7 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Genoux écartés, tibias dans le prolongement, appui sur les avant-bras.",
+      "Genoux écartés, tibias dans le prolongement, pieds joints ou légèrement écartés, appui sur les avant-bras.",
       "Laisse le bassin descendre vers le sol et installe-toi.",
       "Le dos reste neutre, respire lentement."
     ]
@@ -6716,7 +6728,7 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Genou arrière au sol, pied avant à plat, buste droit.",
+      "Genou arrière au sol, pied avant à plat, orteils vers l'avant, buste droit.",
       "Avance le bassin en serrant le fessier arrière.",
       "Côtes basses, l'ouverture vient de la hanche."
     ]
@@ -6738,7 +6750,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "En fente à genou, avance le bassin pour ouvrir la hanche arrière.",
+      "En fente à genou, pied avant à plat, avance le bassin pour ouvrir la hanche arrière.",
       "Bascule ensuite en arrière en tendant la jambe avant, pointe vers le haut.",
       "Enchaîne les deux positions, dos plat en permanence."
     ]
@@ -6810,7 +6822,7 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Élastique en main, tends le bras vers l'arrière et descends en fente avant.",
+      "Élastique en main, tends le bras vers l'arrière et descends en fente avant, pied avant à plat.",
       "Garde le buste droit et orienté vers l'avant.",
       "Tête et pieds tournés du côté opposé au bras tendu."
     ]
@@ -6967,7 +6979,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout dos au mur, à une largeur de main de distance.",
+      "Debout dos au mur, à une largeur de main de distance, pieds à plat.",
       "Recule les hanches jusqu'à toucher le mur avec les fessiers, dos plat.",
       "Les genoux restent légèrement fléchis, le dos ne s'arrondit pas."
     ]
@@ -6989,9 +7001,9 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout de profil au mur, à une longueur de bras.",
+      "Debout de profil au mur, à une longueur de bras, pieds à plat, orteils orientés vers l'avant.",
       "Pose les deux mains sur le mur et tourne le buste en te grandissant.",
-      "Les pieds et le bassin restent face à l'avant."
+      "Les pieds et le bassin restent face à l'avant sans pivoter, seule la colonne tourne."
     ]
   },
   {
@@ -7011,7 +7023,7 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Sur le dos, fesses contre le mur, jambes tendues à la verticale.",
+      "Sur le dos, fesses contre le mur, jambes tendues à la verticale, talons contre le mur.",
       "Laisse les jambes s'écarter en V sous leur propre poids.",
       "Garde le bas du dos au sol, ne force pas avec les mains."
     ]
@@ -7149,9 +7161,9 @@
     "duration_min_s": 40,
     "duration_max_s": 90,
     "instructions": [
-      "Debout ou assis, balle sous la voûte plantaire.",
+      "Debout ou assis, balle sous la voûte plantaire, orteils relâchés et posés au sol.",
       "Roule du talon aux orteils en dosant l'appui avec le poids du corps.",
-      "Insiste dix secondes sur chaque point sensible sans crisper le pied."
+      "Insiste dix secondes sur chaque point sensible sans crisper le pied ni recroqueviller les orteils."
     ]
   },
   {
@@ -7218,9 +7230,10 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Avant-bras contre le montant, coude sous le niveau de l'épaule.",
-      "Avance le buste en gardant le tronc gainé.",
-      "Descends encore le coude pour cibler le faisceau haut."
+      "Debout de profil au chambranle, avant-bras et paume contre le montant, coude sous le niveau de l'épaule.",
+      "Pied du même côté légèrement avancé pour garder l'équilibre dans le pas qui suit.",
+      "Avance le buste en gardant le tronc gainé, sans cambrer.",
+      "Descends encore le coude pour cibler le faisceau haut du pectoral."
     ]
   },
   {
@@ -7240,7 +7253,7 @@
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
-      "Assis, jambes tendues et écartées en V, dos droit.",
+      "Assis, jambes tendues et écartées en V, dos droit, pointes de pieds vers le haut.",
       "Grandis le buste et laisse le bassin basculer vers l'avant.",
       "Genoux vers le plafond, ne laisse pas les jambes rouler vers l'intérieur."
     ]
@@ -7263,7 +7276,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Assis en V, jambes tendues et écartées.",
+      "Assis en V, jambes tendues et écartées, pointes de pieds vers le haut.",
       "Tourne le buste vers une jambe et penche-toi dessus, dos plat.",
       "Reviens au centre puis change de côté."
     ]
@@ -7285,7 +7298,7 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout, mains derrière la nuque, fais un pas en avant.",
+      "Debout, pieds à plat, mains derrière la nuque, fais un pas en avant.",
       "Penche le buste dos plat sur la jambe avant, puis redresse-toi.",
       "Enchaîne en avançant, le dos ne s'arrondit jamais."
     ]
@@ -7307,9 +7320,9 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Debout de profil au mur, une main posée dessus bras tendu.",
-      "Dessine de grands cercles avec la main sans décoller la paume.",
-      "Le buste reste face à l'avant, seule l'épaule travaille."
+      "Debout de profil au mur, pieds à plat face à l'avant, une main posée dessus bras tendu.",
+      "Dessine de grands cercles avec la main sans décoller la paume du mur.",
+      "Le buste et les pieds restent face à l'avant, seule l'épaule travaille."
     ]
   },
   {
@@ -7331,9 +7344,10 @@
     "duration_min_s": 40,
     "duration_max_s": 90,
     "instructions": [
-      "Debout dos au mur, relâche le bras en travers du bas du dos.",
-      "Place le rouleau perpendiculaire au bras, coincé entre l'avant-bras et le mur.",
-      "Garde un mouvement rythmé d'environ cinquante allers-retours par minute, sans crisper."
+      "Debout dos au mur, relâche le bras en travers du bas du dos, avant-bras détendu.",
+      "Place le rouleau perpendiculaire à l'avant-bras, coincé entre l'avant-bras et le mur.",
+      "Fais rouler du coude au poignet avec un mouvement rythmé d'environ cinquante allers-retours par minute, sans crisper.",
+      "Ouvre et ferme la main sur les points tendus pour approfondir le relâchement."
     ]
   },
   {
@@ -7354,7 +7368,8 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Face au mur, pointes de pieds proches de la plinthe, bras le long du corps.",
+      "Face au mur, pieds à plat écartés largeur de hanches, pointes de pieds proches de la plinthe.",
+      "Bras le long du corps, poids réparti sur tout le pied.",
       "Descends en squat sans toucher le mur avec les genoux ni la tête.",
       "Garde les talons au sol et la poitrine haute."
     ]
@@ -7379,9 +7394,10 @@
     "duration_min_s": 39,
     "duration_max_s": 117,
     "instructions": [
-      "Face au mur, tube tenu au-dessus de la tête en prise large.",
-      "Descends en squat sans que le tube ni la tête ne touchent le mur.",
-      "Talons au sol, coudes tendus tout du long."
+      "Face au mur, pieds à plat écartés largeur de hanches, pointes de pieds proches de la plinthe.",
+      "Tube tenu au-dessus de la tête en prise large, coudes tendus.",
+      "Descends en squat sans que le tube ni la tête ne touchent le mur, poids réparti sur tout le pied.",
+      "Talons au sol pendant toute la descente, coudes tendus tout du long."
     ]
   },
   {
@@ -7401,9 +7417,9 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Dos au mur, coude pointé vers le plafond, main dans le dos.",
-      "Appuie le coude contre le mur et laisse la main descendre.",
-      "Garde les côtes basses, ne cambre pas."
+      "Dos au mur pour l'équilibre, coude pointé vers le plafond, main dans le dos.",
+      "Appuie le coude contre le mur et laisse la main descendre le long de la colonne.",
+      "Garde les côtes basses, ne cambre pas le bas du dos."
     ]
   },
   {
@@ -7423,9 +7439,10 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Avant-pied contre le mur, talon au sol, genou fléchi.",
-      "Avance le genou vers le mur en gardant le talon collé.",
-      "La flexion du genou cible le bas du mollet et le tendon."
+      "Avant-pied et orteils du pied avant posés contre le mur, orteils en extension, talon au sol.",
+      "Genou de cette jambe fléchi, l'autre pied à plat au sol un peu en arrière pour l'équilibre.",
+      "Avance le genou vers le mur en gardant le talon collé au sol.",
+      "La flexion du genou déplace la tension vers le bas du mollet et le tendon d'Achille."
     ]
   },
   {
@@ -7446,9 +7463,9 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Bras tendu contre le mur, paume posée, coude à hauteur d'épaule.",
+      "Bras tendu contre le mur, paume posée à plat, coude à hauteur d'épaule.",
       "Tourne le buste à l'opposé puis reviens, en alternant activement.",
-      "L'épaule reste basse pendant tout le mouvement."
+      "L'épaule reste basse et la paume ne décolle pas pendant tout le mouvement."
     ]
   },
   {
@@ -7469,9 +7486,9 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Bras tendu contre le mur, paume posée, coude à hauteur d'épaule.",
+      "Bras tendu contre le mur, paume posée à plat, coude à hauteur d'épaule.",
       "Tourne le buste à l'opposé et tiens la position.",
-      "Ne force pas sur le coude, la tension reste sur le pectoral."
+      "Ne force pas sur le coude, la tension reste sur le pectoral et le biceps."
     ]
   },
   {
@@ -7491,7 +7508,8 @@
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
-      "Avant-pied contre le mur, talon au sol, jambe tendue.",
+      "Avant-pied et orteils du pied avant posés contre le mur, orteils en extension, talon au sol.",
+      "Genou de cette jambe tendu, l'autre pied à plat au sol un peu en arrière pour l'équilibre.",
       "Alterne flexion et extension du genou pour balayer tout le mollet.",
       "Garde le talon au sol pendant tout le mouvement."
     ]
@@ -7514,9 +7532,9 @@
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
-      "Debout dos au mur, mains posées derrière toi à hauteur de hanches.",
+      "Debout dos au mur, pieds à plat écartés largeur de hanches, mains posées derrière toi à hauteur de hanches.",
       "Descends en fléchissant les genoux pour ouvrir l'avant des épaules.",
-      "Garde les mains en place et les côtes basses."
+      "Garde les mains en place, les talons au sol et les côtes basses."
     ]
   },
   {
