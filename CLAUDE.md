@@ -19,7 +19,7 @@ impactés, choix techniques) et attendre validation explicite avant d'écrire du
 ## Stack imposée
 
 - Next.js (App Router), TypeScript strict, Tailwind
-- Déploiement Vercel
+- Déploiement Netlify
 - Supabase : Postgres, Auth (adresse et mot de passe), Edge Functions, Cron
 - Web Push VAPID, service worker, PWA installable sur écran d'accueil iOS
 - Zod pour la validation du JSON de la banque
