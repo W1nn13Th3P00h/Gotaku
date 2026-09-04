@@ -41,7 +41,7 @@ export function ToggleChip({ selected, children, className = '', ...rest }: Togg
       type="button"
       aria-pressed={selected}
       className={[
-        'inline-flex min-h-10 items-center rounded-lg border px-3 text-xs transition-[background-color,border-color,transform] duration-150 active:scale-[0.97]',
+        'inline-flex min-h-10 items-center rounded-lg border px-3 text-xs transition-[background-color,border-color,transform] duration-150 active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-40 disabled:active:scale-100',
         selected ? 'border-accent bg-accent font-medium text-accent-foreground' : 'border-border',
         className,
       ]

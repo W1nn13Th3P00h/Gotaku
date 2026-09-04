@@ -128,3 +128,9 @@ export function zonesByRegion(): { region: (typeof REGIONS)[number]; zones: type
     zones: ZONES.filter((z) => z.region === region.code) as unknown as typeof ZONES,
   }))
 }
+
+export function regionOfZone(code: ZoneCode): RegionCode {
+  const zone = ZONES.find((z) => z.code === code)
+  if (zone === undefined) throw new Error(`Zone inconnue : ${code}`)
+  return zone.region
+}

@@ -23,13 +23,19 @@ import {
   EQUIPMENT,
   EXERCISE_TYPES,
   EXERCISE_TYPE_LABELS,
+  REGIONS,
   equipmentLabel,
+  regionOfZone,
   zoneLabel,
   zonesByRegion,
   type EquipmentCode,
   type ExerciseType,
+  type RegionCode,
   type ZoneCode,
 } from '@/lib/referentials'
+
+/** Au-delà, une séance perd son sens : trop de zones différentes à couvrir. */
+const MAX_REGIONS = 2
 
 type ResultItem = { exercise: CatalogExercise; durationS: number }
 
@@ -116,8 +122,31 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
   const [saveError, setSaveError] = useState<string | null>(null)
   const [saved, setSaved] = useState(false)
 
+  const zonesByRegionCode = useMemo(() => {
+    const map = new Map<RegionCode, ZoneCode[]>()
+    for (const { region, zones: regionZones } of zonesByRegion()) {
+      map.set(region.code, regionZones.map((z) => z.code))
+    }
+    return map
+  }, [])
+
+  const selectedRegions = useMemo(
+    () => [...new Set(zones.map(regionOfZone))],
+    [zones],
+  )
+
   function toggleZone(zone: ZoneCode) {
     setZones((prev) => (prev.includes(zone) ? prev.filter((z) => z !== zone) : [...prev, zone]))
+  }
+
+  function toggleRegion(region: RegionCode) {
+    if (selectedRegions.includes(region)) {
+      setZones((prev) => prev.filter((z) => regionOfZone(z) !== region))
+      return
+    }
+    if (selectedRegions.length >= MAX_REGIONS) return
+    const regionZones = zonesByRegionCode.get(region) ?? []
+    setZones((prev) => [...prev, ...regionZones.filter((z) => !prev.includes(z))])
   }
 
   function toggleEquipment(code: EquipmentCode) {
@@ -461,11 +490,13 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
           }
         >
           {/*
-            Les raccourcis remplacent la sélection, les zones la modifient : deux
-            gestes opposés, donc deux traitements visuels distincts. Rendus
-            identiques, ils se confondaient.
+            Les séances programmées remplacent la sélection, les zones la
+            modifient : deux gestes opposés, donc deux traitements visuels
+            distincts. Rendus identiques, ils se confondaient.
           */}
-          <p className="text-xs font-medium uppercase tracking-wide text-muted">Raccourcis</p>
+          <p className="text-xs font-medium uppercase tracking-wide text-muted">
+            Séances programmées
+          </p>
           <div className="mt-2 flex flex-wrap gap-2">
             {ZONE_PRESETS.map((preset) => (
               <Button
@@ -479,26 +510,55 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
             ))}
           </div>
 
-          <div className="mt-4 flex flex-col gap-4">
-            {zonesByRegion().map(({ region, zones: regionZones }) => (
-              <div key={region.code}>
-                <p className="text-xs font-medium uppercase tracking-wide text-muted">
-                  {region.label}
-                </p>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {regionZones.map((zone) => (
-                    <ToggleChip
-                      key={zone.code}
-                      selected={zones.includes(zone.code)}
-                      onClick={() => toggleZone(zone.code)}
-                    >
-                      {zone.label}
-                    </ToggleChip>
-                  ))}
-                </div>
-              </div>
+          {/*
+            Régions d'abord, zones ensuite : 26 zones dépliées d'un coup forçaient
+            trop de scroll. Choisir une région sélectionne toutes ses zones (le
+            geste courant), affinables ensuite chip par chip. Au-delà de
+            `MAX_REGIONS`, les régions non représentées sont grisées : une séance
+            qui part dans trop de directions n'a plus de sens.
+          */}
+          <p className="mt-4 text-xs font-medium uppercase tracking-wide text-muted">Régions</p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {REGIONS.map((region) => (
+              <ToggleChip
+                key={region.code}
+                selected={selectedRegions.includes(region.code)}
+                onClick={() => toggleRegion(region.code)}
+                disabled={
+                  !selectedRegions.includes(region.code) && selectedRegions.length >= MAX_REGIONS
+                }
+              >
+                {region.label}
+              </ToggleChip>
             ))}
           </div>
+
+          {selectedRegions.length > 0 ? (
+            <div className="mt-4 flex flex-col gap-4">
+              {selectedRegions.map((regionCode) => {
+                const region = REGIONS.find((r) => r.code === regionCode)
+                const regionZones = zonesByRegionCode.get(regionCode) ?? []
+                return (
+                  <div key={regionCode}>
+                    <p className="text-xs font-medium uppercase tracking-wide text-muted">
+                      {region?.label}
+                    </p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {regionZones.map((zone) => (
+                        <ToggleChip
+                          key={zone}
+                          selected={zones.includes(zone)}
+                          onClick={() => toggleZone(zone)}
+                        >
+                          {zoneLabel(zone)}
+                        </ToggleChip>
+                      ))}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          ) : null}
         </Section>
 
         <Section title="Matériel disponible" description="Aucune sélection : séance sans matériel.">
