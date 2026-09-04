@@ -191,6 +191,12 @@ create table template_items (
   unique (template_id, ord)
 );
 
+create table user_settings (
+  user_id             uuid primary key references auth.users(id) on delete cascade,
+  available_equipment text[] not null default '{}',
+  updated_at          timestamptz not null default now()
+);
+
 create table reminders (
   id         uuid primary key default gen_random_uuid(),
   user_id    uuid not null references auth.users(id) on delete cascade,
@@ -227,11 +233,16 @@ where s.status = 'completed' and si.status = 'done'
 group by si.exercise_id;
 ```
 
-RLS activée sur `sessions`, `session_items`, `session_templates`, `template_items`,
-`reminders`, `reminder_sends`, `push_subscriptions`, avec une policy unique par table sur
-`user_id = auth.uid()`. `zones`, `equipment`, `exercises`, `exercise_zones`,
-`exercise_equipment` sont en lecture pour tout utilisateur authentifié, en écriture pour la
-seule clé de service utilisée par le seed.
+RLS activée sur `user_settings`, `sessions`, `session_items`, `session_templates`,
+`template_items`, `reminders`, `reminder_sends`, `push_subscriptions`, avec une policy
+unique par table sur `user_id = auth.uid()`. `zones`, `equipment`, `exercises`,
+`exercise_zones`, `exercise_equipment` sont en lecture pour tout utilisateur authentifié, en
+écriture pour la seule clé de service utilisée par le seed.
+
+`user_settings.available_equipment` porte le matériel disponible de l'utilisateur, réglé
+depuis l'écran Réglages. C'est la valeur initiale de `equipment` au chargement du
+générateur ; l'utilisateur peut encore la restreindre ponctuellement sur l'aperçu d'une
+séance donnée (voir `docs/generator.md`), sans que cela ne réécrive ce réglage global.
 
 ## Format du JSON de banque
 
