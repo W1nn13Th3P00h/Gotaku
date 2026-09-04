@@ -3,6 +3,8 @@
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 
+import { Button } from '@/components/ui/button'
+import { FormMessage, inputClasses } from '@/components/ui/field'
 import { createClient } from '@/lib/supabase/client'
 
 type State = { kind: 'idle' } | { kind: 'signing' } | { kind: 'error'; message: string }
@@ -54,7 +56,7 @@ export function LoginForm() {
         required
         placeholder="Adresse"
         aria-label="Adresse"
-        className="w-full rounded-lg border border-border bg-transparent px-4 py-3 text-base outline-none focus:border-accent"
+        className={inputClasses}
       />
       <input
         name="password"
@@ -63,20 +65,12 @@ export function LoginForm() {
         required
         placeholder="Mot de passe"
         aria-label="Mot de passe"
-        className="w-full rounded-lg border border-border bg-transparent px-4 py-3 text-base outline-none focus:border-accent"
+        className={inputClasses}
       />
-      <button
-        type="submit"
-        disabled={state.kind === 'signing'}
-        className="w-full rounded-lg bg-accent py-3 text-sm font-medium text-accent-foreground disabled:opacity-50"
-      >
+      <Button type="submit" variant="primary" size="lg" block disabled={state.kind === 'signing'}>
         {state.kind === 'signing' ? 'Connexion…' : 'Se connecter'}
-      </button>
-      {state.kind === 'error' ? (
-        <p className="text-sm text-muted" role="alert">
-          {state.message}
-        </p>
-      ) : null}
+      </Button>
+      {state.kind === 'error' ? <FormMessage kind="error">{state.message}</FormMessage> : null}
     </form>
   )
 }

@@ -15,6 +15,11 @@ import {
 import type { EquipmentCode, ExerciseType, ZoneCode } from '@/lib/referentials'
 import { createClient } from '@/lib/supabase/server'
 
+import { buttonClasses } from '@/components/ui/button'
+import { CardList, CardListItem, EmptyState } from '@/components/ui/card'
+import { Field, inputClasses, selectClasses } from '@/components/ui/field'
+import { BackLink, Page, PageHeader } from '@/components/ui/page'
+
 import { AddToCompositionButton } from '@/app/bank/add-to-composition-button'
 
 export const metadata = { title: 'Banque — Gokaku' }
@@ -55,131 +60,154 @@ export default async function BankPage({
 
   const hasActiveFilters = Boolean(filters.search || filters.zone || filters.type || filters.equipment)
 
+  const activeFilterLabels = [
+    filters.zone ? zoneLabel(filters.zone) : null,
+    filters.type ? EXERCISE_TYPE_LABELS[filters.type] : null,
+    filters.equipment ? equipmentLabel(filters.equipment) : null,
+  ].filter((label): label is string => label !== null)
+
   return (
-    <main className="mx-auto max-w-md p-6 pb-16">
-      <div className="flex items-baseline justify-between">
-        <h1 className="text-2xl font-semibold tracking-tight">Banque</h1>
-        <div className="flex gap-4">
-          <Link href="/compose" className="text-sm text-accent underline underline-offset-2">
-            Composition
-          </Link>
-          <Link href="/bank/coverage" className="text-sm text-accent underline underline-offset-2">
-            Couverture
-          </Link>
-        </div>
+    <Page>
+      <BackLink href="/">Accueil</BackLink>
+
+      <div className="mt-2">
+        <PageHeader
+          title="Banque"
+          subtitle={`${exercises.length} exercice${exercises.length > 1 ? 's' : ''}.`}
+          action={
+            <div className="flex gap-2">
+              <Link href="/compose" className={buttonClasses({ size: 'sm' })}>
+                Composition
+              </Link>
+              <Link href="/bank/coverage" className={buttonClasses({ size: 'sm' })}>
+                Couverture
+              </Link>
+            </div>
+          }
+        />
       </div>
-      <p className="mt-1 text-sm text-muted">{exercises.length} exercice(s).</p>
 
       <form className="mt-6 flex flex-col gap-3" action="/bank" method="get">
-        <input
-          type="search"
-          name="search"
-          defaultValue={filters.search ?? ''}
-          placeholder="Rechercher un exercice"
-          aria-label="Rechercher un exercice"
-          className="w-full rounded-lg border border-border bg-transparent px-4 py-3 text-base outline-none focus:border-accent"
-        />
-
-        <label className="flex flex-col gap-1 text-sm">
-          Zone
-          <select
-            name="zone"
-            defaultValue={filters.zone ?? ''}
-            className="w-full rounded-lg border border-border bg-transparent px-3 py-2 text-base outline-none focus:border-accent"
-          >
-            <option value="">Toutes</option>
-            {zonesByRegion().map(({ region, zones }) => (
-              <optgroup key={region.code} label={region.label}>
-                {zones.map((zone) => (
-                  <option key={zone.code} value={zone.code}>
-                    {zone.label}
-                  </option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-        </label>
-
-        <label className="flex flex-col gap-1 text-sm">
-          Type
-          <select
-            name="type"
-            defaultValue={filters.type ?? ''}
-            className="w-full rounded-lg border border-border bg-transparent px-3 py-2 text-base outline-none focus:border-accent"
-          >
-            <option value="">Tous</option>
-            {EXERCISE_TYPES.map((type) => (
-              <option key={type} value={type}>
-                {EXERCISE_TYPE_LABELS[type]}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label className="flex flex-col gap-1 text-sm">
-          Matériel
-          <select
-            name="equipment"
-            defaultValue={filters.equipment ?? ''}
-            className="w-full rounded-lg border border-border bg-transparent px-3 py-2 text-base outline-none focus:border-accent"
-          >
-            <option value="">Tous</option>
-            {EQUIPMENT.map((equipment) => (
-              <option key={equipment.code} value={equipment.code}>
-                {equipment.label}
-              </option>
-            ))}
-          </select>
-        </label>
-
         <div className="flex gap-2">
-          <button
-            type="submit"
-            className="flex-1 rounded-lg bg-accent py-2 text-center text-sm font-medium text-accent-foreground"
-          >
+          <input
+            type="search"
+            name="search"
+            defaultValue={filters.search ?? ''}
+            placeholder="Rechercher un exercice"
+            aria-label="Rechercher un exercice"
+            className={inputClasses}
+          />
+          <button type="submit" className={buttonClasses({ variant: 'primary', className: 'shrink-0' })}>
             Filtrer
           </button>
-          {hasActiveFilters ? (
-            <Link
-              href="/bank"
-              className="flex-1 rounded-lg border border-border py-2 text-center text-sm font-medium"
-            >
-              Réinitialiser
-            </Link>
-          ) : null}
         </div>
+
+        {/*
+          Trois listes déroulantes toujours dépliées poussaient la liste des
+          exercices sous la ligne de flottaison à chaque visite, alors que le
+          cas courant est une recherche par le nom. Repliées, mais ouvertes
+          d'office dès qu'un filtre est actif, pour qu'un résultat restreint ne
+          reste jamais inexpliqué.
+        */}
+        <details open={hasActiveFilters} className="rounded-xl border border-border">
+          <summary className="flex min-h-12 cursor-pointer items-center justify-between gap-3 px-4 text-sm font-medium">
+            <span>Filtres</span>
+            {activeFilterLabels.length > 0 ? (
+              <span className="text-xs font-normal text-muted">
+                {activeFilterLabels.join(' · ')}
+              </span>
+            ) : null}
+          </summary>
+
+          <div className="flex flex-col gap-3 border-t border-border p-4">
+            <Field label="Zone">
+              <select name="zone" defaultValue={filters.zone ?? ''} className={selectClasses}>
+                <option value="">Toutes</option>
+                {zonesByRegion().map(({ region, zones }) => (
+                  <optgroup key={region.code} label={region.label}>
+                    {zones.map((zone) => (
+                      <option key={zone.code} value={zone.code}>
+                        {zone.label}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))}
+              </select>
+            </Field>
+
+            <Field label="Type">
+              <select name="type" defaultValue={filters.type ?? ''} className={selectClasses}>
+                <option value="">Tous</option>
+                {EXERCISE_TYPES.map((type) => (
+                  <option key={type} value={type}>
+                    {EXERCISE_TYPE_LABELS[type]}
+                  </option>
+                ))}
+              </select>
+            </Field>
+
+            <Field label="Matériel">
+              <select name="equipment" defaultValue={filters.equipment ?? ''} className={selectClasses}>
+                <option value="">Tous</option>
+                {EQUIPMENT.map((equipment) => (
+                  <option key={equipment.code} value={equipment.code}>
+                    {equipment.label}
+                  </option>
+                ))}
+              </select>
+            </Field>
+
+            <div className="flex gap-2">
+              <button type="submit" className={buttonClasses({ variant: 'primary', block: true })}>
+                Appliquer
+              </button>
+              {hasActiveFilters ? (
+                <Link href="/bank" className={buttonClasses({ block: true })}>
+                  Réinitialiser
+                </Link>
+              ) : null}
+            </div>
+          </div>
+        </details>
       </form>
 
-      {exercises.length === 0 ? (
-        <p className="mt-8 text-sm text-muted">
-          Aucun exercice ne correspond à cette recherche ou à ces filtres.
-        </p>
-      ) : (
-        <ul className="mt-6 divide-y divide-border rounded-xl border border-border">
-          {exercises.map((exercise) => (
-            <li key={exercise.slug} className="flex items-center gap-3 p-4">
-              <Link
-                href={`/bank/${exercise.slug}`}
-                className="flex flex-1 items-center justify-between gap-4"
-              >
-                <div>
-                  <p className="font-medium">{exercise.name}</p>
-                  <p className="text-sm text-muted">
-                    {EXERCISE_TYPE_LABELS[exercise.type]} · {zoneLabel(exercise.primaryZone)}
-                    {exercise.equipment.length > 0
-                      ? ` · ${exercise.equipment.map(equipmentLabel).join(', ')}`
-                      : ''}
-                  </p>
-                </div>
-                <span className="shrink-0 text-sm text-muted">
-                  {formatDurationShort(exercise.durationTargetS)}
-                </span>
+      <div className="mt-6">
+        {exercises.length === 0 ? (
+          <EmptyState>
+            <p>Aucun exercice ne correspond à cette recherche ou à ces filtres.</p>
+            {hasActiveFilters ? (
+              <Link href="/bank" className={buttonClasses({ size: 'sm', className: 'mt-4' })}>
+                Réinitialiser
               </Link>
-              <AddToCompositionButton exerciseId={exercise.id} />
-            </li>
-          ))}
-        </ul>
-      )}
-    </main>
+            ) : null}
+          </EmptyState>
+        ) : (
+          <CardList>
+            {exercises.map((exercise) => (
+              <CardListItem key={exercise.slug} className="flex items-center gap-3 p-4">
+                <Link
+                  href={`/bank/${exercise.slug}`}
+                  className="flex flex-1 items-center justify-between gap-4"
+                >
+                  <div>
+                    <p className="font-medium">{exercise.name}</p>
+                    <p className="text-sm text-muted">
+                      {EXERCISE_TYPE_LABELS[exercise.type]} · {zoneLabel(exercise.primaryZone)}
+                      {exercise.equipment.length > 0
+                        ? ` · ${exercise.equipment.map(equipmentLabel).join(', ')}`
+                        : ''}
+                    </p>
+                  </div>
+                  <span className="shrink-0 text-sm text-muted tabular-nums">
+                    {formatDurationShort(exercise.durationTargetS)}
+                  </span>
+                </Link>
+                <AddToCompositionButton exerciseId={exercise.id} />
+              </CardListItem>
+            ))}
+          </CardList>
+        )}
+      </div>
+    </Page>
   )
 }

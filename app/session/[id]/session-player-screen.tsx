@@ -10,6 +10,9 @@ import type { PlayerItem, PlayerState } from '@/lib/session-player/types'
 import { completeSession, markItemDone, markItemSkipped, revertItemToPending, startSession } from '@/lib/sessions/mutations'
 import type { SessionForExecution } from '@/lib/sessions/queries'
 import { createClient } from '@/lib/supabase/client'
+import { Button, buttonClasses } from '@/components/ui/button'
+import { Chip } from '@/components/ui/chip'
+import { Page, PageHeader, Section } from '@/components/ui/page'
 
 type Props = {
   session: SessionForExecution
@@ -236,29 +239,24 @@ export function SessionPlayerScreen({ session }: Props) {
     setClock((prev) => ({ player: action(prev.player, now), nowMs: now }))
   }
 
+
   const player = clock.player
 
   if (player.phase === 'idle') {
     const alreadyStarted = session.startedAt !== null
     return (
-      <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-6 p-6">
-        <div>
-          <h1 className="text-xl font-semibold tracking-tight">
-            {alreadyStarted ? 'Reprendre la séance' : 'Prêt à commencer ?'}
-          </h1>
-          <p className="mt-2 text-sm text-muted">
-            {session.items.length} exercice{session.items.length > 1 ? 's' : ''}, environ{' '}
-            {Math.round(session.targetDurationS / 60)} min.
-          </p>
-        </div>
-        <button
-          type="button"
-          onClick={handleStart}
-          className="w-full rounded-lg bg-accent py-4 text-base font-medium text-accent-foreground"
-        >
+      <Page layout="centered">
+        <PageHeader
+          title={alreadyStarted ? 'Reprendre la séance' : 'Prêt à commencer ?'}
+          subtitle={`${session.items.length} exercice${session.items.length > 1 ? 's' : ''}, environ ${Math.round(session.targetDurationS / 60)} min.`}
+        />
+        <Button variant="primary" size="lg" block onClick={handleStart}>
           {alreadyStarted ? 'Reprendre' : 'Démarrer'}
-        </button>
-      </main>
+        </Button>
+        <Link href="/" className={buttonClasses({ variant: 'quiet', block: true })}>
+          Quitter
+        </Link>
+      </Page>
     )
   }
 
@@ -273,39 +271,39 @@ export function SessionPlayerScreen({ session }: Props) {
     ]
 
     return (
-      <main className="mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-6 p-6">
-        <div>
-          <h1 className="text-xl font-semibold tracking-tight">Séance terminée</h1>
-          <p className="mt-1 text-sm text-muted">
-            {Math.round(actualDurationS / 60)} min · {doneItems.length} réalisé
-            {doneItems.length > 1 ? 's' : ''}
+      <Page layout="centered">
+        <PageHeader title="Séance terminée" />
+
+        {/* Le chiffre qui compte est la durée réellement tenue : il porte le résumé. */}
+        <div className="flex items-baseline gap-3">
+          <span className="text-5xl font-semibold tabular-nums tracking-tight">
+            {Math.round(actualDurationS / 60)}
+          </span>
+          <span className="text-sm text-muted">
+            min · {doneItems.length} réalisé{doneItems.length > 1 ? 's' : ''}
             {skippedItems.length > 0
               ? `, ${skippedItems.length} passé${skippedItems.length > 1 ? 's' : ''}`
               : ''}
-          </p>
+          </span>
         </div>
 
-        <div>
-          <h2 className="text-sm font-medium">Zones travaillées</h2>
-          <div className="mt-2 flex flex-wrap gap-2">
+        <Section title="Zones travaillées">
+          <div className="flex flex-wrap gap-2">
             {zonesWorked.map((zone) => (
-              <span
-                key={zone}
-                className="rounded-full border border-border px-3 py-1 text-sm"
-              >
+              <Chip key={zone} size="md">
                 {zoneLabel(zone)}
-              </span>
+              </Chip>
             ))}
           </div>
-        </div>
+        </Section>
 
         <Link
           href="/"
-          className="w-full rounded-lg bg-accent py-3 text-center text-sm font-medium text-accent-foreground"
+          className={buttonClasses({ variant: 'primary', size: 'lg', block: true })}
         >
           Retour à l&apos;accueil
         </Link>
-      </main>
+      </Page>
     )
   }
 
@@ -322,8 +320,30 @@ export function SessionPlayerScreen({ session }: Props) {
     return null
   }
 
+  // Part de la phase courante déjà écoulée. Purement visuelle : le décompte
+  // chiffré reste la source d'information, la barre n'en donne que la forme.
+  const phaseTotalS = currentItem.durationS
+  const phaseProgress = phaseTotalS > 0 ? Math.min(1, Math.max(0, 1 - remaining / phaseTotalS)) : 0
+
   return (
-    <main className="mx-auto flex min-h-dvh max-w-md flex-col gap-6 p-6">
+    <main className="mx-auto flex min-h-dvh max-w-md flex-col gap-4 p-6">
+      <div>
+        <div className="flex items-baseline justify-between text-xs text-muted">
+          <span className="tabular-nums">
+            {player.currentIndex + 1} / {player.items.length}
+          </span>
+          {isPaused ? <span className="font-medium text-accent">En pause</span> : null}
+        </div>
+        {/* Avancement dans la phase courante, pas dans la séance : c'est la seule
+            échéance qui se joue à cet instant. */}
+        <div className="mt-2 h-1 overflow-hidden rounded-full bg-border" aria-hidden="true">
+          <div
+            className="h-full bg-accent transition-[width] duration-100 ease-linear"
+            style={{ width: `${phaseProgress * 100}%` }}
+          />
+        </div>
+      </div>
+
       <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
         {currentItem.perSide ? (
           <p className="text-sm font-medium text-accent">
@@ -331,7 +351,13 @@ export function SessionPlayerScreen({ session }: Props) {
           </p>
         ) : null}
 
-        <p className="text-6xl font-semibold tabular-nums tracking-tight">
+        <p
+          className={`text-7xl font-semibold tabular-nums tracking-tight transition-opacity duration-150 ${
+            isPaused ? 'opacity-40' : ''
+          }`}
+          role="timer"
+          aria-live="off"
+        >
           {formatCountdown(remaining)}
         </p>
 
@@ -339,16 +365,9 @@ export function SessionPlayerScreen({ session }: Props) {
           <h1 className="text-xl font-semibold tracking-tight">{exercise.name}</h1>
           <div className="mt-2 flex flex-wrap justify-center gap-2">
             {exercise.zones.map((zone) => (
-              <span
-                key={zone}
-                className={
-                  zone === exercise.primaryZone
-                    ? 'rounded-full bg-accent px-3 py-1 text-xs font-medium text-accent-foreground'
-                    : 'rounded-full border border-border px-3 py-1 text-xs'
-                }
-              >
+              <Chip key={zone} emphasis={zone === exercise.primaryZone}>
                 {zoneLabel(zone)}
-              </span>
+              </Chip>
             ))}
           </div>
         </div>
@@ -367,28 +386,22 @@ export function SessionPlayerScreen({ session }: Props) {
         )}
       </div>
 
+      {/* Contrôles surdimensionnés : ils sont visés au pouce, au sol, sans regarder. */}
       <div className="flex gap-3">
-        <button
-          type="button"
-          onClick={() => dispatch(back)}
-          className="rounded-lg border border-border px-4 py-3 text-sm font-medium"
-        >
+        <Button size="lg" onClick={() => dispatch(back)}>
           Revenir
-        </button>
-        <button
-          type="button"
+        </Button>
+        <Button
+          variant="primary"
+          size="lg"
+          className="flex-1"
           onClick={() => dispatch(isPaused ? resume : pause)}
-          className="flex-1 rounded-lg bg-accent py-3 text-sm font-medium text-accent-foreground"
         >
           {isPaused ? 'Reprendre' : 'Pause'}
-        </button>
-        <button
-          type="button"
-          onClick={() => dispatch(skip)}
-          className="rounded-lg border border-border px-4 py-3 text-sm font-medium"
-        >
+        </Button>
+        <Button size="lg" onClick={() => dispatch(skip)}>
           Passer
-        </button>
+        </Button>
       </div>
     </main>
   )

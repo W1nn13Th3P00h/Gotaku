@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 
+import { Button } from '@/components/ui/button'
 import { addItemToComposition } from '@/lib/sessions/mutations'
 import { getOrCreateDraftComposition } from '@/lib/sessions/queries'
 import { createClient } from '@/lib/supabase/client'
@@ -11,6 +12,13 @@ type Props = {
 }
 
 type Status = 'idle' | 'pending' | 'done' | 'error'
+
+const LABELS: Record<Status, string> = {
+  idle: '+ Composition',
+  pending: 'Ajout…',
+  done: 'Ajouté ✓',
+  error: 'Erreur, réessayer',
+}
 
 /**
  * Ajoute l'exercice à la composition manuelle en cours (Lot 4), en la créant
@@ -34,13 +42,16 @@ export function AddToCompositionButton({ exerciseId }: Props) {
   }
 
   return (
-    <button
-      type="button"
+    <Button
+      size="sm"
       onClick={handleClick}
       disabled={status === 'pending'}
-      className="shrink-0 rounded-lg border border-border px-3 py-1.5 text-xs font-medium disabled:opacity-40"
+      className="shrink-0"
+      /* L'état est porté par le libellé, qui change : annoncé poliment plutôt
+         que laissé silencieux pour un lecteur d'écran. */
+      aria-live="polite"
     >
-      {status === 'done' ? 'Ajouté ✓' : status === 'error' ? 'Erreur, réessayer' : '+ Composition'}
-    </button>
+      {LABELS[status]}
+    </Button>
   )
 }
