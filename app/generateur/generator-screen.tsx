@@ -24,7 +24,6 @@ import {
   EXERCISE_TYPES,
   EXERCISE_TYPE_LABELS,
   REGIONS,
-  equipmentLabel,
   regionOfZone,
   zoneLabel,
   zonesByRegion,
@@ -55,6 +54,8 @@ type Props = {
   catalog: CatalogExercise[]
   lastPerformed: Record<ExerciseId, string>
   zoneVolume30d: Record<string, number>
+  /** Réglage global (écran Réglages), valeur initiale de `equipment` : voir CLAUDE.md. */
+  availableEquipment: EquipmentCode[]
 }
 
 function randomSeed(): number {
@@ -84,7 +85,7 @@ function recoveryLabel(detail: FailureDetail, suggestion: GeneratorInput): strin
   }
 }
 
-export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props) {
+export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d, availableEquipment }: Props) {
   const supabase = useMemo(() => createClient(), [])
   const router = useRouter()
 
@@ -107,7 +108,7 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
 
   const [targetDurationMin, setTargetDurationMin] = useState<number>(10)
   const [zones, setZones] = useState<ZoneCode[]>([])
-  const [equipment, setEquipment] = useState<EquipmentCode[]>([])
+  const [equipment, setEquipment] = useState<EquipmentCode[]>(availableEquipment)
   const [excludedType, setExcludedType] = useState<ExerciseType | ''>('')
   const [requiredType, setRequiredType] = useState<ExerciseType | ''>('')
   const [maxIntensity, setMaxIntensity] = useState<1 | 2 | 3 | ''>('')
@@ -147,10 +148,6 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
     if (selectedRegions.length >= MAX_REGIONS) return
     const regionZones = zonesByRegionCode.get(region) ?? []
     setZones((prev) => [...prev, ...regionZones.filter((z) => !prev.includes(z))])
-  }
-
-  function toggleEquipment(code: EquipmentCode) {
-    setEquipment((prev) => (prev.includes(code) ? prev.filter((e) => e !== code) : [...prev, code]))
   }
 
   function currentInput(): GeneratorInput {
@@ -241,6 +238,18 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
     runGeneration(currentInput())
   }
 
+  /**
+   * Un matériel requis par la séance affichée n'est en fait pas disponible à cet
+   * instant (ex. quelqu'un d'autre l'utilise) : on le retire et on relance tout de
+   * suite, sans toucher au réglage global (Réglages reste la seule source du
+   * défaut persistant).
+   */
+  function onEquipmentUnavailable(code: EquipmentCode) {
+    const nextEquipment = equipment.filter((e) => e !== code)
+    setEquipment(nextEquipment)
+    runGeneration({ ...currentInput(), equipment: nextEquipment })
+  }
+
   function onRecover(suggestion: GeneratorInput) {
     // Le formulaire reste la source de vérité pour toute relance ultérieure
     // (régénérer, revenir au formulaire) : on le resynchronise avec la suggestion.
@@ -322,6 +331,8 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
     )
     const targetDurationS = targetDurationMin * 60
     const deltaS = totalDurationS - targetDurationS
+    const neededEquipmentSet = new Set(view.items.flatMap((item) => item.exercise.equipment))
+    const neededEquipment = EQUIPMENT.filter((item) => neededEquipmentSet.has(item.code))
 
     return (
       <Page className="pb-32">
@@ -352,6 +363,26 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
             {view.unmetRequiredTypes.length > 1 ? 's' : ''} :{' '}
             {view.unmetRequiredTypes.map((t) => EXERCISE_TYPE_LABELS[t]).join(', ')}
           </Card>
+        ) : null}
+
+        {neededEquipment.length > 0 ? (
+          <Section
+            title="Matériel nécessaire"
+            description="Décoche ce que tu n'as finalement pas sous la main : la séance se régénère aussitôt."
+            className="mt-6"
+          >
+            <div className="flex flex-wrap gap-2">
+              {neededEquipment.map((item) => (
+                <ToggleChip
+                  key={item.code}
+                  selected
+                  onClick={() => onEquipmentUnavailable(item.code)}
+                >
+                  {item.label}
+                </ToggleChip>
+              ))}
+            </div>
+          </Section>
         ) : null}
 
         <ol className="mt-6 flex flex-col gap-3">
@@ -561,20 +592,6 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
           ) : null}
         </Section>
 
-        <Section title="Matériel disponible" description="Aucune sélection : séance sans matériel.">
-          <div className="flex flex-wrap gap-2">
-            {EQUIPMENT.map((item) => (
-              <ToggleChip
-                key={item.code}
-                selected={equipment.includes(item.code)}
-                onClick={() => toggleEquipment(item.code)}
-              >
-                {equipmentLabel(item.code)}
-              </ToggleChip>
-            ))}
-          </div>
-        </Section>
-
         <details className="rounded-xl border border-border">
           <summary className="flex min-h-14 cursor-pointer items-center px-4 text-sm font-medium">
             Options
@@ -656,9 +673,7 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d }: Props
         </Button>
         <p className="mt-2 text-center text-xs text-muted">
           {canGenerate
-            ? `${targetDurationMin} min · ${zones.length} zone${zones.length > 1 ? 's' : ''}${
-                equipment.length > 0 ? ` · ${equipment.length} matériel` : ''
-              }`
+            ? `${targetDurationMin} min · ${zones.length} zone${zones.length > 1 ? 's' : ''}`
             : 'Sélectionne au moins une zone.'}
         </p>
       </StickyBar>

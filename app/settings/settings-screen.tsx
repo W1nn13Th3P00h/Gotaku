@@ -9,6 +9,8 @@ import { BackLink, Page, PageHeader, Section } from '@/components/ui/page'
 import { ToggleChip } from '@/components/ui/chip'
 import { upsertReminder, type Reminder } from '@/lib/push/queries'
 import { subscribeToPush } from '@/lib/push/subscribe'
+import { EQUIPMENT, equipmentLabel, type EquipmentCode } from '@/lib/referentials'
+import { updateAvailableEquipment } from '@/lib/settings/queries'
 import { createClient } from '@/lib/supabase/client'
 
 /**
@@ -25,6 +27,7 @@ import { createClient } from '@/lib/supabase/client'
 
 type Props = {
   reminder: Reminder | null
+  availableEquipment: EquipmentCode[]
 }
 
 type PermissionState = 'unsupported' | 'default' | 'granted' | 'denied'
@@ -72,7 +75,7 @@ function getDetectedTimezoneServerSnapshot(): string {
   return ''
 }
 
-export function SettingsScreen({ reminder }: Props) {
+export function SettingsScreen({ reminder, availableEquipment }: Props) {
   const supabase = useMemo(() => createClient(), [])
 
   const installed = useSyncExternalStore(
@@ -128,7 +131,23 @@ export function SettingsScreen({ reminder }: Props) {
   const [saveError, setSaveError] = useState<string | null>(null)
   const [saved, setSaved] = useState(false)
 
+  const [equipment, setEquipment] = useState<EquipmentCode[]>(availableEquipment)
+  const [equipmentSaving, setEquipmentSaving] = useState(false)
+  const [equipmentSaved, setEquipmentSaved] = useState(false)
+
   const timezone = timezoneOverride ?? detectedTimezone
+
+  function toggleEquipment(code: EquipmentCode) {
+    setEquipmentSaved(false)
+    setEquipment((prev) => (prev.includes(code) ? prev.filter((e) => e !== code) : [...prev, code]))
+  }
+
+  async function handleSaveEquipment() {
+    setEquipmentSaving(true)
+    await updateAvailableEquipment(supabase, equipment)
+    setEquipmentSaving(false)
+    setEquipmentSaved(true)
+  }
 
   function markDirty() {
     setSaveError(null)
@@ -251,6 +270,42 @@ export function SettingsScreen({ reminder }: Props) {
             Sauvegarder
           </Button>
         </div>
+      </Card>
+
+      <Card className="mt-8">
+        <h2 className="text-sm font-medium">Matériel disponible</h2>
+        <p className="mt-1 text-xs text-muted">
+          Utilisé par défaut à chaque génération de séance. Aucune sélection : séances sans
+          matériel.
+        </p>
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          {EQUIPMENT.map((item) => (
+            <ToggleChip
+              key={item.code}
+              selected={equipment.includes(item.code)}
+              onClick={() => toggleEquipment(item.code)}
+            >
+              {equipmentLabel(item.code)}
+            </ToggleChip>
+          ))}
+        </div>
+
+        {equipmentSaved ? (
+          <div className="mt-3">
+            <FormMessage kind="success">Matériel sauvegardé.</FormMessage>
+          </div>
+        ) : null}
+
+        <Button
+          variant="primary"
+          block
+          className="mt-4"
+          onClick={handleSaveEquipment}
+          disabled={equipmentSaving}
+        >
+          {equipmentSaving ? 'Sauvegarde…' : 'Sauvegarder'}
+        </Button>
       </Card>
 
       {/*
