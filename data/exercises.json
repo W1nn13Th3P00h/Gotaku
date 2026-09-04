@@ -12,7 +12,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -34,7 +34,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -56,7 +56,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -78,7 +78,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -100,7 +100,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -123,7 +123,7 @@
     "primary_zone": "shoulders",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -145,7 +145,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -168,7 +168,7 @@
     "primary_zone": "lumbar",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -190,7 +190,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -212,7 +212,7 @@
     "primary_zone": "forearm_flexors",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -234,7 +234,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -257,7 +257,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -279,7 +279,7 @@
     "primary_zone": "lats",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -301,7 +301,7 @@
     "primary_zone": "pecs",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -323,7 +323,7 @@
     "primary_zone": "lats",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -348,7 +348,7 @@
       "box"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -370,7 +370,7 @@
     "primary_zone": "quads",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -392,7 +392,7 @@
     "primary_zone": "obliques",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -415,7 +415,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -437,7 +437,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -460,7 +460,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -506,7 +506,7 @@
     "primary_zone": "shoulders",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -529,7 +529,7 @@
     "primary_zone": "quads",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -551,7 +551,7 @@
     "primary_zone": "ankles",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -574,7 +574,7 @@
     "primary_zone": "traps",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -596,7 +596,7 @@
     "primary_zone": "calves",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -618,7 +618,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -640,7 +640,7 @@
     "primary_zone": "calves",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -662,7 +662,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -684,7 +684,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -706,7 +706,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -728,7 +728,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -750,7 +750,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -772,7 +772,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -794,7 +794,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -816,7 +816,7 @@
     "primary_zone": "obliques",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -839,7 +839,7 @@
     "primary_zone": "pecs",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -862,7 +862,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -884,7 +884,7 @@
     "primary_zone": "shoulders",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -906,7 +906,7 @@
     "primary_zone": "obliques",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -928,7 +928,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -950,7 +950,7 @@
     "primary_zone": "ankles",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -972,7 +972,7 @@
     "primary_zone": "ankles",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1018,7 +1018,7 @@
     "primary_zone": "lumbar",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -1040,7 +1040,7 @@
     "primary_zone": "ankles",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1086,7 +1086,7 @@
     "primary_zone": "quads",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -1110,7 +1110,7 @@
       "band"
     ],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1134,7 +1134,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1158,7 +1158,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -1182,7 +1182,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1207,7 +1207,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -1232,7 +1232,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1256,7 +1256,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1279,7 +1279,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -1303,7 +1303,7 @@
       "band"
     ],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -1327,7 +1327,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1351,7 +1351,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -1375,7 +1375,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -1399,7 +1399,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1423,7 +1423,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -1447,7 +1447,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1471,7 +1471,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1495,7 +1495,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -1519,7 +1519,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -1543,7 +1543,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -1567,7 +1567,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -1591,7 +1591,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -1615,7 +1615,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1639,7 +1639,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1663,7 +1663,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1687,7 +1687,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -1711,7 +1711,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1735,7 +1735,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1759,7 +1759,7 @@
       "pipe"
     ],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1783,7 +1783,7 @@
       "barbell"
     ],
     "intensity": 3,
-    "duration_target_s": 78,
+    "duration_target_s": 60,
     "duration_min_s": 52,
     "duration_max_s": 117,
     "instructions": [
@@ -1807,7 +1807,7 @@
       "barbell"
     ],
     "intensity": 3,
-    "duration_target_s": 78,
+    "duration_target_s": 60,
     "duration_min_s": 52,
     "duration_max_s": 117,
     "instructions": [
@@ -1830,7 +1830,7 @@
     "primary_zone": "abs",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -1852,7 +1852,7 @@
     "primary_zone": "thoracic",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -1876,7 +1876,7 @@
       "barbell"
     ],
     "intensity": 3,
-    "duration_target_s": 78,
+    "duration_target_s": 60,
     "duration_min_s": 52,
     "duration_max_s": 117,
     "instructions": [
@@ -1922,7 +1922,7 @@
     "primary_zone": "feet",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -1945,7 +1945,7 @@
     "primary_zone": "traps",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -1968,7 +1968,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -1990,7 +1990,7 @@
     "primary_zone": "thoracic",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -2012,7 +2012,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -2035,7 +2035,7 @@
     "primary_zone": "quads",
     "equipment": [],
     "intensity": 3,
-    "duration_target_s": 52,
+    "duration_target_s": 60,
     "duration_min_s": 39,
     "duration_max_s": 78,
     "instructions": [
@@ -2057,7 +2057,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -2105,7 +2105,7 @@
       "ball"
     ],
     "intensity": 3,
-    "duration_target_s": 78,
+    "duration_target_s": 60,
     "duration_min_s": 52,
     "duration_max_s": 117,
     "instructions": [
@@ -2127,7 +2127,7 @@
     "primary_zone": "calves",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -2149,7 +2149,7 @@
     "primary_zone": "calves",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -2172,7 +2172,7 @@
     "primary_zone": "thoracic",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -2195,7 +2195,7 @@
     "primary_zone": "lumbar",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -2217,7 +2217,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -2239,7 +2239,7 @@
     "primary_zone": "shoulders",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -2261,7 +2261,7 @@
     "primary_zone": "shoulders",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -2283,7 +2283,7 @@
     "primary_zone": "lumbar",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -2305,7 +2305,7 @@
     "primary_zone": "lumbar",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -2327,7 +2327,7 @@
     "primary_zone": "glutes",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -2349,7 +2349,7 @@
     "primary_zone": "shoulder_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -2396,7 +2396,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -2419,7 +2419,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -2442,7 +2442,7 @@
     "primary_zone": "lumbar",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -2464,7 +2464,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -2486,7 +2486,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 3,
-    "duration_target_s": 52,
+    "duration_target_s": 60,
     "duration_min_s": 39,
     "duration_max_s": 78,
     "instructions": [
@@ -2510,7 +2510,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -2534,7 +2534,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -2556,7 +2556,7 @@
     "primary_zone": "forearm_flexors",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -2578,7 +2578,7 @@
     "primary_zone": "forearm_flexors",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -2600,7 +2600,7 @@
     "primary_zone": "forearm_flexors",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -2622,7 +2622,7 @@
     "primary_zone": "forearm_flexors",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -2644,7 +2644,7 @@
     "primary_zone": "quads",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -2666,7 +2666,7 @@
     "primary_zone": "thoracic",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -2689,7 +2689,7 @@
     "primary_zone": "obliques",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -2712,7 +2712,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -2758,7 +2758,7 @@
     "primary_zone": "glutes",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -2780,7 +2780,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -2828,7 +2828,7 @@
       "ball"
     ],
     "intensity": 3,
-    "duration_target_s": 78,
+    "duration_target_s": 60,
     "duration_min_s": 52,
     "duration_max_s": 117,
     "instructions": [
@@ -2850,7 +2850,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -2875,7 +2875,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -2897,7 +2897,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -2919,7 +2919,7 @@
     "primary_zone": "quads",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -2941,7 +2941,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -2964,7 +2964,7 @@
     "primary_zone": "lumbar",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -2986,7 +2986,7 @@
     "primary_zone": "thoracic",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -3008,7 +3008,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -3054,7 +3054,7 @@
       "box"
     ],
     "intensity": 3,
-    "duration_target_s": 78,
+    "duration_target_s": 60,
     "duration_min_s": 52,
     "duration_max_s": 117,
     "instructions": [
@@ -3076,7 +3076,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -3098,7 +3098,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -3120,7 +3120,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -3142,7 +3142,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -3164,7 +3164,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -3748,7 +3748,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -3770,7 +3770,7 @@
     "primary_zone": "shoulder_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -3794,7 +3794,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -3818,7 +3818,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -3840,7 +3840,7 @@
     "primary_zone": "shoulders",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -3863,7 +3863,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -3887,7 +3887,7 @@
       "weight"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -3909,7 +3909,7 @@
     "primary_zone": "ankles",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -3931,7 +3931,7 @@
     "primary_zone": "thoracic",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -3953,7 +3953,7 @@
     "primary_zone": "shoulders",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -3975,7 +3975,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -3997,7 +3997,7 @@
     "primary_zone": "quads",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -4021,7 +4021,7 @@
       "box"
     ],
     "intensity": 3,
-    "duration_target_s": 58,
+    "duration_target_s": 60,
     "duration_min_s": 39,
     "duration_max_s": 117,
     "instructions": [
@@ -4045,7 +4045,7 @@
       "foam_roller"
     ],
     "intensity": 3,
-    "duration_target_s": 78,
+    "duration_target_s": 60,
     "duration_min_s": 52,
     "duration_max_s": 117,
     "instructions": [
@@ -4069,7 +4069,7 @@
       "ball"
     ],
     "intensity": 3,
-    "duration_target_s": 78,
+    "duration_target_s": 60,
     "duration_min_s": 52,
     "duration_max_s": 117,
     "instructions": [
@@ -4091,7 +4091,7 @@
     "primary_zone": "it_bands",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -4136,7 +4136,7 @@
     "primary_zone": "lats",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -4158,7 +4158,7 @@
     "primary_zone": "pecs",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -4180,7 +4180,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -4202,7 +4202,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -4224,7 +4224,7 @@
     "primary_zone": "shoulders",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -4246,7 +4246,7 @@
     "primary_zone": "forearm_extensors",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -4268,7 +4268,7 @@
     "primary_zone": "forearm_flexors",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -4290,7 +4290,7 @@
     "primary_zone": "triceps",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -4359,7 +4359,7 @@
     "primary_zone": "pecs",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -4382,7 +4382,7 @@
     "primary_zone": "abs",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -4406,7 +4406,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -4428,7 +4428,7 @@
     "primary_zone": "neck",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -4451,7 +4451,7 @@
     "primary_zone": "shoulders",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -4473,7 +4473,7 @@
     "primary_zone": "shoulders",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -4495,7 +4495,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -4518,7 +4518,7 @@
     "primary_zone": "shoulders",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -4541,7 +4541,7 @@
     "primary_zone": "shoulders",
     "equipment": [],
     "intensity": 3,
-    "duration_target_s": 58,
+    "duration_target_s": 60,
     "duration_min_s": 39,
     "duration_max_s": 97,
     "instructions": [
@@ -4565,7 +4565,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -4590,7 +4590,7 @@
       "pipe"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -4612,7 +4612,7 @@
     "primary_zone": "quads",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -4658,7 +4658,7 @@
     "primary_zone": "pecs",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -4680,7 +4680,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -4704,7 +4704,7 @@
       "box"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -4728,7 +4728,7 @@
       "pipe"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -4752,7 +4752,7 @@
       "pipe"
     ],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -4776,7 +4776,7 @@
       "ball"
     ],
     "intensity": 3,
-    "duration_target_s": 78,
+    "duration_target_s": 60,
     "duration_min_s": 52,
     "duration_max_s": 117,
     "instructions": [
@@ -4799,7 +4799,7 @@
     "primary_zone": "quads",
     "equipment": [],
     "intensity": 3,
-    "duration_target_s": 52,
+    "duration_target_s": 60,
     "duration_min_s": 39,
     "duration_max_s": 78,
     "instructions": [
@@ -4822,7 +4822,7 @@
     "primary_zone": "abs",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -4844,7 +4844,7 @@
     "primary_zone": "pecs",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -4866,7 +4866,7 @@
     "primary_zone": "shoulder_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -4888,7 +4888,7 @@
     "primary_zone": "shoulder_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -4936,7 +4936,7 @@
       "ball"
     ],
     "intensity": 3,
-    "duration_target_s": 78,
+    "duration_target_s": 60,
     "duration_min_s": 52,
     "duration_max_s": 117,
     "instructions": [
@@ -4958,7 +4958,7 @@
     "primary_zone": "lats",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -4983,7 +4983,7 @@
       "foam_roller"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -5008,7 +5008,7 @@
       "pipe"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5033,7 +5033,7 @@
       "pipe"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5055,7 +5055,7 @@
     "primary_zone": "shoulder_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -5077,7 +5077,7 @@
     "primary_zone": "shoulders",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -5099,7 +5099,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5123,7 +5123,7 @@
       "ball"
     ],
     "intensity": 3,
-    "duration_target_s": 78,
+    "duration_target_s": 60,
     "duration_min_s": 52,
     "duration_max_s": 117,
     "instructions": [
@@ -5169,7 +5169,7 @@
     "primary_zone": "quads",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -5191,7 +5191,7 @@
     "primary_zone": "quads",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -5213,7 +5213,7 @@
     "primary_zone": "obliques",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5235,7 +5235,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -5259,7 +5259,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5306,7 +5306,7 @@
     "primary_zone": "lumbar",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5328,7 +5328,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5351,7 +5351,7 @@
     "primary_zone": "pecs",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5373,7 +5373,7 @@
     "primary_zone": "traps",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -5397,7 +5397,7 @@
       "ball"
     ],
     "intensity": 3,
-    "duration_target_s": 78,
+    "duration_target_s": 60,
     "duration_min_s": 52,
     "duration_max_s": 117,
     "instructions": [
@@ -5419,7 +5419,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5441,7 +5441,7 @@
     "primary_zone": "lumbar",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5464,7 +5464,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5488,7 +5488,7 @@
       "ball"
     ],
     "intensity": 3,
-    "duration_target_s": 78,
+    "duration_target_s": 60,
     "duration_min_s": 52,
     "duration_max_s": 117,
     "instructions": [
@@ -5512,7 +5512,7 @@
       "ball"
     ],
     "intensity": 3,
-    "duration_target_s": 78,
+    "duration_target_s": 60,
     "duration_min_s": 52,
     "duration_max_s": 117,
     "instructions": [
@@ -5535,7 +5535,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -5557,7 +5557,7 @@
     "primary_zone": "traps",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5579,7 +5579,7 @@
     "primary_zone": "quads",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -5601,7 +5601,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -5624,7 +5624,7 @@
     "primary_zone": "shoulders",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5646,7 +5646,7 @@
     "primary_zone": "traps",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -5670,7 +5670,7 @@
       "ball"
     ],
     "intensity": 3,
-    "duration_target_s": 78,
+    "duration_target_s": 60,
     "duration_min_s": 52,
     "duration_max_s": 117,
     "instructions": [
@@ -5693,7 +5693,7 @@
     "primary_zone": "shins",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -5718,7 +5718,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -5742,7 +5742,7 @@
       "pipe"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5764,7 +5764,7 @@
     "primary_zone": "traps",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -5788,7 +5788,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5810,7 +5810,7 @@
     "primary_zone": "shoulder_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -5833,7 +5833,7 @@
     "primary_zone": "shoulders",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5855,7 +5855,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5877,7 +5877,7 @@
     "primary_zone": "obliques",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -5899,7 +5899,7 @@
     "primary_zone": "lumbar",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5922,7 +5922,7 @@
     "primary_zone": "ankles",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -5968,7 +5968,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -5992,7 +5992,7 @@
       "medicine_ball"
     ],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -6014,7 +6014,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -6036,7 +6036,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -6060,7 +6060,7 @@
       "weight"
     ],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -6082,7 +6082,7 @@
     "primary_zone": "thoracic",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -6104,7 +6104,7 @@
     "primary_zone": "shoulder_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -6126,7 +6126,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -6148,7 +6148,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -6170,7 +6170,7 @@
     "primary_zone": "quads",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -6192,7 +6192,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -6216,7 +6216,7 @@
       "box"
     ],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -6238,7 +6238,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -6260,7 +6260,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -6308,7 +6308,7 @@
       "ball"
     ],
     "intensity": 3,
-    "duration_target_s": 78,
+    "duration_target_s": 60,
     "duration_min_s": 52,
     "duration_max_s": 117,
     "instructions": [
@@ -6332,7 +6332,7 @@
       "ball"
     ],
     "intensity": 3,
-    "duration_target_s": 78,
+    "duration_target_s": 60,
     "duration_min_s": 52,
     "duration_max_s": 117,
     "instructions": [
@@ -6354,7 +6354,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -6377,7 +6377,7 @@
     "primary_zone": "lumbar",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -6399,7 +6399,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -6422,7 +6422,7 @@
     "primary_zone": "traps",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -6444,7 +6444,7 @@
     "primary_zone": "pecs",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -6466,7 +6466,7 @@
     "primary_zone": "lumbar",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -6488,7 +6488,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -6510,7 +6510,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -6534,7 +6534,7 @@
       "box"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -6557,7 +6557,7 @@
     "primary_zone": "lumbar",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -6579,7 +6579,7 @@
     "primary_zone": "thoracic",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -6601,7 +6601,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -6623,7 +6623,7 @@
     "primary_zone": "glutes",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 60,
     "instructions": [
@@ -6646,7 +6646,7 @@
     "primary_zone": "lumbar",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -6668,7 +6668,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -6690,7 +6690,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -6712,7 +6712,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -6734,7 +6734,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -6758,7 +6758,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -6781,7 +6781,7 @@
     "primary_zone": "lats",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -6806,7 +6806,7 @@
       "band"
     ],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -6829,7 +6829,7 @@
     "primary_zone": "pecs",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -6852,7 +6852,7 @@
     "primary_zone": "lumbar",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -6874,7 +6874,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -6897,7 +6897,7 @@
     "primary_zone": "lumbar",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -6919,7 +6919,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -6941,7 +6941,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -6963,7 +6963,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -6985,7 +6985,7 @@
     "primary_zone": "thoracic",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -7007,7 +7007,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -7030,7 +7030,7 @@
     "primary_zone": "thoracic",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -7053,7 +7053,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -7075,7 +7075,7 @@
     "primary_zone": "traps",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -7121,7 +7121,7 @@
     "primary_zone": "hip_rotators",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -7192,7 +7192,7 @@
     "primary_zone": "obliques",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -7214,7 +7214,7 @@
     "primary_zone": "pecs",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -7236,7 +7236,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 40,
+    "duration_target_s": 60,
     "duration_min_s": 25,
     "duration_max_s": 75,
     "instructions": [
@@ -7259,7 +7259,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -7281,7 +7281,7 @@
     "primary_zone": "hamstrings",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -7303,7 +7303,7 @@
     "primary_zone": "shoulders",
     "equipment": [],
     "intensity": 1,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -7350,7 +7350,7 @@
     "primary_zone": "hip_flexors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -7375,7 +7375,7 @@
       "pipe"
     ],
     "intensity": 3,
-    "duration_target_s": 58,
+    "duration_target_s": 60,
     "duration_min_s": 39,
     "duration_max_s": 117,
     "instructions": [
@@ -7397,7 +7397,7 @@
     "primary_zone": "triceps",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -7419,7 +7419,7 @@
     "primary_zone": "ankles",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -7442,7 +7442,7 @@
     "primary_zone": "pecs",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -7465,7 +7465,7 @@
     "primary_zone": "pecs",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -7487,7 +7487,7 @@
     "primary_zone": "calves",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
@@ -7510,7 +7510,7 @@
     "primary_zone": "pecs",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 90,
     "instructions": [
@@ -7532,7 +7532,7 @@
     "primary_zone": "adductors",
     "equipment": [],
     "intensity": 2,
-    "duration_target_s": 45,
+    "duration_target_s": 60,
     "duration_min_s": 30,
     "duration_max_s": 75,
     "instructions": [
