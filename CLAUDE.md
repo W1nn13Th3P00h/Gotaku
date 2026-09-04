@@ -85,9 +85,8 @@ Pas de `navigator.vibrate`, non supporté par Safari iOS. Les signaux du timer p
 WebAudio, initialisé au démarrage de la séance pendant que le geste utilisateur est encore
 valide.
 
-L'ordonnancement du rappel passe par Supabase Cron, pas par Vercel Cron. Le plan Hobby de
-Vercel plafonne à une exécution par jour, avec un déclenchement garanti à l'heure près
-seulement, ce qui est incompatible avec un rappel à heure fixe.
+L'ordonnancement du rappel passe par Supabase Cron, pas par le cron de l'hébergeur, pour
+garder un déclenchement fiable à heure fixe indépendamment du plan d'hébergement en place.
 
 Screen Wake Lock est utilisé pendant l'exécution d'une séance, et relâché à la sortie de
 l'écran.

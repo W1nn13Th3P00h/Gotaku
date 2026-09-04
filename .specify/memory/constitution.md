@@ -90,7 +90,7 @@ que défini dans `docs/spec.md`.
 ## Stack technique et contraintes de plateforme
 
 Stack imposée : Next.js (App Router), TypeScript strict, Tailwind, déploiement
-Vercel, Supabase (Postgres, Auth, Edge Functions, Cron), Web Push VAPID,
+Netlify, Supabase (Postgres, Auth, Edge Functions, Cron), Web Push VAPID,
 service worker, PWA installable sur écran d'accueil iOS, Zod pour la
 validation du JSON de banque, Vitest pour les tests unitaires. Pas d'ORM lourd
 : le client Supabase généré en types TypeScript suffit.
@@ -103,9 +103,9 @@ nouvelle :
 - Pas de `navigator.vibrate`, non supporté par Safari iOS. Les signaux du
   timer passent par WebAudio, initialisé au démarrage de la séance pendant que
   le geste utilisateur est encore valide.
-- L'ordonnancement du rappel quotidien passe par Supabase Cron, pas par Vercel
-  Cron (le plan Hobby de Vercel plafonne à une exécution par jour, sans
-  garantie d'heure fixe).
+- L'ordonnancement du rappel quotidien passe par Supabase Cron, pas par le
+  cron de l'hébergeur, pour garder un déclenchement fiable à heure fixe
+  indépendamment du plan d'hébergement en place.
 - Screen Wake Lock est utilisé pendant l'exécution d'une séance, et relâché à
   la sortie de l'écran.
 
@@ -138,4 +138,4 @@ MAJOR pour une suppression ou redéfinition d'un principe existant, MINOR pour
 l'ajout d'un principe ou d'une section, PATCH pour une clarification de
 formulation sans changement de fond.
 
-**Version**: 1.0.0 | **Ratified**: 2026-09-03 | **Last Amended**: 2026-09-03
+**Version**: 1.0.1 | **Ratified**: 2026-09-03 | **Last Amended**: 2026-09-04
