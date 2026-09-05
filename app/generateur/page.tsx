@@ -1,13 +1,18 @@
 import { loadCatalog, loadGeneratorHistory } from '@/lib/bank/catalog'
-import { getAvailableEquipment } from '@/lib/settings/queries'
+import { getMobilityFocusZones, getPracticeZones } from '@/lib/personalization/queries'
+import {
+  getAvailableEquipment,
+  getMainPractice,
+  getMajorDeficitFocus,
+  getPractices,
+} from '@/lib/settings/queries'
 import { createClient } from '@/lib/supabase/server'
 
 import { GeneratorScreen } from '@/app/generateur/generator-screen'
 
-// Le catalogue, l'historique et le matériel disponible dépendent de l'utilisateur
-// connecté (RLS) et doivent refléter la banque et les réglages à l'instant du tap,
-// jamais une réponse mise en cache d'un précédent visiteur ou d'une précédente
-// génération.
+// Le catalogue, l'historique et les réglages dépendent de l'utilisateur connecté
+// (RLS) et doivent refléter la banque et les réglages à l'instant du tap, jamais
+// une réponse mise en cache d'un précédent visiteur ou d'une précédente génération.
 export const dynamic = 'force-dynamic'
 
 export default async function GeneratorPage() {
@@ -16,6 +21,11 @@ export default async function GeneratorPage() {
   const catalog = await loadCatalog(supabase)
   const history = await loadGeneratorHistory(supabase, catalog)
   const availableEquipment = await getAvailableEquipment(supabase)
+  const practices = await getPractices(supabase)
+  const mainPractice = await getMainPractice(supabase)
+  const majorDeficitFocus = await getMajorDeficitFocus(supabase)
+  const practiceZones = await getPracticeZones(supabase)
+  const mobilityFocusZones = await getMobilityFocusZones(supabase)
 
   // Props RSC : uniquement des types sérialisables simples (chaînes, nombres),
   // les `Map`/`Date` du module `lib/bank/catalog.ts` sont reconstruites côté client.
@@ -30,6 +40,11 @@ export default async function GeneratorPage() {
       lastPerformed={lastPerformed}
       zoneVolume30d={zoneVolume30d}
       availableEquipment={availableEquipment}
+      practices={practices}
+      mainPractice={mainPractice}
+      majorDeficitFocus={majorDeficitFocus}
+      practiceZones={practiceZones}
+      mobilityFocusZones={mobilityFocusZones}
     />
   )
 }
