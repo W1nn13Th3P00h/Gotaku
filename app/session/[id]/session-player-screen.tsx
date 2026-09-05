@@ -10,6 +10,7 @@ import type { PlayerItem, PlayerState } from '@/lib/session-player/types'
 import { completeSession, markItemDone, markItemSkipped, revertItemToPending, startSession } from '@/lib/sessions/mutations'
 import type { SessionForExecution } from '@/lib/sessions/queries'
 import { createClient } from '@/lib/supabase/client'
+import { evaluateAndUnlockTrophies } from '@/lib/trophies/queries'
 import { Button, buttonClasses } from '@/components/ui/button'
 import { Chip } from '@/components/ui/chip'
 import { Page, PageHeader, Section } from '@/components/ui/page'
@@ -214,7 +215,9 @@ export function SessionPlayerScreen({ session }: Props) {
         ? Math.round((Date.now() - startedAtMsRef.current) / 1000)
         : 0
       setFinishedDurationS(actualDurationS)
-      void completeSession(supabase, session.id, { actualDurationS })
+      void completeSession(supabase, session.id, { actualDurationS }).then(() =>
+        evaluateAndUnlockTrophies(supabase),
+      )
       releaseWakeLock()
     }
   }, [clock.player, session.id, supabase])
