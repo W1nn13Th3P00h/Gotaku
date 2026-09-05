@@ -56,6 +56,85 @@ describe('user_settings', () => {
     expect(afterUpdate[0]?.available_equipment).toEqual(['ball'])
   })
 
+  it('démarre sans pratique, sans sport principal ni déficit majeur, et accepte un upsert', async () => {
+    const { rows: userRows } = await db.query<{ id: string }>(
+      `insert into auth.users (email) values ('settings-practices-test@example.com') returning id`,
+    )
+    const userId = userRows[0]?.id
+    if (!userId) throw new Error('insertion utilisateur de test échouée')
+
+    const { rows: before } = await db.query<{
+      practices: string[]
+      main_practice: string | null
+      major_deficit_focus: string | null
+    }>(
+      `select practices, main_practice, major_deficit_focus from user_settings where user_id = $1`,
+      [userId],
+    )
+    expect(before).toHaveLength(0)
+
+    await db.query(`insert into user_settings (user_id, practices) values ($1, $2)`, [
+      userId,
+      ['running', 'yoga'],
+    ])
+
+    const { rows: afterInsert } = await db.query<{
+      practices: string[]
+      main_practice: string | null
+      major_deficit_focus: string | null
+    }>(
+      `select practices, main_practice, major_deficit_focus from user_settings where user_id = $1`,
+      [userId],
+    )
+    expect(afterInsert[0]?.practices).toEqual(['running', 'yoga'])
+    expect(afterInsert[0]?.main_practice).toBeNull()
+    expect(afterInsert[0]?.major_deficit_focus).toBeNull()
+
+    await db.query(
+      `update user_settings set main_practice = $2, major_deficit_focus = $3 where user_id = $1`,
+      [userId, 'running', 'hips_pelvis'],
+    )
+
+    const { rows: afterUpdate } = await db.query<{
+      main_practice: string | null
+      major_deficit_focus: string | null
+    }>(`select main_practice, major_deficit_focus from user_settings where user_id = $1`, [
+      userId,
+    ])
+    expect(afterUpdate[0]?.main_practice).toBe('running')
+    expect(afterUpdate[0]?.major_deficit_focus).toBe('hips_pelvis')
+  })
+
+  it('refuse un main_practice hors référentiel', async () => {
+    const { rows: userRows } = await db.query<{ id: string }>(
+      `insert into auth.users (email) values ('settings-bad-practice-test@example.com') returning id`,
+    )
+    const userId = userRows[0]?.id
+    if (!userId) throw new Error('insertion utilisateur de test échouée')
+
+    await expect(
+      db.query(`insert into user_settings (user_id, main_practice) values ($1, $2)`, [
+        userId,
+        'unknown_practice',
+      ]),
+    ).rejects.toThrow()
+  })
+
+  it('refuse un major_deficit_focus hors référentiel', async () => {
+    const { rows: userRows } = await db.query<{ id: string }>(
+      `insert into auth.users (email) values ('settings-bad-focus-test@example.com') returning id`,
+    )
+    const userId = userRows[0]?.id
+    if (!userId) throw new Error('insertion utilisateur de test échouée')
+
+    await expect(
+      db.query(`insert into user_settings (user_id, major_deficit_focus) values ($1, $2)`, [
+        userId,
+        'unknown_focus',
+      ]),
+    ).rejects.toThrow()
+  })
+
   it('refuse un doublon de user_id', async () => {
     const { rows: userRows } = await db.query<{ id: string }>(
       `insert into auth.users (email) values ('settings-test-2@example.com') returning id`,
