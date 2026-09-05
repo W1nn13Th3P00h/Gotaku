@@ -44,6 +44,8 @@ NOISE_MAX           = 1.15
 ZONE_NEED_FLOOR     = 0.05  // une zone déjà servie garde un poids résiduel
 TOLERANCE_S         = 15    // écart accepté sur la durée totale finale, valeur par
                              // défaut de `input.toleranceS` (voir étape 5)
+VARIATION_PROBABILITY = 0.3  // proba qu'une séance reçoive l'exercice bonus
+VARIATION_BUDGET_SHARE = 0.15 // part du budget total réservée au slot bonus
 TYPE_ORDER          = [massage, active_stretch, passive_stretch, muscle_activation]
 POSITION_ORDER      = [standing, wall, hanging, seated, quadruped, side_lying, supine, prone]
 ```
@@ -74,6 +76,73 @@ cost(e) = e.duration_target_s * (e.symmetry === 'asymmetric' ? 2 : 1) + TRANSITI
 Le budget initial vaut `targetDurationS`. Le dernier `TRANSITION_S` d'une séance est du
 temps réellement consommé entre deux exercices, il reste compté, l'écart final est absorbé
 par l'ajustement de l'étape 5.
+
+## Étape 2 bis, exercice de variation (bonus)
+
+Insérée entre l'étape 2 (coût) et l'étape 3 (pondération normale). Elle offre, de
+façon occasionnelle, un exercice hors des zones demandées, pour casser la routine
+sans jamais mettre en péril la durée cible ni faire échouer une séance qui aurait
+réussi sans elle.
+
+Les trois échecs (`EMPTY_CATALOG`, `BUDGET_TOO_SMALL`, `ZONES_UNSERVABLE`) sont
+tranchés avant cette étape, sur le budget total et les zones demandées, sans tenir
+compte du bonus. Le bonus ne peut donc jamais provoquer un échec qui n'existerait
+pas sans lui.
+
+```
+actif = rng.uniform() < VARIATION_PROBABILITY
+```
+
+Le rng est consommé pour ce tirage même quand le bonus s'annule ensuite : on ne
+revient jamais en arrière sur sa consommation, c'est la condition du déterminisme.
+
+Si actif, les zones éligibles sont les zones du référentiel qui ne sont pas dans
+`input.zones`, restreintes à celles ayant au moins un candidat filtrable avec les
+mêmes règles que l'étape 1, sauf la contrainte de zone (matériel disponible inclus
+strictement, type pas dans `excludedTypes`, intensité inférieure ou égale à
+`maxIntensity`, `active` vrai). Si cet ensemble est vide, le bonus s'annule
+silencieusement : pas d'échec, pas de dégradation visible.
+
+Une zone bonus est ensuite tirée parmi les zones éligibles, roue de la fortune,
+même mécanique que le reste du générateur :
+
+```
+weight(z) = 1 / (zoneVolume30d(z) + VARIATION_ZONE_EPSILON)
+```
+
+Une zone jamais travaillée (volume nul) obtient ainsi le poids le plus élevé, ce
+qui est le comportement recherché, plutôt qu'une division par zéro.
+
+Les candidats bonus sont les exercices filtrés sur cette zone tirée, mêmes règles
+que l'étape 1, la zone remplacée par la zone bonus. Leur poids reprend la
+fraîcheur et le bruit de l'étape 3, mais jamais le besoin de zone, qui n'a pas de
+sens hors des zones demandées (équivalent à le fixer à 1) :
+
+```
+weight(e) = freshness(e) * noise
+```
+
+Le budget du slot bonus est plafonné :
+
+```
+slot = min(VARIATION_BUDGET_SHARE * targetDurationS, remaining)
+```
+
+où `remaining` est le budget total intact à ce stade, avant toute sélection. Un
+tirage pondéré retient un candidat bonus parmi ceux dont `cost(e) <= slot`. Si
+aucun candidat n'entre dans ce budget, le bonus s'annule silencieusement.
+
+Un candidat bonus retenu est ajouté à `selected`, retiré du catalogue candidat
+pour la suite, et son coût est déduit de `remaining`. L'étape 4 (sélection
+normale) s'exécute ensuite sur ce budget réduit et ce catalogue restreint : les
+autres exercices de la zone bonus restent disponibles pour la suite, mais en
+pratique ils ne seront candidats à rien d'autre puisque leur zone n'est pas
+demandée.
+
+L'exercice bonus n'est marqué nulle part : c'est un `SessionItem` comme un autre
+pour l'ajustement fin (étape 5) et l'ordonnancement (étape 6). Il n'apparaît pas
+dans la couverture retournée (étape 7), qui n'itère que sur `input.zones` — sa
+zone n'en fait par construction jamais partie.
 
 ## Étape 3, pondération
 
@@ -249,3 +318,17 @@ Le générateur est testé avant tout branchement à l'interface.
 - ordonnancement, le premier exercice est d'intensité minimale parmi les retenus, et l'ordre
   relatif des suivants est conservé
 - ajustement, la durée totale reste dans la tolérance et aucune durée ne sort de sa plage
+- variation, déterminisme : seed et contexte identiques donnent la même décision d'activation,
+  la même zone bonus si activé, le même exercice bonus si un candidat existe
+- variation, variabilité : sur un catalogue suffisamment fourni, deux seeds différentes
+  donnent parfois une activation différente ou une zone bonus différente
+- variation, la zone bonus retenue n'est jamais une zone de `input.zones`, vérifié sur
+  plusieurs tirages et seeds
+- variation, aucune zone exotique éligible (toutes les zones du référentiel sont dans
+  `input.zones`) ne déclenche aucun bonus, et le résultat reste un succès normal
+- variation, un slot bonus trop petit pour le moindre candidat bonus disponible annule le
+  bonus sans dégrader le résultat, la durée totale restant dans la tolérance
+- variation, un budget proche du seuil `BUDGET_TOO_SMALL` ne bascule jamais dans cet échec ni
+  dans `ZONES_UNSERVABLE` à cause du bonus, sur des seeds où le bonus se serait activé
+- variation, la couverture retournée (étape 7) pour les zones de `input.zones` est identique
+  que le bonus soit présent ou non

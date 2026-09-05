@@ -7,6 +7,7 @@ import { orderSelected } from '@/lib/generator/order'
 import { createRng } from '@/lib/generator/rng'
 import { selectExercises } from '@/lib/generator/select'
 import type { GeneratorContext, GeneratorInput, GeneratorResult, SessionItem } from '@/lib/generator/types'
+import { pickVariationExercise } from '@/lib/generator/variation'
 
 /** Orchestrateur : les étapes 1 à 7 de `docs/generator.md`, dans l'ordre. */
 export function generateSession(
@@ -50,11 +51,20 @@ export function generateSession(
     }
   }
 
+  // Étape 2 bis : exercice de variation (bonus), sur le budget et les zones
+  // intacts. Ne peut jamais transformer un succès en échec : les trois échecs
+  // ci-dessus sont déjà tranchés au moment où elle s'exécute.
+  const variationExercise = pickVariationExercise(catalog, input, context, rng)
+  const selectionCandidates = variationExercise
+    ? candidates.filter((e) => e.id !== variationExercise.id)
+    : candidates
+
   const { selected, unmetRequiredTypes, remaining } = selectExercises(
-    candidates,
+    selectionCandidates,
     input,
     context,
     rng,
+    variationExercise ? [variationExercise] : [],
   )
 
   const adjusted = adjustDurations(selected, remaining, input.toleranceS)
