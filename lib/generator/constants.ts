@@ -10,6 +10,8 @@ export const NOISE_MIN = 0.85
 export const NOISE_MAX = 1.15
 export const ZONE_NEED_FLOOR = 0.05
 export const TOLERANCE_S = 15
+export const VARIATION_PROBABILITY = 0.3
+export const VARIATION_BUDGET_SHARE = 0.15
 
 /**
  * Ajoutée au volume 30 jours avant inversion (`preferNeglectedZones`), pour qu'une
@@ -17,6 +19,14 @@ export const TOLERANCE_S = 15
  * qu'une division par zéro. Choix validé le 2026-09-02.
  */
 export const ZONE_VOLUME_EPSILON_S = 60
+
+/**
+ * Même rôle que `ZONE_VOLUME_EPSILON_S`, pour le tirage pondéré de la zone
+ * bonus de l'étape de variation. Beaucoup plus petit : ce tirage doit fortement
+ * favoriser une zone jamais travaillée plutôt que lisser les écarts entre zones
+ * déjà bien réparties. Choix validé le 2026-09-05.
+ */
+export const VARIATION_ZONE_EPSILON = 1e-6
 
 /** Ouverture au massage, clôture à l'activation : séance qui précède un entraînement. */
 export const TYPE_ORDER: readonly ExerciseType[] = [

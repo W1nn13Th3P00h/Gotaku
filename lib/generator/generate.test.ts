@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 
 import { TOLERANCE_S } from '@/lib/generator/constants'
+import { computeCoverage } from '@/lib/generator/coverage'
 import { generateSession } from '@/lib/generator/generate'
 import type { Exercise, GeneratorContext, GeneratorInput } from '@/lib/generator/types'
 import type { BodyPosition, EquipmentCode, ExerciseType, SymmetryType, ZoneCode } from '@/lib/referentials'
@@ -362,5 +363,47 @@ describe('generateSession', () => {
     expect(resultCustom.items[0]?.durationS).toBe(exercise.duration_target_s)
     expect(gapCustom).toBeLessThanOrEqual(60)
     expect(gapDefault).toBeLessThan(gapCustom)
+  })
+
+  it("variation : un budget proche du seuil BUDGET_TOO_SMALL ne bascule jamais dans cet échec ni dans ZONES_UNSERVABLE à cause du bonus", () => {
+    // Un seul candidat sur 'calves', dont le coût vaut exactement le budget : sans
+    // bonus c'est un succès de justesse (minCost === targetDurationS). D'autres
+    // exercices, sur des zones non demandées, alimentent l'étape de variation.
+    const onlyCandidate = makeExercise({
+      slug: 'calves-exact',
+      zones: ['calves'],
+      duration_target_s: 90,
+      duration_min_s: 60,
+      duration_max_s: 120,
+    })
+    const exotic = ZONES_POOL.filter((z) => z !== 'calves').map((zone) =>
+      makeExercise({ slug: `exotic-${zone}`, zones: [zone], duration_target_s: 30 }),
+    )
+    const catalog = [onlyCandidate, ...exotic]
+    // Coût de 'calves-exact' : 100s (90 + TRANSITION_S), exactement le budget.
+    const input: GeneratorInput = { targetDurationS: 100, zones: ['calves'], equipment: [] }
+
+    for (let seed = 0; seed < 300; seed++) {
+      const result = generateSession(input, makeContext(catalog, seed))
+      expect(result.ok).toBe(true)
+    }
+  })
+
+  it('variation : la couverture des zones de input.zones ne dépend pas de la présence du bonus', () => {
+    const requestedZones: ZoneCode[] = ['calves', 'hamstrings']
+    const inZone1 = makeExercise({ slug: 'a-calves', zones: ['calves'], duration_target_s: 30 })
+    const inZone2 = makeExercise({ slug: 'b-hamstrings', zones: ['hamstrings'], duration_target_s: 30 })
+    // Exercice « bonus » simulé : une seule zone, hors des zones demandées, comme
+    // le produit systématiquement `pickVariationExercise` (jamais une zone de
+    // `input.zones`). La couverture ne doit pas varier selon sa présence.
+    const bonusLike = makeExercise({ slug: 'bonus-neck', zones: ['neck'], duration_target_s: 20 })
+
+    const withoutBonus = [
+      { exercise: inZone1, durationS: inZone1.duration_target_s },
+      { exercise: inZone2, durationS: inZone2.duration_target_s },
+    ]
+    const withBonus = [...withoutBonus, { exercise: bonusLike, durationS: bonusLike.duration_target_s }]
+
+    expect(computeCoverage(withBonus, requestedZones)).toEqual(computeCoverage(withoutBonus, requestedZones))
   })
 })
