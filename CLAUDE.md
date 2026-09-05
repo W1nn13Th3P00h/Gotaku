@@ -16,6 +16,10 @@ données, pas pour gérer une population d'utilisateurs.
 Avant toute implémentation, présenter un plan de développement (étapes, fichiers
 impactés, choix techniques) et attendre validation explicite avant d'écrire du code.
 
+Quand une tâche part d'une ou plusieurs issues GitHub citées en début de travail,
+inclure les mots-clés de fermeture (`Closes #N`) dans la description de la PR
+correspondante, pour chaque issue traitée.
+
 ## Stack imposée
 
 - Next.js (App Router), TypeScript strict, Tailwind
