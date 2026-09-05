@@ -72,6 +72,35 @@ export type EquipmentCode = (typeof EQUIPMENT)[number]['code']
 
 export const EQUIPMENT_CODES = EQUIPMENT.map((e) => e.code) as readonly EquipmentCode[]
 
+/** 4 grandes zones de mobilité, réglage « Déficit majeur » de l'écran Réglages. */
+export const MOBILITY_FOCUSES = [
+  { code: 'posterior_chain', label: 'Chaîne postérieure' },
+  { code: 'shoulders', label: 'Épaules' },
+  { code: 'overhead', label: 'Au-dessus de la tête' },
+  { code: 'hips_pelvis', label: 'Hanches et bassin' },
+] as const
+
+export type MobilityFocusCode = (typeof MOBILITY_FOCUSES)[number]['code']
+
+export const MOBILITY_FOCUS_CODES = MOBILITY_FOCUSES.map(
+  (m) => m.code,
+) as readonly MobilityFocusCode[]
+
+/** 7 pratiques sportives, réglage « Pratique sportive » de l'écran Réglages. */
+export const PRACTICES = [
+  { code: 'trail', label: 'Trail' },
+  { code: 'running', label: 'Course à pied' },
+  { code: 'cycling', label: 'Cyclisme' },
+  { code: 'mtb', label: 'VTT' },
+  { code: 'racquet_sports', label: 'Sports de raquette' },
+  { code: 'yoga', label: 'Yoga' },
+  { code: 'dance', label: 'Danse' },
+] as const
+
+export type PracticeCode = (typeof PRACTICES)[number]['code']
+
+export const PRACTICE_CODES = PRACTICES.map((p) => p.code) as readonly PracticeCode[]
+
 export const EXERCISE_TYPES = [
   'active_stretch',
   'passive_stretch',
@@ -120,6 +149,14 @@ export function zoneLabel(code: ZoneCode): string {
 
 export function equipmentLabel(code: EquipmentCode): string {
   return EQUIPMENT.find((e) => e.code === code)?.label ?? code
+}
+
+export function mobilityFocusLabel(code: MobilityFocusCode): string {
+  return MOBILITY_FOCUSES.find((m) => m.code === code)?.label ?? code
+}
+
+export function practiceLabel(code: PracticeCode): string {
+  return PRACTICES.find((p) => p.code === code)?.label ?? code
 }
 
 export function zonesByRegion(): { region: (typeof REGIONS)[number]; zones: typeof ZONES }[] {

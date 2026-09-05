@@ -40,6 +40,37 @@ et à l'équilibrage de couverture du générateur, elle n'est jamais taggée su
 Régions : `foot_ankle`, `lower_leg`, `thigh`, `hip`, `core`, `back`, `neck`,
 `shoulder_chest`, `arm`.
 
+## Zones de mobilité
+
+4 grandes zones de mobilité, référentiel fermé. Sert au réglage « Déficit majeur » de
+l'écran Réglages (sélection unique) et à la catégorie « Zones de mobilité » des séances
+programmées du générateur (`docs/spec.md`). Chacune est rattachée à plusieurs zones via
+`mobility_focus_zones`.
+
+| code | libellé |
+| --- | --- |
+| `posterior_chain` | Chaîne postérieure |
+| `shoulders` | Épaules |
+| `overhead` | Au-dessus de la tête |
+| `hips_pelvis` | Hanches et bassin |
+
+## Pratiques
+
+7 pratiques sportives, référentiel fermé. Sert au réglage « Pratique sportive » de
+l'écran Réglages (multi-sélection, plus un sport principal choisi parmi les pratiques
+cochées) et à la catégorie « Sports » des séances programmées du générateur. Chacune est
+rattachée à plusieurs zones via `practice_zones`.
+
+| code | libellé |
+| --- | --- |
+| `trail` | Trail |
+| `running` | Course à pied |
+| `cycling` | Cyclisme |
+| `mtb` | VTT |
+| `racquet_sports` | Sports de raquette |
+| `yoga` | Yoga |
+| `dance` | Danse |
+
 ## Types d'exercice
 
 `active_stretch`, `passive_stretch`, `massage`, `muscle_activation`.
@@ -106,6 +137,30 @@ create table equipment (
   code  text primary key,
   label text not null,
   sort  int  not null
+);
+
+create table mobility_focuses (
+  code  text primary key,
+  label text not null,
+  sort  int  not null
+);
+
+create table mobility_focus_zones (
+  focus_code text not null references mobility_focuses(code),
+  zone_code  text not null references zones(code),
+  primary key (focus_code, zone_code)
+);
+
+create table practices (
+  code  text primary key,
+  label text not null,
+  sort  int  not null
+);
+
+create table practice_zones (
+  practice_code text not null references practices(code),
+  zone_code     text not null references zones(code),
+  primary key (practice_code, zone_code)
 );
 
 create table exercises (
@@ -194,6 +249,9 @@ create table template_items (
 create table user_settings (
   user_id             uuid primary key references auth.users(id) on delete cascade,
   available_equipment text[] not null default '{}',
+  practices           text[] not null default '{}',
+  main_practice       text references practices(code),
+  major_deficit_focus text references mobility_focuses(code),
   updated_at          timestamptz not null default now()
 );
 
@@ -235,14 +293,21 @@ group by si.exercise_id;
 
 RLS activée sur `user_settings`, `sessions`, `session_items`, `session_templates`,
 `template_items`, `reminders`, `reminder_sends`, `push_subscriptions`, avec une policy
-unique par table sur `user_id = auth.uid()`. `zones`, `equipment`, `exercises`,
-`exercise_zones`, `exercise_equipment` sont en lecture pour tout utilisateur authentifié, en
-écriture pour la seule clé de service utilisée par le seed.
+unique par table sur `user_id = auth.uid()`. `zones`, `equipment`, `mobility_focuses`,
+`mobility_focus_zones`, `practices`, `practice_zones`, `exercises`, `exercise_zones`,
+`exercise_equipment` sont en lecture pour tout utilisateur authentifié, en écriture pour la
+seule clé de service utilisée par le seed.
 
 `user_settings.available_equipment` porte le matériel disponible de l'utilisateur, réglé
 depuis l'écran Réglages. C'est la valeur initiale de `equipment` au chargement du
 générateur ; l'utilisateur peut encore la restreindre ponctuellement sur l'aperçu d'une
 séance donnée (voir `docs/generator.md`), sans que cela ne réécrive ce réglage global.
+
+`user_settings.practices`/`main_practice`/`major_deficit_focus` portent respectivement les
+pratiques sportives cochées, le sport principal (doit appartenir à `practices`, validé côté
+application) et le déficit majeur de mobilité, réglés depuis l'écran Réglages. Ils
+alimentent la présélection de zones de la séance personnalisée et la catégorie « Sports »
+des séances programmées du générateur (voir `docs/generator.md` et `docs/spec.md`).
 
 ## Format du JSON de banque
 
