@@ -10,7 +10,7 @@ import { suggestRecovery } from '@/lib/generator/failure-actions'
 import { generateSession } from '@/lib/generator/generate'
 import { replaceExercise } from '@/lib/generator/replace'
 import type { ExerciseId, FailureDetail, GeneratorInput } from '@/lib/generator/types'
-import { DURATION_PRESETS_MIN, ZONE_PRESETS } from '@/lib/presets'
+import { DURATION_PRESETS_MIN, MOOD_PRESETS } from '@/lib/presets'
 import { saveGeneratedAsTemplate, startGeneratedSession } from '@/lib/sessions/mutations'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
@@ -529,9 +529,9 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d, availab
             Séances programmées
           </p>
           <div className="mt-2 flex flex-wrap gap-2">
-            {ZONE_PRESETS.map((preset) => (
+            {MOOD_PRESETS.map((preset) => (
               <Button
-                key={preset.label}
+                key={preset.id}
                 variant="subtle"
                 size="sm"
                 onClick={() => setZones(preset.zones)}
