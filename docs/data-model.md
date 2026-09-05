@@ -351,3 +351,46 @@ Règles de validation Zod, toutes bloquantes :
 
 Le seed est transactionnel. Une seule erreur de validation annule l'ensemble, sans
 écriture partielle.
+
+## Trophées
+
+Référentiel fermé, comme les autres, miroir exact de `lib/trophies/definitions.ts`.
+Trois familles, calculées après chaque séance `completed` et persistées dans
+`user_trophies` (jamais recalculées à la volée pour l'affichage).
+
+**Streak** (jours consécutifs, voir `lib/stats/streak.ts`) : six paliers.
+
+| palier (jours) | label |
+| --- | --- |
+| 7 | bronze |
+| 30 | argent |
+| 100 | or |
+| 200 | platine |
+| 500 | diamant |
+| 1000 | maître |
+
+**Région** : mêmes six paliers de comptage, appliqués à chacune des 9 régions du
+référentiel Zones ci-dessus (`foot_ankle`, `lower_leg`, `thigh`, `hip`, `core`,
+`back`, `neck`, `shoulder_chest`, `arm`), soit 9 × 6 = 54 trophées.
+
+| palier (séances) | label |
+| --- | --- |
+| 10 | bronze |
+| 50 | argent |
+| 100 | or |
+| 200 | platine |
+| 500 | diamant |
+| 1000 | maître |
+
+Une séance compte pour une région si elle contient au moins un `session_items` dont
+l'exercice a une zone primaire (`exercise_zones.is_primary`) appartenant à cette
+région (voir la fonction SQL `trophy_region_progress()`).
+
+**Volume horaire total** : `sum(actual_duration_s)` sur toutes les séances
+`completed`, en heures. Dix paliers, de 100h à 1000h par pas de 100h. Pas de label :
+seul le chiffre (ex. « 300h ») est affiché sur le badge une fois débloqué.
+
+Le trophée est débloqué dès que le seuil est atteint ou dépassé, y compris quand
+plusieurs paliers sont franchis d'un coup (ex. un volume qui passe directement de
+50h à 350h débloque les paliers 100h, 200h et 300h). Aucune notification : le
+déblocage n'est visible que sur l'écran `/trophies`.
