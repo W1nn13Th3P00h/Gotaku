@@ -18,6 +18,7 @@ const LINKS = [
   { href: '/compose/templates', label: 'Modèles', hint: 'Séances sauvegardées' },
   { href: '/bank', label: 'Banque', hint: 'Consulter et composer' },
   { href: '/history', label: 'Historique', hint: 'Séances et synthèse 30 jours' },
+  { href: '/stats', label: 'Stats', hint: 'Série en cours et volume hebdo' },
   { href: '/settings', label: 'Réglages', hint: 'Rappel et notifications' },
 ] as const
 
