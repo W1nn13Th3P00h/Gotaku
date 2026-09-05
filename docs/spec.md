@@ -41,10 +41,15 @@ Trois entrées obligatoires et trois options.
 
 Durée cible, par presets tappables : 5, 10, 15, 20, 30, 45 minutes.
 
-Zones souhaitées, en liste groupée par région, multi-sélection. Presets de sélection
-rapide pour éviter la saisie répétitive : bas du corps, haut du corps, chaîne postérieure,
-après course à pied, journée assise. Un preset est une simple liste de codes de zones
-définie en constante, pas une entité en base.
+Zones souhaitées, en liste groupée par région, multi-sélection. Présélectionnées à
+l'ouverture par les réglages de personnalisation de l'utilisateur (déficit majeur de
+mobilité et sport principal, voir `docs/data-model.md`), `[]` si aucun des deux n'est
+réglé. Séances programmées en trois catégories dépliables séparément pour une
+sélection rapide : Sports (une tuile par pratique cochée dans les réglages, zones issues
+de `practice_zones`), Zones de mobilité (toujours les 4 grandes zones, issues de
+`mobility_focus_zones`), Mood (après course à pied, journée assise, constante en code).
+Tapper une tuile pré-remplit la sélection de zones sans générer, laissant l'utilisateur
+sur le formulaire.
 
 Matériel disponible, en chips multi-sélection. Aucune sélection signifie sans matériel.
 

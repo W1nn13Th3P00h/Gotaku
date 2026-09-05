@@ -4,13 +4,27 @@ import { useEffect, useMemo, useState, useSyncExternalStore } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { Field, FormMessage, inputClasses } from '@/components/ui/field'
+import { Field, FormMessage, inputClasses, selectClasses } from '@/components/ui/field'
 import { BackLink, Page, PageHeader, Section } from '@/components/ui/page'
 import { ToggleChip } from '@/components/ui/chip'
 import { createReminder, deleteReminder, updateReminder, type Reminder } from '@/lib/push/queries'
 import { subscribeToPush } from '@/lib/push/subscribe'
-import { EQUIPMENT, equipmentLabel, type EquipmentCode } from '@/lib/referentials'
-import { updateAvailableEquipment } from '@/lib/settings/queries'
+import {
+  EQUIPMENT,
+  MOBILITY_FOCUSES,
+  PRACTICES,
+  equipmentLabel,
+  mobilityFocusLabel,
+  practiceLabel,
+  type EquipmentCode,
+  type MobilityFocusCode,
+  type PracticeCode,
+} from '@/lib/referentials'
+import {
+  updateAvailableEquipment,
+  updateMajorDeficitFocus,
+  updatePractices,
+} from '@/lib/settings/queries'
 import { createClient } from '@/lib/supabase/client'
 
 /**
@@ -29,6 +43,9 @@ import { createClient } from '@/lib/supabase/client'
 type Props = {
   reminders: Reminder[]
   availableEquipment: EquipmentCode[]
+  practices: PracticeCode[]
+  mainPractice: PracticeCode | null
+  majorDeficitFocus: MobilityFocusCode | null
 }
 
 type PermissionState = 'unsupported' | 'default' | 'granted' | 'denied'
@@ -206,7 +223,13 @@ function ReminderCard({ draft, onChange, onSave, onDelete }: ReminderCardProps) 
   )
 }
 
-export function SettingsScreen({ reminders, availableEquipment }: Props) {
+export function SettingsScreen({
+  reminders,
+  availableEquipment,
+  practices: initialPractices,
+  mainPractice: initialMainPractice,
+  majorDeficitFocus: initialMajorDeficitFocus,
+}: Props) {
   const supabase = useMemo(() => createClient(), [])
 
   const installed = useSyncExternalStore(
@@ -268,6 +291,46 @@ export function SettingsScreen({ reminders, availableEquipment }: Props) {
     await updateAvailableEquipment(supabase, equipment)
     setEquipmentSaving(false)
     setEquipmentSaved(true)
+  }
+
+  const [practices, setPractices] = useState<PracticeCode[]>(initialPractices)
+  const [mainPractice, setMainPractice] = useState<PracticeCode | null>(initialMainPractice)
+  const [practicesSaving, setPracticesSaving] = useState(false)
+  const [practicesSaved, setPracticesSaved] = useState(false)
+
+  function togglePractice(code: PracticeCode) {
+    setPracticesSaved(false)
+    setPractices((prev) => {
+      if (!prev.includes(code)) return [...prev, code]
+      // Décocher la pratique désignée comme principale la fait redevenir non désignée.
+      if (mainPractice === code) setMainPractice(null)
+      return prev.filter((p) => p !== code)
+    })
+  }
+
+  async function handleSavePractices() {
+    setPracticesSaving(true)
+    await updatePractices(supabase, practices, mainPractice)
+    setPracticesSaving(false)
+    setPracticesSaved(true)
+  }
+
+  const [majorDeficitFocus, setMajorDeficitFocus] = useState<MobilityFocusCode | null>(
+    initialMajorDeficitFocus,
+  )
+  const [majorDeficitFocusSaving, setMajorDeficitFocusSaving] = useState(false)
+  const [majorDeficitFocusSaved, setMajorDeficitFocusSaved] = useState(false)
+
+  function selectMajorDeficitFocus(code: MobilityFocusCode) {
+    setMajorDeficitFocusSaved(false)
+    setMajorDeficitFocus((prev) => (prev === code ? null : code))
+  }
+
+  async function handleSaveMajorDeficitFocus() {
+    setMajorDeficitFocusSaving(true)
+    await updateMajorDeficitFocus(supabase, majorDeficitFocus)
+    setMajorDeficitFocusSaving(false)
+    setMajorDeficitFocusSaved(true)
   }
 
   function patchDraft(key: string, patch: Partial<ReminderDraft>) {
@@ -399,6 +462,96 @@ export function SettingsScreen({ reminders, availableEquipment }: Props) {
           disabled={equipmentSaving}
         >
           {equipmentSaving ? 'Sauvegarde…' : 'Sauvegarder'}
+        </Button>
+      </Card>
+
+      <Card className="mt-8">
+        <h2 className="text-sm font-medium">Pratique sportive</h2>
+        <p className="mt-1 text-xs text-muted">
+          Sert à présélectionner les zones de la séance personnalisée et à proposer des
+          séances programmées adaptées à tes pratiques.
+        </p>
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          {PRACTICES.map((item) => (
+            <ToggleChip
+              key={item.code}
+              selected={practices.includes(item.code)}
+              onClick={() => togglePractice(item.code)}
+            >
+              {practiceLabel(item.code)}
+            </ToggleChip>
+          ))}
+        </div>
+
+        <div className="mt-4">
+          <Field label="Sport principal" hint="Restreint aux pratiques cochées ci-dessus.">
+            <select
+              value={mainPractice ?? ''}
+              onChange={(e) => setMainPractice((e.target.value || null) as PracticeCode | null)}
+              className={selectClasses}
+              disabled={practices.length === 0}
+            >
+              <option value="">Aucun</option>
+              {PRACTICES.filter((item) => practices.includes(item.code)).map((item) => (
+                <option key={item.code} value={item.code}>
+                  {practiceLabel(item.code)}
+                </option>
+              ))}
+            </select>
+          </Field>
+        </div>
+
+        {practicesSaved ? (
+          <div className="mt-3">
+            <FormMessage kind="success">Pratique sportive sauvegardée.</FormMessage>
+          </div>
+        ) : null}
+
+        <Button
+          variant="primary"
+          block
+          className="mt-4"
+          onClick={handleSavePractices}
+          disabled={practicesSaving}
+        >
+          {practicesSaving ? 'Sauvegarde…' : 'Sauvegarder'}
+        </Button>
+      </Card>
+
+      <Card className="mt-8">
+        <h2 className="text-sm font-medium">Zones de mobilité</h2>
+        <p className="mt-1 text-xs text-muted">
+          Déficit majeur : une seule grande zone, utilisée pour présélectionner les zones de
+          la séance personnalisée et proposer une séance programmée adaptée.
+        </p>
+
+        <div className="mt-4 flex flex-wrap gap-2">
+          {MOBILITY_FOCUSES.map((item) => (
+            <ToggleChip
+              key={item.code}
+              selected={majorDeficitFocus === item.code}
+              onClick={() => selectMajorDeficitFocus(item.code)}
+            >
+              {mobilityFocusLabel(item.code)}
+            </ToggleChip>
+          ))}
+        </div>
+
+        {majorDeficitFocusSaved ? (
+          <div className="mt-3">
+            <FormMessage kind="success">Déficit majeur sauvegardé.</FormMessage>
+          </div>
+        ) : null}
+
+        <Button
+          variant="primary"
+          block
+          className="mt-4"
+          onClick={handleSaveMajorDeficitFocus}
+          disabled={majorDeficitFocusSaving}
+        >
+          {majorDeficitFocusSaving ? 'Sauvegarde…' : 'Sauvegarder'}
         </Button>
       </Card>
 

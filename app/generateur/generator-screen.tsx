@@ -10,7 +10,8 @@ import { suggestRecovery } from '@/lib/generator/failure-actions'
 import { generateSession } from '@/lib/generator/generate'
 import { replaceExercise } from '@/lib/generator/replace'
 import type { ExerciseId, FailureDetail, GeneratorInput } from '@/lib/generator/types'
-import { DURATION_PRESETS_MIN, ZONE_PRESETS } from '@/lib/presets'
+import { resolvePersonalizedZones } from '@/lib/personalization/queries'
+import { DURATION_PRESETS_MIN, MOOD_PRESETS, type ProgrammedSessionEntry } from '@/lib/presets'
 import { saveGeneratedAsTemplate, startGeneratedSession } from '@/lib/sessions/mutations'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
@@ -23,12 +24,16 @@ import {
   EQUIPMENT,
   EXERCISE_TYPES,
   EXERCISE_TYPE_LABELS,
+  MOBILITY_FOCUSES,
+  PRACTICES,
   REGIONS,
   regionOfZone,
   zoneLabel,
   zonesByRegion,
   type EquipmentCode,
   type ExerciseType,
+  type MobilityFocusCode,
+  type PracticeCode,
   type RegionCode,
   type ZoneCode,
 } from '@/lib/referentials'
@@ -56,6 +61,13 @@ type Props = {
   zoneVolume30d: Record<string, number>
   /** Réglage global (écran Réglages), valeur initiale de `equipment` : voir CLAUDE.md. */
   availableEquipment: EquipmentCode[]
+  /** Réglages de personnalisation (écran Réglages) : présélection de la séance
+   *  personnalisée et source de la catégorie « Sports » des séances programmées. */
+  practices: PracticeCode[]
+  mainPractice: PracticeCode | null
+  majorDeficitFocus: MobilityFocusCode | null
+  practiceZones: Record<PracticeCode, ZoneCode[]>
+  mobilityFocusZones: Record<MobilityFocusCode, ZoneCode[]>
 }
 
 function randomSeed(): number {
@@ -73,6 +85,37 @@ function failureMessage(detail: FailureDetail): string {
   }
 }
 
+type ProgrammedSessionCategoryProps = {
+  title: string
+  entries: ProgrammedSessionEntry[]
+  onSelect: (zones: ZoneCode[]) => void
+  /** Dépliée par défaut : la catégorie la plus proche de l'utilisateur. */
+  defaultOpen?: boolean
+}
+
+/** Une catégorie de séances programmées, dépliable/consultable séparément des autres. */
+function ProgrammedSessionCategory({
+  title,
+  entries,
+  onSelect,
+  defaultOpen = false,
+}: ProgrammedSessionCategoryProps) {
+  return (
+    <details className="rounded-xl border border-border" open={defaultOpen}>
+      <summary className="flex min-h-12 cursor-pointer items-center px-4 text-sm font-medium">
+        {title}
+      </summary>
+      <div className="flex flex-wrap gap-2 border-t border-border p-3">
+        {entries.map((entry) => (
+          <Button key={entry.id} variant="subtle" size="sm" onClick={() => onSelect(entry.zones)}>
+            {entry.label}
+          </Button>
+        ))}
+      </div>
+    </details>
+  )
+}
+
 /** Libellé de l'action de relance en un tap, alignée sur le motif d'échec courant. */
 function recoveryLabel(detail: FailureDetail, suggestion: GeneratorInput): string {
   switch (detail.reason) {
@@ -85,7 +128,17 @@ function recoveryLabel(detail: FailureDetail, suggestion: GeneratorInput): strin
   }
 }
 
-export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d, availableEquipment }: Props) {
+export function GeneratorScreen({
+  catalog,
+  lastPerformed,
+  zoneVolume30d,
+  availableEquipment,
+  practices,
+  mainPractice,
+  majorDeficitFocus,
+  practiceZones,
+  mobilityFocusZones,
+}: Props) {
   const supabase = useMemo(() => createClient(), [])
   const router = useRouter()
 
@@ -107,7 +160,12 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d, availab
   )
 
   const [targetDurationMin, setTargetDurationMin] = useState<number>(10)
-  const [zones, setZones] = useState<ZoneCode[]>([])
+  // Présélection de la séance personnalisée : union des zones du déficit majeur et
+  // du sport principal (`docs/data-model.md`), `[]` si les deux sont absents —
+  // comportement inchangé, sélection manuelle comme avant ces réglages.
+  const [zones, setZones] = useState<ZoneCode[]>(() =>
+    resolvePersonalizedZones({ majorDeficitFocus, mainPractice, mobilityFocusZones, practiceZones }),
+  )
   const [equipment, setEquipment] = useState<EquipmentCode[]>(availableEquipment)
   const [excludedType, setExcludedType] = useState<ExerciseType | ''>('')
   const [requiredType, setRequiredType] = useState<ExerciseType | ''>('')
@@ -134,6 +192,30 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d, availab
   const selectedRegions = useMemo(
     () => [...new Set(zones.map(regionOfZone))],
     [zones],
+  )
+
+  // Catégorie « Sports » des séances programmées : une tuile par pratique cochée
+  // dans les réglages, dynamique et vide si aucune pratique n'est cochée.
+  const sportsEntries = useMemo<ProgrammedSessionEntry[]>(
+    () =>
+      PRACTICES.filter((practice) => practices.includes(practice.code)).map((practice) => ({
+        id: practice.code,
+        label: practice.label,
+        zones: practiceZones[practice.code] ?? [],
+      })),
+    [practices, practiceZones],
+  )
+
+  // Catégorie « Zones de mobilité » : toujours les 4 grandes zones, indépendamment
+  // des réglages.
+  const mobilityEntries = useMemo<ProgrammedSessionEntry[]>(
+    () =>
+      MOBILITY_FOCUSES.map((focus) => ({
+        id: focus.code,
+        label: focus.label,
+        zones: mobilityFocusZones[focus.code] ?? [],
+      })),
+    [mobilityFocusZones],
   )
 
   function toggleZone(zone: ZoneCode) {
@@ -528,17 +610,22 @@ export function GeneratorScreen({ catalog, lastPerformed, zoneVolume30d, availab
           <p className="text-xs font-medium uppercase tracking-wide text-muted">
             Séances programmées
           </p>
-          <div className="mt-2 flex flex-wrap gap-2">
-            {ZONE_PRESETS.map((preset) => (
-              <Button
-                key={preset.label}
-                variant="subtle"
-                size="sm"
-                onClick={() => setZones(preset.zones)}
-              >
-                {preset.label}
-              </Button>
-            ))}
+          <div className="mt-2 flex flex-col gap-2">
+            {sportsEntries.length > 0 ? (
+              <ProgrammedSessionCategory
+                title="Sports"
+                entries={sportsEntries}
+                onSelect={setZones}
+                defaultOpen
+              />
+            ) : null}
+            <ProgrammedSessionCategory
+              title="Zones de mobilité"
+              entries={mobilityEntries}
+              onSelect={setZones}
+              defaultOpen={sportsEntries.length === 0}
+            />
+            <ProgrammedSessionCategory title="Mood" entries={MOOD_PRESETS} onSelect={setZones} />
           </div>
 
           {/*

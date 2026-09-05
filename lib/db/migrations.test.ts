@@ -6,7 +6,12 @@ import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import { bankSchema } from '@/lib/bank/schema'
 import { createTestDb, migrationFiles } from '@/lib/db/test-db'
-import { EQUIPMENT_CODES, ZONE_CODES } from '@/lib/referentials'
+import {
+  EQUIPMENT_CODES,
+  MOBILITY_FOCUS_CODES,
+  PRACTICE_CODES,
+  ZONE_CODES,
+} from '@/lib/referentials'
 
 /**
  * Le schéma SQL et la fonction de seed sont testés sur une vraie base Postgres
@@ -57,6 +62,57 @@ describe('migrations', () => {
       'select array_agg(code order by sort) as codes from equipment',
     )
     expect([...codes].sort()).toEqual([...EQUIPMENT_CODES].sort())
+  })
+
+  it('créent les 4 grandes zones de mobilité du référentiel', async () => {
+    const { codes } = await one<{ codes: string[] }>(
+      db,
+      'select array_agg(code order by sort) as codes from mobility_focuses',
+    )
+    expect([...codes].sort()).toEqual([...MOBILITY_FOCUS_CODES].sort())
+  })
+
+  it('créent les 7 pratiques du référentiel', async () => {
+    const { codes } = await one<{ codes: string[] }>(
+      db,
+      'select array_agg(code order by sort) as codes from practices',
+    )
+    expect([...codes].sort()).toEqual([...PRACTICE_CODES].sort())
+  })
+
+  it('rattachent chaque grande zone de mobilité à des zones existantes', async () => {
+    const { orphans } = await one<{ orphans: number }>(
+      db,
+      `select count(*)::int as orphans from mobility_focus_zones mfz
+       left join zones z on z.code = mfz.zone_code
+       where z.code is null`,
+    )
+    expect(orphans).toBe(0)
+  })
+
+  it('rattachent chaque pratique à des zones existantes', async () => {
+    const { orphans } = await one<{ orphans: number }>(
+      db,
+      `select count(*)::int as orphans from practice_zones pz
+       left join zones z on z.code = pz.zone_code
+       where z.code is null`,
+    )
+    expect(orphans).toBe(0)
+  })
+
+  it('refusent un main_practice hors référentiel', async () => {
+    const { rows: userRows } = await db.query<{ id: string }>(
+      `insert into auth.users (email) values ('migration-practice-test@example.com') returning id`,
+    )
+    const userId = userRows[0]?.id
+    if (!userId) throw new Error('insertion utilisateur de test échouée')
+
+    await expect(
+      db.query(
+        `insert into user_settings (user_id, main_practice) values ($1, 'unknown_practice')`,
+        [userId],
+      ),
+    ).rejects.toThrow()
   })
 
   it('refusent une durée minimale supérieure à la cible', async () => {
@@ -139,11 +195,14 @@ describe('migrations', () => {
     expect(unprotected).toEqual([])
   })
 
-  it("n'exposent aucune policy d'écriture sur la banque", async () => {
+  it("n'exposent aucune policy d'écriture sur la banque et les référentiels", async () => {
     const { rows } = await db.query<{ tablename: string; cmd: string }>(
       `select tablename, cmd from pg_policies
        where schemaname = 'public'
-         and tablename in ('zones','equipment','exercises','exercise_zones','exercise_equipment')`,
+         and tablename in (
+           'zones', 'equipment', 'mobility_focuses', 'mobility_focus_zones',
+           'practices', 'practice_zones', 'exercises', 'exercise_zones', 'exercise_equipment'
+         )`,
     )
     expect(rows.every((r) => r.cmd === 'SELECT')).toBe(true)
   })
