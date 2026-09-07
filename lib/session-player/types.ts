@@ -4,7 +4,7 @@
  * Voir `specs/002-session-execution-history/contracts/session-player.md`.
  */
 
-export type PlayerPhase = 'idle' | 'running' | 'paused' | 'finished'
+export type PlayerPhase = 'idle' | 'prep' | 'running' | 'paused' | 'finished'
 
 export type ItemStatus = 'pending' | 'done' | 'skipped'
 
@@ -30,4 +30,6 @@ export type PlayerState = {
   phaseStartedAtMs: number
   /** Temps déjà écoulé sur la phase courante avant une pause éventuelle. */
   elapsedBeforePauseMs: number
+  /** Phase vers laquelle `resume` doit repartir. `null` hors de `phase: 'paused'`. */
+  pausedPhase: 'prep' | 'running' | null
 }

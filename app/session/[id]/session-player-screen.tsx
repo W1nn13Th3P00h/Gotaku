@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { formatCountdown } from '@/lib/format'
 import { zoneLabel, type ZoneCode } from '@/lib/referentials'
-import { back, init, pause, remainingMs, resume, skip, tick } from '@/lib/session-player/reducer'
+import { PREP_DURATION_S, back, init, pause, remainingMs, resume, skip, tick } from '@/lib/session-player/reducer'
 import type { PlayerItem, PlayerState } from '@/lib/session-player/types'
 import { completeSession, markItemDone, markItemSkipped, revertItemToPending, startSession } from '@/lib/sessions/mutations'
 import type { SessionForExecution } from '@/lib/sessions/queries'
@@ -50,6 +50,7 @@ function idleClock(session: SessionForExecution): Clock {
       currentSide: null,
       phaseStartedAtMs: 0,
       elapsedBeforePauseMs: 0,
+      pausedPhase: null,
     },
   }
 }
@@ -150,10 +151,11 @@ export function SessionPlayerScreen({ session }: Props) {
     }
   }, [])
 
-  // Boucle de décompte réel : ne tourne que pendant `running`, pilote aussi le
-  // signal d'avertissement à 3 secondes de la fin de la phase courante.
+  // Boucle de décompte réel : tourne pendant `prep` (pour faire progresser la
+  // préparation) et `running`, pilote aussi le signal d'avertissement à dix
+  // secondes de la fin de la phase `running` courante.
   useEffect(() => {
-    if (clock.player.phase !== 'running') return
+    if (clock.player.phase !== 'prep' && clock.player.phase !== 'running') return
 
     let cancelled = false
 
@@ -164,7 +166,7 @@ export function SessionPlayerScreen({ session }: Props) {
       const current = playerRef.current
       if (current.phase === 'running') {
         const key = phaseKey(current)
-        if (remainingMs(current, now) <= 3000 && warnedKeyRef.current !== key) {
+        if (remainingMs(current, now) <= PREP_DURATION_S * 1000 && warnedKeyRef.current !== key) {
           warnedKeyRef.current = key
           playWarningSignal()
         }
@@ -310,13 +312,14 @@ export function SessionPlayerScreen({ session }: Props) {
     )
   }
 
-  // running | paused
+  // prep | running | paused
   const currentItem = player.items[player.currentIndex]
   const exercise = currentItem ? exerciseById.get(currentItem.id) : undefined
   const nextItem = player.items[player.currentIndex + 1]
   const nextExercise = nextItem ? exerciseById.get(nextItem.id) : undefined
   const remaining = Math.ceil(remainingMs(player, clock.nowMs) / 1000)
   const isPaused = player.phase === 'paused'
+  const isPrep = player.phase === 'prep' || (isPaused && player.pausedPhase === 'prep')
 
   if (!currentItem || !exercise) {
     // Ne devrait pas arriver tant que `phase` n'est pas `finished` (invariant du reducer).
@@ -325,8 +328,10 @@ export function SessionPlayerScreen({ session }: Props) {
 
   // Part de la phase courante déjà écoulée. Purement visuelle : le décompte
   // chiffré reste la source d'information, la barre n'en donne que la forme.
-  const phaseTotalS = currentItem.durationS
+  const phaseTotalS = isPrep ? PREP_DURATION_S : currentItem.durationS
   const phaseProgress = phaseTotalS > 0 ? Math.min(1, Math.max(0, 1 - remaining / phaseTotalS)) : 0
+  const sideLabel = currentItem.perSide ? (player.currentSide === 'right' ? 'Côté droit' : 'Côté gauche') : null
+  const phaseLabel = isPrep ? ['Préparation', sideLabel].filter(Boolean).join(' · ') : sideLabel
 
   return (
     <main className="mx-auto flex min-h-dvh max-w-md flex-col gap-4 p-6">
@@ -348,11 +353,7 @@ export function SessionPlayerScreen({ session }: Props) {
       </div>
 
       <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
-        {currentItem.perSide ? (
-          <p className="text-sm font-medium text-accent">
-            {player.currentSide === 'right' ? 'Côté droit' : 'Côté gauche'}
-          </p>
-        ) : null}
+        {phaseLabel ? <p className="text-sm font-medium text-accent">{phaseLabel}</p> : null}
 
         <p
           className={`text-7xl font-semibold tabular-nums tracking-tight transition-opacity duration-150 ${
