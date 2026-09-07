@@ -73,12 +73,18 @@ entièrement, sauvegarder comme modèle, démarrer.
 Plein écran, un seul exercice à la fois. Décompte dominant, nom de l'exercice,
 instructions et zones travaillées lisibles sans interaction, aperçu du suivant.
 
-Enchaînement automatique. Pause, passer, revenir à l'exercice précédent. Signal sonore à
-trois secondes de la fin et au changement d'exercice.
+Chaque exercice (et chaque côté d'un exercice asymétrique) commence par une phase de
+préparation de dix secondes, avant le décompte de la durée retenue : le temps de lire les
+instructions sans avoir à mettre en pause. Le décompte de l'exercice démarre ensuite
+automatiquement.
+
+Enchaînement automatique. Pause, passer, revenir à l'exercice précédent. Passer pendant la
+préparation saute uniquement la préparation, pas l'exercice. Signal sonore à dix secondes
+de la fin du décompte et au changement d'exercice.
 
 Un exercice asymétrique se déroule en deux phases annoncées explicitement, côté droit puis
-côté gauche, chacune de la durée stockée. Le changement de côté est signalé comme un
-changement d'exercice.
+côté gauche, chacune précédée de sa propre préparation et de la durée stockée. Le
+changement de côté est signalé comme un changement d'exercice.
 
 Écran allumé maintenu pendant toute la séance.
 
