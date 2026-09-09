@@ -171,3 +171,23 @@ export function regionOfZone(code: ZoneCode): RegionCode {
   if (zone === undefined) throw new Error(`Zone inconnue : ${code}`)
   return zone.region
 }
+
+/**
+ * Tronque une sélection de zones aux `max` premières régions distinctes
+ * rencontrées, dans l'ordre d'apparition de `zones` (pas de tri). Les zones
+ * appartenant à une région au-delà de cette limite sont retirées, l'ordre des
+ * zones conservées est préservé.
+ *
+ * Utilisé partout où une sélection de zones peut être remplacée en bloc (une
+ * présélection issue des réglages, une séance programmée) sans passer par la
+ * sélection région par région, qui applique déjà sa propre limite au clic.
+ */
+export function capToRegions(zones: ZoneCode[], max: number): ZoneCode[] {
+  const regionsInOrder: RegionCode[] = []
+  for (const zone of zones) {
+    const region = regionOfZone(zone)
+    if (!regionsInOrder.includes(region)) regionsInOrder.push(region)
+  }
+  const keptRegions = new Set(regionsInOrder.slice(0, max))
+  return zones.filter((zone) => keptRegions.has(regionOfZone(zone)))
+}

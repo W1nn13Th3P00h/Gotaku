@@ -21,6 +21,7 @@ import { Field, FormMessage, inputClasses, selectClasses } from '@/components/ui
 import { BackLink, Page, PageHeader, Section } from '@/components/ui/page'
 import { StickyBar } from '@/components/ui/sticky-bar'
 import {
+  capToRegions,
   EQUIPMENT,
   EXERCISE_TYPES,
   EXERCISE_TYPE_LABELS,
@@ -116,15 +117,23 @@ function ProgrammedSessionCategory({
         {title}
       </summary>
       <div className="flex flex-wrap gap-2 border-t border-border p-3">
-        {entries.map((entry) => (
-          <ToggleChip
-            key={entry.id}
-            selected={sameZoneSet(entry.zones, selectedZones)}
-            onClick={() => onSelect(entry.zones)}
-          >
-            {entry.label}
-          </ToggleChip>
-        ))}
+        {entries.map((entry) => {
+          // Un preset peut couvrir plus de régions que `MAX_REGIONS` (ex. un
+          // sport qui sollicite plusieurs zones distinctes) : on le tronque avant
+          // de l'appliquer, et la comparaison de highlight se fait sur la même
+          // version tronquée, sinon la tuile ne s'affiche jamais comme active
+          // une fois la sélection réellement appliquée.
+          const cappedZones = capToRegions(entry.zones, MAX_REGIONS)
+          return (
+            <ToggleChip
+              key={entry.id}
+              selected={sameZoneSet(cappedZones, selectedZones)}
+              onClick={() => onSelect(cappedZones)}
+            >
+              {entry.label}
+            </ToggleChip>
+          )
+        })}
       </div>
     </details>
   )
@@ -174,11 +183,17 @@ export function GeneratorScreen({
   )
 
   // Zones de la séance personnalisée : union des zones du déficit majeur et du
-  // sport principal (`docs/data-model.md`), `[]` si les deux sont absents. Recalculée
-  // à chaque rendu (dépendances stables le temps de l'écran) : sert à la fois à la
-  // présélection au montage et au bouton « Séance personnalisée ».
+  // sport principal (`docs/data-model.md`), `[]` si les deux sont absents, tronquée
+  // à `MAX_REGIONS` régions (un sport peut à lui seul couvrir plus de régions que la
+  // limite). Recalculée à chaque rendu (dépendances stables le temps de l'écran) :
+  // sert à la fois à la présélection au montage, au bouton « Séance personnalisée »
+  // et à sa comparaison de highlight — toujours la même version déjà tronquée.
   const personalizedZones = useMemo(
-    () => resolvePersonalizedZones({ majorDeficitFocus, mainPractice, mobilityFocusZones, practiceZones }),
+    () =>
+      capToRegions(
+        resolvePersonalizedZones({ majorDeficitFocus, mainPractice, mobilityFocusZones, practiceZones }),
+        MAX_REGIONS,
+      ),
     [majorDeficitFocus, mainPractice, mobilityFocusZones, practiceZones],
   )
 
