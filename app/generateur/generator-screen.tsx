@@ -173,13 +173,19 @@ export function GeneratorScreen({
     [zoneVolume30d],
   )
 
-  const [targetDurationMin, setTargetDurationMin] = useState<number>(10)
-  // Présélection de la séance personnalisée : union des zones du déficit majeur et
-  // du sport principal (`docs/data-model.md`), `[]` si les deux sont absents —
-  // comportement inchangé, sélection manuelle comme avant ces réglages.
-  const [zones, setZones] = useState<ZoneCode[]>(() =>
-    resolvePersonalizedZones({ majorDeficitFocus, mainPractice, mobilityFocusZones, practiceZones }),
+  // Zones de la séance personnalisée : union des zones du déficit majeur et du
+  // sport principal (`docs/data-model.md`), `[]` si les deux sont absents. Recalculée
+  // à chaque rendu (dépendances stables le temps de l'écran) : sert à la fois à la
+  // présélection au montage et au bouton « Séance personnalisée ».
+  const personalizedZones = useMemo(
+    () => resolvePersonalizedZones({ majorDeficitFocus, mainPractice, mobilityFocusZones, practiceZones }),
+    [majorDeficitFocus, mainPractice, mobilityFocusZones, practiceZones],
   )
+
+  const [targetDurationMin, setTargetDurationMin] = useState<number>(10)
+  // Présélection de la séance personnalisée au montage — comportement inchangé,
+  // sélection manuelle comme avant ces réglages si `personalizedZones` est vide.
+  const [zones, setZones] = useState<ZoneCode[]>(() => personalizedZones)
   const [equipment, setEquipment] = useState<EquipmentCode[]>(availableEquipment)
   const [excludedType, setExcludedType] = useState<ExerciseType | ''>('')
   const [requiredType, setRequiredType] = useState<ExerciseType | ''>('')
@@ -598,6 +604,21 @@ export function GeneratorScreen({
                 {min} min
               </ToggleChip>
             ))}
+          </div>
+          <div className="mt-3">
+            <ToggleChip
+              selected={personalizedZones.length > 0 && sameZoneSet(zones, personalizedZones)}
+              onClick={() => setZones(personalizedZones)}
+              disabled={personalizedZones.length === 0}
+            >
+              Séance personnalisée
+            </ToggleChip>
+            {personalizedZones.length === 0 ? (
+              <p className="mt-1.5 text-xs text-muted">
+                Renseigne un sport principal ou un déficit majeur dans les Réglages pour
+                l’activer.
+              </p>
+            ) : null}
           </div>
         </Section>
 
