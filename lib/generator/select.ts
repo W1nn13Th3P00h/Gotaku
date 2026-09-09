@@ -51,6 +51,7 @@ export function selectExercises(
     input.zones,
     input.preferNeglectedZones ?? false,
     context.zoneVolume30d,
+    input.priorityZones,
   )
 
   const selected: Exercise[] = [...preSelected]

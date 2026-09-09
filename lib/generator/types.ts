@@ -45,6 +45,12 @@ export type GeneratorInput = {
   preferNeglectedZones?: boolean
   /** Écart accepté sur la durée totale finale (étape 5). Défaut : `TOLERANCE_S`. */
   toleranceS?: number
+  /**
+   * Zones de la région prioritaire (`docs/generator.md`, calcul de `targetShare`).
+   * Absent ou vide : comportement inchangé, parts égales entre toutes les zones
+   * demandées.
+   */
+  priorityZones?: ZoneCode[]
 }
 
 export type GeneratorContext = {

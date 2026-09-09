@@ -21,6 +21,7 @@ import { Field, FormMessage, inputClasses, selectClasses } from '@/components/ui
 import { BackLink, Page, PageHeader, Section } from '@/components/ui/page'
 import { StickyBar } from '@/components/ui/sticky-bar'
 import {
+  capToRegions,
   EQUIPMENT,
   EXERCISE_TYPES,
   EXERCISE_TYPE_LABELS,
@@ -39,7 +40,14 @@ import {
 } from '@/lib/referentials'
 
 /** Au-delà, une séance perd son sens : trop de zones différentes à couvrir. */
-const MAX_REGIONS = 2
+const MAX_REGIONS = 3
+
+/** Égalité d'ensemble, ordre indifférent : deux sélections de zones se valent visuellement. */
+function sameZoneSet(a: ZoneCode[], b: ZoneCode[]): boolean {
+  if (a.length !== b.length) return false
+  const setA = new Set(a)
+  return b.every((z) => setA.has(z))
+}
 
 type ResultItem = { exercise: CatalogExercise; durationS: number }
 
@@ -89,6 +97,8 @@ type ProgrammedSessionCategoryProps = {
   title: string
   entries: ProgrammedSessionEntry[]
   onSelect: (zones: ZoneCode[]) => void
+  /** Sélection courante, pour surligner la tuile dont les zones correspondent exactement. */
+  selectedZones: ZoneCode[]
   /** Dépliée par défaut : la catégorie la plus proche de l'utilisateur. */
   defaultOpen?: boolean
 }
@@ -98,6 +108,7 @@ function ProgrammedSessionCategory({
   title,
   entries,
   onSelect,
+  selectedZones,
   defaultOpen = false,
 }: ProgrammedSessionCategoryProps) {
   return (
@@ -106,11 +117,23 @@ function ProgrammedSessionCategory({
         {title}
       </summary>
       <div className="flex flex-wrap gap-2 border-t border-border p-3">
-        {entries.map((entry) => (
-          <Button key={entry.id} variant="subtle" size="sm" onClick={() => onSelect(entry.zones)}>
-            {entry.label}
-          </Button>
-        ))}
+        {entries.map((entry) => {
+          // Un preset peut couvrir plus de régions que `MAX_REGIONS` (ex. un
+          // sport qui sollicite plusieurs zones distinctes) : on le tronque avant
+          // de l'appliquer, et la comparaison de highlight se fait sur la même
+          // version tronquée, sinon la tuile ne s'affiche jamais comme active
+          // une fois la sélection réellement appliquée.
+          const cappedZones = capToRegions(entry.zones, MAX_REGIONS)
+          return (
+            <ToggleChip
+              key={entry.id}
+              selected={sameZoneSet(cappedZones, selectedZones)}
+              onClick={() => onSelect(cappedZones)}
+            >
+              {entry.label}
+            </ToggleChip>
+          )
+        })}
       </div>
     </details>
   )
@@ -159,13 +182,25 @@ export function GeneratorScreen({
     [zoneVolume30d],
   )
 
-  const [targetDurationMin, setTargetDurationMin] = useState<number>(10)
-  // Présélection de la séance personnalisée : union des zones du déficit majeur et
-  // du sport principal (`docs/data-model.md`), `[]` si les deux sont absents —
-  // comportement inchangé, sélection manuelle comme avant ces réglages.
-  const [zones, setZones] = useState<ZoneCode[]>(() =>
-    resolvePersonalizedZones({ majorDeficitFocus, mainPractice, mobilityFocusZones, practiceZones }),
+  // Zones de la séance personnalisée : union des zones du déficit majeur et du
+  // sport principal (`docs/data-model.md`), `[]` si les deux sont absents, tronquée
+  // à `MAX_REGIONS` régions (un sport peut à lui seul couvrir plus de régions que la
+  // limite). Recalculée à chaque rendu (dépendances stables le temps de l'écran) :
+  // sert à la fois à la présélection au montage, au bouton « Séance personnalisée »
+  // et à sa comparaison de highlight — toujours la même version déjà tronquée.
+  const personalizedZones = useMemo(
+    () =>
+      capToRegions(
+        resolvePersonalizedZones({ majorDeficitFocus, mainPractice, mobilityFocusZones, practiceZones }),
+        MAX_REGIONS,
+      ),
+    [majorDeficitFocus, mainPractice, mobilityFocusZones, practiceZones],
   )
+
+  const [targetDurationMin, setTargetDurationMin] = useState<number>(10)
+  // Présélection de la séance personnalisée au montage — comportement inchangé,
+  // sélection manuelle comme avant ces réglages si `personalizedZones` est vide.
+  const [zones, setZones] = useState<ZoneCode[]>(() => personalizedZones)
   const [equipment, setEquipment] = useState<EquipmentCode[]>(availableEquipment)
   const [excludedType, setExcludedType] = useState<ExerciseType | ''>('')
   const [requiredType, setRequiredType] = useState<ExerciseType | ''>('')
@@ -233,6 +268,14 @@ export function GeneratorScreen({
   }
 
   function currentInput(): GeneratorInput {
+    // Région prioritaire : la première région de `selectedRegions`, dans l'ordre de
+    // sélection (`docs/generator.md`). Ses zones effectivement retenues (une zone a
+    // pu être désélectionnée individuellement) pèsent la moitié du budget.
+    const priorityRegion = selectedRegions[0]
+    const priorityZones =
+      priorityRegion !== undefined
+        ? zones.filter((z) => regionOfZone(z) === priorityRegion)
+        : undefined
     return {
       targetDurationS: targetDurationMin * 60,
       zones,
@@ -242,6 +285,7 @@ export function GeneratorScreen({
       maxIntensity: maxIntensity || undefined,
       preferNeglectedZones,
       toleranceS,
+      priorityZones,
     }
   }
 
@@ -585,6 +629,21 @@ export function GeneratorScreen({
               </ToggleChip>
             ))}
           </div>
+          <div className="mt-3">
+            <ToggleChip
+              selected={personalizedZones.length > 0 && sameZoneSet(zones, personalizedZones)}
+              onClick={() => setZones(personalizedZones)}
+              disabled={personalizedZones.length === 0}
+            >
+              Séance personnalisée
+            </ToggleChip>
+            {personalizedZones.length === 0 ? (
+              <p className="mt-1.5 text-xs text-muted">
+                Renseigne un sport principal ou un déficit majeur dans les Réglages pour
+                l’activer.
+              </p>
+            ) : null}
+          </div>
         </Section>
 
         <Section
@@ -616,6 +675,7 @@ export function GeneratorScreen({
                 title="Sports"
                 entries={sportsEntries}
                 onSelect={setZones}
+                selectedZones={zones}
                 defaultOpen
               />
             ) : null}
@@ -623,9 +683,15 @@ export function GeneratorScreen({
               title="Zones de mobilité"
               entries={mobilityEntries}
               onSelect={setZones}
+              selectedZones={zones}
               defaultOpen={sportsEntries.length === 0}
             />
-            <ProgrammedSessionCategory title="Mood" entries={MOOD_PRESETS} onSelect={setZones} />
+            <ProgrammedSessionCategory
+              title="Mood"
+              entries={MOOD_PRESETS}
+              onSelect={setZones}
+              selectedZones={zones}
+            />
           </div>
 
           {/*
@@ -633,22 +699,35 @@ export function GeneratorScreen({
             trop de scroll. Choisir une région sélectionne toutes ses zones (le
             geste courant), affinables ensuite chip par chip. Au-delà de
             `MAX_REGIONS`, les régions non représentées sont grisées : une séance
-            qui part dans trop de directions n'a plus de sens.
+            qui part dans trop de directions n'a plus de sens. La région choisie en
+            premier est prioritaire dans le générateur (badge « 1 ») : elle reçoit la
+            moitié du budget de la séance, les régions suivantes se partagent l'autre
+            moitié (`docs/generator.md`).
           */}
           <p className="mt-4 text-xs font-medium uppercase tracking-wide text-muted">Régions</p>
           <div className="mt-2 flex flex-wrap gap-2">
-            {REGIONS.map((region) => (
-              <ToggleChip
-                key={region.code}
-                selected={selectedRegions.includes(region.code)}
-                onClick={() => toggleRegion(region.code)}
-                disabled={
-                  !selectedRegions.includes(region.code) && selectedRegions.length >= MAX_REGIONS
-                }
-              >
-                {region.label}
-              </ToggleChip>
-            ))}
+            {REGIONS.map((region) => {
+              const priorityRank = selectedRegions.indexOf(region.code)
+              const selected = priorityRank !== -1
+              return (
+                <ToggleChip
+                  key={region.code}
+                  selected={selected}
+                  onClick={() => toggleRegion(region.code)}
+                  disabled={!selected && selectedRegions.length >= MAX_REGIONS}
+                >
+                  {selected ? (
+                    <span
+                      className="mr-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-accent-foreground/20 text-[10px] font-semibold tabular-nums"
+                      aria-hidden="true"
+                    >
+                      {priorityRank + 1}
+                    </span>
+                  ) : null}
+                  {region.label}
+                </ToggleChip>
+              )
+            })}
           </div>
 
           {selectedRegions.length > 0 ? (
