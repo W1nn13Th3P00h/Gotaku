@@ -406,4 +406,90 @@ describe('generateSession', () => {
 
     expect(computeCoverage(withBonus, requestedZones)).toEqual(computeCoverage(withoutBonus, requestedZones))
   })
+
+  describe('priorityZones (issue #30)', () => {
+    it("priorité : la région prioritaire (une zone) reçoit environ la moitié du budget, la région secondaire (trois zones) l'autre moitié", () => {
+      const catalog = bigCatalog()
+      const zones: ZoneCode[] = ['calves', 'hamstrings', 'quads', 'glutes']
+      // Budget large, agrégé sur 300 générations : lisse le bruit du tirage pondéré
+      // et isole l'effet de `priorityZones` sur la répartition moyenne.
+      const input: GeneratorInput = {
+        targetDurationS: 400,
+        zones,
+        equipment: ['band'],
+        priorityZones: ['calves'],
+      }
+      let prioritySum = 0
+      let secondarySum = 0
+      for (let seed = 0; seed < 300; seed++) {
+        const result = generateSession(input, makeContext(catalog, seed))
+        expect(result.ok).toBe(true)
+        if (!result.ok) continue
+        for (const c of result.coverage) {
+          if (c.zone === 'calves') prioritySum += c.allocatedS
+          else secondarySum += c.allocatedS
+        }
+      }
+      const ratio = prioritySum / (prioritySum + secondarySum)
+      // Cible théorique : 50 %. `ZONE_NEED_FLOOR` et le bruit du tirage pondéré
+      // tirent le résultat réalisé vers le partage à parts égales (25 % pour
+      // 'calves' seule parmi 4 zones sans priorité) : la tolérance large vérifie
+      // seulement que la priorité déplace nettement la répartition vers 50 %,
+      // sans exiger une égalité stricte au calcul théorique.
+      expect(ratio).toBeGreaterThan(0.35)
+      expect(ratio).toBeLessThan(0.6)
+    })
+
+    it('priorityZones absent ou vide : aucune régression sur la répartition existante à parts égales', () => {
+      const catalog = bigCatalog()
+      const zones: ZoneCode[] = ['calves', 'hamstrings', 'quads', 'glutes']
+      const baseInput: GeneratorInput = { targetDurationS: 300, zones, equipment: ['band'] }
+      const withUndefined = generateSession(baseInput, makeContext(catalog, 42))
+      const withEmpty = generateSession({ ...baseInput, priorityZones: [] }, makeContext(catalog, 42))
+      expect(withUndefined).toEqual(withEmpty)
+    })
+
+    it('priorityZones couvrant une seule région sélectionnée : comportement inchangé (pas de groupe secondaire)', () => {
+      const catalog = bigCatalog()
+      const zones: ZoneCode[] = ['calves', 'hamstrings']
+      const baseInput: GeneratorInput = { targetDurationS: 300, zones, equipment: ['band'] }
+      const withoutPriority = generateSession(baseInput, makeContext(catalog, 7))
+      const withPriority = generateSession(
+        { ...baseInput, priorityZones: zones },
+        makeContext(catalog, 7),
+      )
+      expect(withPriority).toEqual(withoutPriority)
+    })
+
+    it('déterminisme : seed et priorityZones identiques donnent le même résultat exact', () => {
+      const catalog = bigCatalog()
+      const input: GeneratorInput = {
+        targetDurationS: 300,
+        zones: ['calves', 'hamstrings', 'quads', 'glutes'],
+        equipment: ['band'],
+        priorityZones: ['calves'],
+      }
+      const resultA = generateSession(input, makeContext(catalog, 11))
+      const resultB = generateSession(input, makeContext(catalog, 11))
+      expect(resultB).toEqual(resultA)
+    })
+
+    it('variabilité : deux seeds différentes donnent des sélections différentes avec priorityZones', () => {
+      const catalog = bigCatalog()
+      const input: GeneratorInput = {
+        targetDurationS: 300,
+        zones: ['calves', 'hamstrings', 'quads', 'glutes'],
+        equipment: ['band'],
+        priorityZones: ['calves'],
+      }
+      const resultA = generateSession(input, makeContext(catalog, 1))
+      const resultB = generateSession(input, makeContext(catalog, 2))
+      expect(resultA.ok).toBe(true)
+      expect(resultB.ok).toBe(true)
+      if (!resultA.ok || !resultB.ok) return
+      const idsA = resultA.items.map((i) => i.exerciseId).sort()
+      const idsB = resultB.items.map((i) => i.exerciseId).sort()
+      expect(idsA).not.toEqual(idsB)
+    })
+  })
 })

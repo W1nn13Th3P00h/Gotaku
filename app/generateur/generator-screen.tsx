@@ -39,7 +39,7 @@ import {
 } from '@/lib/referentials'
 
 /** Au-delà, une séance perd son sens : trop de zones différentes à couvrir. */
-const MAX_REGIONS = 2
+const MAX_REGIONS = 3
 
 /** Égalité d'ensemble, ordre indifférent : deux sélections de zones se valent visuellement. */
 function sameZoneSet(a: ZoneCode[], b: ZoneCode[]): boolean {
@@ -253,6 +253,14 @@ export function GeneratorScreen({
   }
 
   function currentInput(): GeneratorInput {
+    // Région prioritaire : la première région de `selectedRegions`, dans l'ordre de
+    // sélection (`docs/generator.md`). Ses zones effectivement retenues (une zone a
+    // pu être désélectionnée individuellement) pèsent la moitié du budget.
+    const priorityRegion = selectedRegions[0]
+    const priorityZones =
+      priorityRegion !== undefined
+        ? zones.filter((z) => regionOfZone(z) === priorityRegion)
+        : undefined
     return {
       targetDurationS: targetDurationMin * 60,
       zones,
@@ -262,6 +270,7 @@ export function GeneratorScreen({
       maxIntensity: maxIntensity || undefined,
       preferNeglectedZones,
       toleranceS,
+      priorityZones,
     }
   }
 
@@ -675,22 +684,35 @@ export function GeneratorScreen({
             trop de scroll. Choisir une région sélectionne toutes ses zones (le
             geste courant), affinables ensuite chip par chip. Au-delà de
             `MAX_REGIONS`, les régions non représentées sont grisées : une séance
-            qui part dans trop de directions n'a plus de sens.
+            qui part dans trop de directions n'a plus de sens. La région choisie en
+            premier est prioritaire dans le générateur (badge « 1 ») : elle reçoit la
+            moitié du budget de la séance, les régions suivantes se partagent l'autre
+            moitié (`docs/generator.md`).
           */}
           <p className="mt-4 text-xs font-medium uppercase tracking-wide text-muted">Régions</p>
           <div className="mt-2 flex flex-wrap gap-2">
-            {REGIONS.map((region) => (
-              <ToggleChip
-                key={region.code}
-                selected={selectedRegions.includes(region.code)}
-                onClick={() => toggleRegion(region.code)}
-                disabled={
-                  !selectedRegions.includes(region.code) && selectedRegions.length >= MAX_REGIONS
-                }
-              >
-                {region.label}
-              </ToggleChip>
-            ))}
+            {REGIONS.map((region) => {
+              const priorityRank = selectedRegions.indexOf(region.code)
+              const selected = priorityRank !== -1
+              return (
+                <ToggleChip
+                  key={region.code}
+                  selected={selected}
+                  onClick={() => toggleRegion(region.code)}
+                  disabled={!selected && selectedRegions.length >= MAX_REGIONS}
+                >
+                  {selected ? (
+                    <span
+                      className="mr-1.5 inline-flex h-4 w-4 items-center justify-center rounded-full bg-accent-foreground/20 text-[10px] font-semibold tabular-nums"
+                      aria-hidden="true"
+                    >
+                      {priorityRank + 1}
+                    </span>
+                  ) : null}
+                  {region.label}
+                </ToggleChip>
+              )
+            })}
           </div>
 
           {selectedRegions.length > 0 ? (

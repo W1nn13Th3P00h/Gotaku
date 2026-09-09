@@ -17,6 +17,7 @@ type GeneratorInput = {
   maxIntensity?: 1 | 2 | 3;
   preferNeglectedZones?: boolean; // défaut false
   toleranceS?: number;            // défaut TOLERANCE_S (15) ; étape 5 uniquement
+  priorityZones?: ZoneCode[];     // zones de la région prioritaire ; défaut absent, voir étape 3
 };
 
 type GeneratorContext = {
@@ -158,8 +159,9 @@ freshness(e) = lastPerformed(e) === undefined
 ```
 
 Besoin de zone, qui équilibre la couverture. Pour chaque zone demandée, une part cible de
-budget est calculée, égale par défaut. Si `preferNeglectedZones` est vrai, les parts sont
-pondérées par l'inverse du volume travaillé sur 30 jours, normalisé.
+budget est calculée : `targetShare`. C'est ce calcul que `priorityZones` modifie ; tout le
+reste (deficit, zoneNeed) est inchangé et continue de raisonner en part de budget, quelle
+que soit la façon dont ces parts ont été réparties.
 
 ```
 targetShare(z)   = part de budget visée pour z
@@ -170,6 +172,52 @@ zoneNeed(e)      = max over z in (zones(e) ∩ Z) of deficit(z), floored at ZONE
 
 Une zone secondaire compte autant qu'une zone primaire dans le calcul du déficit. C'est
 volontaire : un exercice qui touche trois zones demandées doit être avantagé.
+
+### Calcul de `targetShare`, priorité de région
+
+`input.priorityZones`, quand fourni et non vide, porte les zones de la région prioritaire
+(la première région choisie côté interface, `app/generateur/generator-screen.tsx`). Le
+calcul se fait en deux groupes plutôt qu'un seul :
+
+```
+P = priorityZones ∩ zones     // zones prioritaires effectivement demandées
+S = zones \ P                 // zones secondaires
+```
+
+Si `P` est vide, ou si `S` est vide (une seule région sélectionnée, ou `priorityZones`
+couvre déjà toute la demande), le calcul retombe sur un groupe unique et se comporte
+exactement comme en l'absence de `priorityZones` : c'est le cas par défaut,
+rétrocompatible.
+
+Si `P` et `S` sont tous deux non vides, chaque groupe reçoit une enveloppe fixe avant
+répartition interne :
+
+```
+enveloppe(P) = 0.5
+enveloppe(S) = 0.5
+```
+
+Dans chaque groupe, la répartition interne suit exactement la même règle qu'un groupe
+unique aujourd'hui : égale par défaut, ou pondérée par l'inverse du volume travaillé sur
+30 jours (normalisé au sein du groupe, pas globalement) si `preferNeglectedZones` est
+vrai.
+
+```
+# égalité (préférNeglectedZones faux)
+targetShare(z) = enveloppe(groupe(z)) / |groupe(z)|
+
+# pondéré par la fraîcheur du volume (preferNeglectedZones vrai)
+w(z)           = 1 / (zoneVolume30d(z) + ZONE_VOLUME_EPSILON_S)
+targetShare(z) = enveloppe(groupe(z)) * w(z) / Σ w(z') pour z' dans groupe(z)
+```
+
+Une seule région sélectionnée (`S` vide) : elle reçoit l'enveloppe complète, 1.0,
+répartie également (ou pondérée) entre ses zones — comportement inchangé de ce cas, pas
+de régression sur les séances à une seule région.
+
+`computeTargetShares()` reste une fonction pure de `lib/generator/weighting.ts` : elle ne
+fait que produire la carte `ZoneCode -> targetShare`, le reste de l'algorithme (deficit,
+zoneNeed, sélection) ne sait pas qu'une priorité existe.
 
 Bruit, pour que deux séances aux mêmes paramètres diffèrent :
 

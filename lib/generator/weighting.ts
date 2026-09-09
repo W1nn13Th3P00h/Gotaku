@@ -30,23 +30,55 @@ export function freshness(
 }
 
 /**
- * Part de budget visée par zone demandée. Égale par défaut ; pondérée par l'inverse
- * du volume 30 jours (avec un plancher pour éviter la division par zéro) si
- * `preferNeglectedZones` est vrai.
+ * Part de budget visée pour un groupe de zones (un seul groupe = tout `zones`, en
+ * l'absence de priorité). Égale par défaut au sein du groupe ; pondérée par
+ * l'inverse du volume 30 jours (normalisé au sein du groupe, avec un plancher pour
+ * éviter la division par zéro) si `preferNeglectedZones` est vrai. `groupShare` est
+ * l'enveloppe totale du groupe (1 pour un groupe unique, 0.5/0.5 pour
+ * priorité/secondaire, voir `docs/generator.md`).
  */
-export function computeTargetShares(
+function computeGroupShares(
   zones: ZoneCode[],
+  groupShare: number,
   preferNeglectedZones: boolean,
   zoneVolume30d: Map<ZoneCode, number>,
 ): Map<ZoneCode, number> {
   if (!preferNeglectedZones) {
-    const share = 1 / zones.length
+    const share = groupShare / zones.length
     return new Map(zones.map((z) => [z, share]))
   }
 
   const weights = zones.map((z) => 1 / ((zoneVolume30d.get(z) ?? 0) + ZONE_VOLUME_EPSILON_S))
   const total = weights.reduce((sum, w) => sum + w, 0)
-  return new Map(zones.map((z, i) => [z, (weights[i] ?? 0) / total]))
+  return new Map(zones.map((z, i) => [z, (groupShare * (weights[i] ?? 0)) / total]))
+}
+
+/**
+ * Part de budget visée par zone demandée (étape 3, `docs/generator.md`).
+ *
+ * Sans `priorityZones` (absent, vide, ou couvrant déjà toutes les zones demandées) :
+ * un seul groupe, comportement inchangé, rétrocompatible. Avec une priorité et au
+ * moins une zone secondaire : deux groupes, chacun avec sa propre enveloppe fixe de
+ * 50 % du budget, répartie en interne selon la même règle qu'un groupe unique
+ * (égale, ou pondérée par `preferNeglectedZones`).
+ */
+export function computeTargetShares(
+  zones: ZoneCode[],
+  preferNeglectedZones: boolean,
+  zoneVolume30d: Map<ZoneCode, number>,
+  priorityZones?: ZoneCode[],
+): Map<ZoneCode, number> {
+  const prioritySet = new Set(priorityZones ?? [])
+  const priority = zones.filter((z) => prioritySet.has(z))
+  const secondary = zones.filter((z) => !prioritySet.has(z))
+
+  if (priority.length === 0 || secondary.length === 0) {
+    return computeGroupShares(zones, 1, preferNeglectedZones, zoneVolume30d)
+  }
+
+  const priorityShares = computeGroupShares(priority, 0.5, preferNeglectedZones, zoneVolume30d)
+  const secondaryShares = computeGroupShares(secondary, 0.5, preferNeglectedZones, zoneVolume30d)
+  return new Map([...priorityShares, ...secondaryShares])
 }
 
 /** Budget déjà attribué à une zone par les exercices retenus, en part du budget cible. */
