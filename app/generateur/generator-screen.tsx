@@ -41,6 +41,13 @@ import {
 /** Au-delà, une séance perd son sens : trop de zones différentes à couvrir. */
 const MAX_REGIONS = 2
 
+/** Égalité d'ensemble, ordre indifférent : deux sélections de zones se valent visuellement. */
+function sameZoneSet(a: ZoneCode[], b: ZoneCode[]): boolean {
+  if (a.length !== b.length) return false
+  const setA = new Set(a)
+  return b.every((z) => setA.has(z))
+}
+
 type ResultItem = { exercise: CatalogExercise; durationS: number }
 
 type ViewState =
@@ -89,6 +96,8 @@ type ProgrammedSessionCategoryProps = {
   title: string
   entries: ProgrammedSessionEntry[]
   onSelect: (zones: ZoneCode[]) => void
+  /** Sélection courante, pour surligner la tuile dont les zones correspondent exactement. */
+  selectedZones: ZoneCode[]
   /** Dépliée par défaut : la catégorie la plus proche de l'utilisateur. */
   defaultOpen?: boolean
 }
@@ -98,6 +107,7 @@ function ProgrammedSessionCategory({
   title,
   entries,
   onSelect,
+  selectedZones,
   defaultOpen = false,
 }: ProgrammedSessionCategoryProps) {
   return (
@@ -107,9 +117,13 @@ function ProgrammedSessionCategory({
       </summary>
       <div className="flex flex-wrap gap-2 border-t border-border p-3">
         {entries.map((entry) => (
-          <Button key={entry.id} variant="subtle" size="sm" onClick={() => onSelect(entry.zones)}>
+          <ToggleChip
+            key={entry.id}
+            selected={sameZoneSet(entry.zones, selectedZones)}
+            onClick={() => onSelect(entry.zones)}
+          >
             {entry.label}
-          </Button>
+          </ToggleChip>
         ))}
       </div>
     </details>
@@ -616,6 +630,7 @@ export function GeneratorScreen({
                 title="Sports"
                 entries={sportsEntries}
                 onSelect={setZones}
+                selectedZones={zones}
                 defaultOpen
               />
             ) : null}
@@ -623,9 +638,15 @@ export function GeneratorScreen({
               title="Zones de mobilité"
               entries={mobilityEntries}
               onSelect={setZones}
+              selectedZones={zones}
               defaultOpen={sportsEntries.length === 0}
             />
-            <ProgrammedSessionCategory title="Mood" entries={MOOD_PRESETS} onSelect={setZones} />
+            <ProgrammedSessionCategory
+              title="Mood"
+              entries={MOOD_PRESETS}
+              onSelect={setZones}
+              selectedZones={zones}
+            />
           </div>
 
           {/*
