@@ -112,14 +112,16 @@ export function SessionPlayerScreen({ session }: Props) {
   }
 
   function playWarningSignal() {
-    const ctx = audioCtxRef.current
-    if (!ctx) return
-    beep(ctx, 880, 0, 0.12)
+    // Le navigateur peut suspendre l'AudioContext après une période d'inactivité
+    // audio (fréquent entre deux exercices) : on repasse par ensureAudioContext
+    // pour le relancer plutôt que de lire la ref brute, sous peine de silence.
+    if (!audioCtxRef.current) return
+    beep(ensureAudioContext(), 880, 0, 0.12)
   }
 
   function playChangeSignal() {
-    const ctx = audioCtxRef.current
-    if (!ctx) return
+    if (!audioCtxRef.current) return
+    const ctx = ensureAudioContext()
     beep(ctx, 523.25, 0, 0.1)
     beep(ctx, 783.99, 0.13, 0.12)
   }
